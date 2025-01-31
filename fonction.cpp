@@ -14,7 +14,7 @@ using namespace std;
 
 void affichage(void)
 {
-
+kkkkkkkkkkk
 
 }
 
