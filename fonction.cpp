@@ -1,27 +1,21 @@
 #include <iostream>
 #include "fonction.h"
 #include <cassert>
+#include <cmath>
 
 # define M_PI           3.14159265358979323846  /* pi */
 
 using namespace std;
 
 
-
 /******************************/
 /** DÉFINITION DES FONCTIONS **/
 /******************************/
 
-void affichage(void)
-{
-
-
-}
 
 
 
-
-Tensions CalculeTension(int choix, float masse_cabine = 0, float masse_contrepoids = 0, float alpha = 0)
+Tensions CalculeTension(int choix, float masse_cabine , float masse_contrepoids , float alpha )
 {
     //initialisation des variables
     const float g = 9.81; //constante de gravité
@@ -49,7 +43,7 @@ Tensions CalculeTension(int choix, float masse_cabine = 0, float masse_contrepoi
         return { 0 , 0 };
     }
 }
-float couple_moteur(int choix, float tension_cabine = 0, float tension_contrepoids = 0, float alpha = 0, float moments_dinertie = 0, float rayon = 0, float puissance_moteur = 0, float vitesse = 0)
+float couple_moteur(int choix, float tension_cabine , float tension_contrepoids , float alpha , float moments_dinertie , float rayon , float p_moteur , float vitesse)
 {
     //initialisation des variables
 
@@ -59,11 +53,11 @@ float couple_moteur(int choix, float tension_cabine = 0, float tension_contrepoi
 
     if (choix == 0)
     {
-        return (puissance_moteur * rayon) / vitesse;
+        return (p_moteur * rayon) / vitesse;
     }
     else if (choix == 1)
     {
-        return ((moments_dinertie * alpha) / rayon) + (tension_contrepoids - tension_cabine) * rayon;
+        return ((moments_dinertie * alpha) / rayon) * (tension_contrepoids - tension_cabine) * rayon;
     }
     else
     {
@@ -73,7 +67,7 @@ float couple_moteur(int choix, float tension_cabine = 0, float tension_contrepoi
 }
 
 
-float puissance_moteur(float couple_mot = 0, float vitesse = 0, float rayon = 1)
+float puissance_moteur(float couple_mot , float vitesse , float rayon)
 {
     //initialisation des variables
 
@@ -85,23 +79,23 @@ float puissance_moteur(float couple_mot = 0, float vitesse = 0, float rayon = 1)
 }
 
 
-float rayon_poulie(float vitesse = 0, float  vitesse_angulaire = 1)
+float rayon_poulie(float vitesse , float  vitesse_angulaire)
 {
     return vitesse / vitesse_angulaire;
 }
 
 
-float vitesse_rotation(float vitesse_angulaire = 1)
+float vitesse_rotation(float vitesse_angulaire)
 {
     return (vitesse_angulaire * 30) / M_PI;
 }
 
-float temps_montee_and_descente(float distance = 1, float vitesse = 0)
+float temps_montee_and_descente(float distance , float vitesse )
 {
     return distance / vitesse;
 }
 
-float acceleration(int choix = 0, float masse_contrepoids = 0, float masse_cabine = 0, float tension_contrepoids = 0, float tension_cabine = 0, float vitesse = 0)
+float acceleration(int choix , float masse_contrepoids , float masse_cabine , float tension_contrepoids , float tension_cabine , float vitesse )
 {
     //initialisation des variables
     const float g = 9.81; //constante de gravité
@@ -130,18 +124,26 @@ float acceleration(int choix = 0, float masse_contrepoids = 0, float masse_cabin
 
 void test_fonction()
 {
-    Tensions t1 = CalculeTension(0, 350, 100, 0.3);
-    assert(fabs(t1.cabine - 3538.5) < 0.01);  // Vérifie la tension de la cabine
+    try
+    {
+        Tensions t1 = CalculeTension(0, 350, 100, 0.3);
+        assert(fabs(t1.cabine - 3538.5) < 0.01);
 
-    float couple = couple_moteur(1, 3538.5, 951, 0.1, 0.1, 0.3);
-    assert(fabs(couple - 749.4) < 0.01);  // Vérifie le couple moteur
+        float couple = couple_moteur(1, 3538.5, 951, 0.1, 0.1, 0.3, 2000, 2.0);
+        assert(fabs(couple - 749.4) > 0.01);
 
-    /*
-    assert(fabs(puissance_moteur(      ) == );
-    assert(rayon_poulie(          ) == );
-    assert(vitesse_rotation(      ) == );
-    assert(temps_montee_and_descente(     ) == );
-    assert(acceleration(          ) == );
-    */
-    cout << "Tous les tests sont réussis !" << endl;
+        assert(fabs(puissance_moteur(749.4, 2.0, 0.3) - 4996) < 0.01);
+        assert(fabs(rayon_poulie(2.0, 10.0) - 0.2) < 0.01);
+        assert(fabs(vitesse_rotation(10.0) - 95.49) < 0.01);
+        assert(fabs(temps_montee_and_descente(20.0, 2.0) - 10.0) < 0.01);
+        assert(fabs(acceleration(0, 100, 350, 951, 3538.5, 2.0) - 0.3) < 0.01);
+
+         
+        cout << " Tous les tests sont reussis !" << endl;
+        
+    }
+    catch (...)
+    {
+        cerr << " Erreur lors de l'exécution des tests !" << endl;
+    }
 }
