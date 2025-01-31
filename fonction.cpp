@@ -1,15 +1,22 @@
 #include <iostream>
 #include "fonction.h"
-#define _USE_MATH_DEFINES
+#include <cassert>
+
+# define M_PI           3.14159265358979323846  /* pi */
 
 using namespace std;
+
 
 
 /******************************/
 /** DÉFINITION DES FONCTIONS **/
 /******************************/
 
-void affichage(void);
+void affichage(void)
+{
+
+
+}
 
 
 
@@ -121,3 +128,20 @@ float acceleration(int choix = 0, float masse_contrepoids = 0, float masse_cabin
     }
 }
 
+void test_fonction()
+{
+    Tensions t1 = CalculeTension(0, 350, 100, 0.3);
+    assert(fabs(t1.cabine - 3538.5) < 0.01);  // Vérifie la tension de la cabine
+
+    float couple = couple_moteur(1, 3538.5, 951, 0.1, 0.1, 0.3);
+    assert(fabs(couple - 749.4) < 0.01);  // Vérifie le couple moteur
+
+    /*
+    assert(fabs(puissance_moteur(      ) == );
+    assert(rayon_poulie(          ) == );
+    assert(vitesse_rotation(      ) == );
+    assert(temps_montee_and_descente(     ) == );
+    assert(acceleration(          ) == );
+    */
+    cout << "Tous les tests sont réussis !" << endl;
+}
