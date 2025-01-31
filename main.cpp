@@ -1,7 +1,11 @@
 #include<iostream>
-
 #include "fonction.h"
 #include "fonction.cpp"
+#include <cassert>
+
+#include "fonction.h"
+
+
 using namespace std;
 
 /* IDEE GENERALE DU PROGRAMME */
@@ -10,19 +14,23 @@ using namespace std;
  * ce programme est constituer de formule de physique ou chaque valeur a calculer sera dans des fonction.
  */
 
- /*************************/
- /** PROGRAMME PRINCIPAL **/
- /*************************/
+
+/*************************/
+/** PROGRAMME PRINCIPAL **/
+/*************************/
+
 
 int main()
 {
+    // initialisation des variables
 
 
-
-
-
+    //Programme 
+    test_fonction();
+    return 0;
 
 }
+
 
 
 //a mettre dans le main
