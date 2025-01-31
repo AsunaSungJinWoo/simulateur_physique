@@ -5,17 +5,6 @@
 /** DÉCLARATION DES FONCTIONS **/
 /*******************************/
 
-/*
-{
-    R : 
-    E : 
-    S : 
-}
-*/
-void affichage(void );
-
-
-//structure pour stocker les tensions 
 struct Tensions {
     float cabine;
     float contrepoids;
