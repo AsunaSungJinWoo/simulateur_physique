@@ -1,9 +1,7 @@
 #include<iostream>
 #include "fonction.h"
-#include "fonction.cpp"
 #include <cassert>
 
-#include "fonction.h"
 
 
 using namespace std;
