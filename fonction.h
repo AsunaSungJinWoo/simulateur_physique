@@ -88,3 +88,4 @@ float acceleration(int choix = 0, float masse_contrepoids = 0, float masse_cabin
 }
 */
 void test_fonction();
+
