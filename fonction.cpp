@@ -4,6 +4,7 @@
 #include <cmath>
 
 # define M_PI           3.14159265358979323846  /* pi */
+# define g              9.81   //la graviter
 
 using namespace std;
 
@@ -17,9 +18,6 @@ using namespace std;
 
 Tensions CalculeTension(int choix, float masse_cabine , float masse_contrepoids , float alpha )
 {
-    //initialisation des variables
-    const float g = 9.81; //constante de gravité
-
     //calcul des tension
     float tension_cabine = masse_cabine * (alpha + g);
     float tension_contrepoids = masse_contrepoids * (g - alpha);
@@ -45,12 +43,6 @@ Tensions CalculeTension(int choix, float masse_cabine , float masse_contrepoids 
 }
 float couple_moteur(int choix, float tension_cabine , float tension_contrepoids , float alpha , float moments_dinertie , float rayon , float p_moteur , float vitesse)
 {
-    //initialisation des variables
-
-    const float g = 9.81; //constante de gravité
-
-    //calcul du couple moteur
-
     if (choix == 0)
     {
         return (p_moteur * rayon) / vitesse;
@@ -69,12 +61,6 @@ float couple_moteur(int choix, float tension_cabine , float tension_contrepoids 
 
 float puissance_moteur(float couple_mot , float vitesse , float rayon)
 {
-    //initialisation des variables
-
-    const float g = 9.81; //constante de gravité
-
-    //calcul de la puissance du moteur
-
     return couple_mot * (vitesse / rayon);
 }
 
@@ -97,14 +83,9 @@ float temps_montee_and_descente(float distance , float vitesse )
 
 float acceleration(int choix , float masse_contrepoids , float masse_cabine , float tension_contrepoids , float tension_cabine , float vitesse )
 {
-    //initialisation des variables
-    const float g = 9.81; //constante de gravité
-    float acceleration = 0;
-
     //programme de la fonction
     if (choix == 0)
     {
-
         return (tension_cabine - masse_cabine * g) / masse_cabine;
     }
     else if (choix == 1)
