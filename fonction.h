@@ -3,14 +3,24 @@
 #include <iostream>
 
 
-/*******************************/
-/** DÉCLARATION DES FONCTIONS **/
-/*******************************/
-
 struct Tensions {
     double cabine;
     double contrepoids;
 };
+
+
+
+
+
+/*
+{
+    R :
+    E :
+    S :
+}
+*/
+void Affichage(void);
+
 
 /*
 {
