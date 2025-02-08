@@ -1,13 +1,15 @@
 #pragma once
 
 #include <iostream>
+
+
 /*******************************/
 /** DÉCLARATION DES FONCTIONS **/
 /*******************************/
 
 struct Tensions {
-    float cabine;
-    float contrepoids;
+    double cabine;
+    double contrepoids;
 };
 
 /*
@@ -18,7 +20,15 @@ struct Tensions {
     S :ils renvoie soit l'une des deux tension soit les deux en fonction du choix de l'utulisateur grace a un struct 
 }
 */
-Tensions CalculeTension(int choix, float masse_cabine = 0, float masse_contrepoids = 0, float alpha = 0);
+Tensions Calcule_Tension(int choix_formule, 
+                         int choix_donnees, 
+                         float masse_cabine, 
+                         float masse_contrepoids, 
+                         float alpha, 
+                         float moments_dinertie, 
+                         float rayon, 
+                         float p_moteur, 
+                         float vitesse);
 
 /*
 {
@@ -27,7 +37,14 @@ Tensions CalculeTension(int choix, float masse_cabine = 0, float masse_contrepoi
     S :
 }
 */
-float couple_moteur(int choix, float tension_cabine = 0, float tension_contrepoids = 0, float alpha = 0, float moments_dinertie = 0, float rayon = 0, float puissance_moteur = 0, float vitesse = 0);
+double couple_moteur(int choix, 
+                     float tension_cabine, 
+                     float tension_contrepoids, 
+                     float alpha, 
+                     float moments_dinertie, 
+                     float rayon, 
+                     float puissance_moteur, 
+                     float vitesse);
 
 /*
 {
@@ -36,28 +53,9 @@ float couple_moteur(int choix, float tension_cabine = 0, float tension_contrepoi
     S :
 }
 */
-float puissance_moteur(float couple_mot = 0, float vitesse = 0, float rayon = 1);
-
-
-
-/*
-{
-    R :
-    E :
-    S :
-}
-*/
-float rayon_poulie(float vitesse = 0, float  vitesse_angulaire = 1);
-
-
-/*
-{
-    R :
-    E :
-    S :
-}
-*/
-float vitesse_rotation(float vitesse_angulaire = 1);
+double puissance_moteur(float couple_mot, 
+                        float vitesse , 
+                        float rayon );
 
 
 /*
@@ -67,8 +65,8 @@ float vitesse_rotation(float vitesse_angulaire = 1);
     S :
 }
 */
-float temps_montee_and_descente(float distance = 1, float vitesse = 0);
-
+double rayon_poulie(float vitesse,
+                    float  vitesse_angulaire);
 
 /*
 {
@@ -77,8 +75,31 @@ float temps_montee_and_descente(float distance = 1, float vitesse = 0);
     S :
 }
 */
-float acceleration(int choix = 0, float masse_contrepoids = 0, float masse_cabine = 0, float tension_contrepoids = 0, float tension_cabine = 0, float vitesse = 0);
+double vitesse_rotation(float vitesse_angulaire);
 
+/*
+{
+    R :
+    E :
+    S :
+}
+*/
+double temps_montee_and_descente(float distance ,
+                                 float vitesse);
+
+/*
+{
+    R :
+    E :
+    S :
+}
+*/
+double acceleration(int choix,
+                    float masse_contrepoids, 
+                    float masse_cabine,
+                    float tension_contrepoids, 
+                    float tension_cabine, 
+                    float vitesse);
 
 /*
 {
