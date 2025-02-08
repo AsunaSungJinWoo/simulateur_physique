@@ -9,12 +9,12 @@ fait:
         -vitesse rotation
         -temps de monter et descente
 -structurer tout le code 
-
+-rajouter la posibiliter de choisir la formule a utuliser (pur w a voir si on fait)
+-creation dune fonction affichage
 
 a faire;
--comanter tout les fonction
--rajouter la posibiliter de choisir la formule a utuliser si tel variable ont a pas (a voir si il en reste)
--faire une fonction qui gere tout 
+-commenter tout les fonction
+
 
 
 optimisation:
