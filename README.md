@@ -1,12 +1,13 @@
 # simulateur_physique
 
 fait:
--les tension
--le couple moteur
--la puissance moteur
--rayon poulie
--vitesse rotation
--temps de monter et descente
+- les calcul :
+        -les tension
+        -le couple moteur
+        -la puissance moteur
+        -rayon poulie
+        -vitesse rotation
+        -temps de monter et descente
 -structurer tout le code 
 
 
