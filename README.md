@@ -7,14 +7,14 @@ fait:
 -rayon poulie
 -vitesse rotation
 -temps de monter et descente
-
+-structurer tout le code 
 
 
 a faire;
 -comanter tout les fonction
 -rajouter la posibiliter de choisir la formule a utuliser si tel variable ont a pas (a voir si il en reste)
 -faire une fonction qui gere tout 
--structurer tout le code 
+
 
 optimisation:
 -.csv
