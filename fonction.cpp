@@ -3,10 +3,16 @@
 #include <cassert>
 #include <cmath>
 
+//les constantes
 # define M_PI           3.14159265358979323846  /* pi */
 # define g              9.81   //la graviter
 
-
+//les  choix
+#define choix_calcul_tension_avec_somme_force       0
+#define choix_calcul_tension_avec_cm                1
+#define choix_tension_cabine                        0
+#define choix_tension_contrepoids                   1
+#define choix_des_deux_tension                      2
 
 
 using namespace std;
@@ -161,27 +167,24 @@ Tensions Calcule_Tension(int choix_formule,
                          float p_moteur,
                          float vitesse)
 {
-    //inisialisation
-    int choix2 = 0;
-
-    //calcul des tension
+    //initialisation
     double tension_cabine , tension_contrepoids;
 
     //programme de la fonction
-    if (choix_formule == 0)
+    if (choix_formule == choix_calcul_tension_avec_somme_force)
     {
         tension_cabine = masse_cabine * (alpha + g);
         tension_contrepoids = masse_contrepoids * (g - alpha);
 
-        if (choix_donnees == 0)
+        if (choix_donnees == choix_tension_cabine)
         {
             return Tensions{ tension_cabine,0 };
         }
-        else if (choix_donnees == 1)
+        else if (choix_donnees == choix_tension_contrepoids)
         {
             return Tensions{ 0,tension_contrepoids };
         }
-        else if (choix_donnees == 2)
+        else if (choix_donnees == choix_des_deux_tension)
         {
             return Tensions{ tension_cabine,tension_contrepoids };
         }
@@ -191,20 +194,20 @@ Tensions Calcule_Tension(int choix_formule,
             return { 0 , 0 };
         }
     }
-    if (choix_formule == 1)
+    if (choix_formule == choix_calcul_tension_avec_cm)
     {
         tension_cabine = masse_contrepoids * (g - alpha) - (p_moteur/moments_dinertie) ;
         tension_contrepoids = (p_moteur + (moments_dinertie * masse_cabine) * (alpha + g)) / moments_dinertie;
 
-        if (choix_donnees == 0)
+        if (choix_donnees == choix_tension_cabine)
         {
             return Tensions{ tension_cabine,0 };
         }
-        else if (choix_donnees == 1)
+        else if (choix_donnees == choix_tension_contrepoids)
         {
             return Tensions{ 0,tension_contrepoids };
         }
-        else if (choix_donnees == 2)
+        else if (choix_donnees == choix_des_deux_tension)
         {
             return Tensions{tension_cabine,tension_contrepoids };
         }
