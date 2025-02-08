@@ -1,8 +1,6 @@
-#include<iostream>
 #include "fonction.h"
+#include <iostream>
 #include <cassert>
-
-
 
 using namespace std;
 
@@ -45,34 +43,59 @@ int main()
 
         switch (choix) {
         case 1: {
-            float masse_cabine, masse_contrepoids, alpha;
-            int choix_tension;
+            float masse_cabine, 
+                  masse_contrepoids, 
+                  alpha, 
+                  moments_dinertie, 
+                  rayon, 
+                  p_moteur, 
+                  vitesse;
+
+            int choix_tension, 
+                choix_result;
+
             cout << "Entrez la masse de la cabine : "; cin >> masse_cabine;
             cout << "Entrez la masse du contrepoids : "; cin >> masse_contrepoids;
             cout << "Entrez l acceleration alpha : "; cin >> alpha;
-            cout << "Choisissez (0 = cabine, 1 = contrepoids, 2 = les deux) : ";
+            cout << "Entrez le moment d'inertie : "; cin >> moments_dinertie;
+            cout << "Entrez le rayon : "; cin >> rayon;
+            cout << "Entrez la puissance moteur : "; cin >> p_moteur;
+            cout << "Entrez la vitesse : "; cin >> vitesse;
+            cout << "donner la formule a utuliser en fonction des valeur que vous avez (0 = acceleration et masse , 1 = les moments de force, les moments dinertie et acceleration";
             cin >> choix_tension;
-            Tensions result = CalculeTension(choix_tension, masse_cabine, masse_contrepoids, alpha);
+            cout << "donner le resulta de sortie (0 = tension cabien 1 = tension contrepoids, 2 = les deux";cin >> choix_result;
+            Tensions result = Calcule_Tension(choix_tension,choix_result , masse_cabine, masse_contrepoids, alpha, moments_dinertie, rayon, p_moteur, vitesse );
             cout << "Tension cabine: " << result.cabine << " N, Tension contrepoids: " << result.contrepoids << " N\n";
             break;
         }
         case 2: {
-            float tension_cabine, tension_contrepoids, alpha, moments_dinertie, rayon, puissance_moteur, vitesse;
+            float tension_cabine, 
+                  tension_contrepoids, 
+                  alpha, 
+                  moments_dinertie, 
+                  rayon, 
+                  p_moteur, 
+                  vitesse;
+
             int choix_couple;
+
             cout << "Entrez la tension cabine : "; cin >> tension_cabine;
             cout << "Entrez la tension contrepoids : "; cin >> tension_contrepoids;
             cout << "Entrez l'accélération alpha : "; cin >> alpha;
             cout << "Entrez le moment d'inertie : "; cin >> moments_dinertie;
             cout << "Entrez le rayon : "; cin >> rayon;
-            cout << "Entrez la puissance moteur : "; cin >> puissance_moteur;
+            cout << "Entrez la puissance moteur : "; cin >> p_moteur;
             cout << "Entrez la vitesse : "; cin >> vitesse;
             cout << "Choisissez (0 = couple moteur par puissance, 1 = couple moteur par tensions) : ";
             cin >> choix_couple;
-            cout << "Couple moteur : " << couple_moteur(choix_couple, tension_cabine, tension_contrepoids, alpha, moments_dinertie, rayon, puissance_moteur, vitesse) << " Nm\n";
+            cout << "Couple moteur : " << couple_moteur(choix_couple, tension_cabine, tension_contrepoids, alpha, moments_dinertie, rayon, p_moteur, vitesse) << " Nm\n";
             break;
         }
         case 3: {
-            float couple_mot, vitesse, rayon;
+            float couple_mot, 
+                  vitesse, 
+                  rayon;
+
             cout << "Entrez le couple moteur : "; cin >> couple_mot;
             cout << "Entrez la vitesse : "; cin >> vitesse;
             cout << "Entrez le rayon : "; cin >> rayon;
@@ -80,7 +103,9 @@ int main()
             break;
         }
         case 4: {
-            float vitesse, vitesse_angulaire;
+            float vitesse, 
+                  vitesse_angulaire;
+
             cout << "Entrez la vitesse : "; cin >> vitesse;
             cout << "Entrez la vitesse angulaire : "; cin >> vitesse_angulaire;
             cout << "Rayon de la poulie : " << rayon_poulie(vitesse, vitesse_angulaire) << " m\n";
@@ -88,20 +113,29 @@ int main()
         }
         case 5: {
             float vitesse_angulaire;
+
             cout << "Entrez la vitesse angulaire : "; cin >> vitesse_angulaire;
             cout << "Vitesse de rotation : " << vitesse_rotation(vitesse_angulaire) << " tr/min\n";
             break;
         }
         case 6: {
-            float distance, vitesse;
+            float distance, 
+                  vitesse;
+
             cout << "Entrez la distance : "; cin >> distance;
             cout << "Entrez la vitesse : "; cin >> vitesse;
             cout << "Temps de montée/descente : " << temps_montee_and_descente(distance, vitesse) << " s\n";
             break;
         }
         case 7: {
-            float masse_cabine, masse_contrepoids, tension_cabine, tension_contrepoids, vitesse;
+            float masse_cabine, 
+                  masse_contrepoids,
+                  tension_cabine,
+                  tension_contrepoids,
+                  vitesse;
+
             int choix_acc;
+
             cout << "Entrez la masse de la cabine : "; cin >> masse_cabine;
             cout << "Entrez la masse du contrepoids : "; cin >> masse_contrepoids;
             cout << "Entrez la tension cabine : "; cin >> tension_cabine;
@@ -122,23 +156,3 @@ int main()
 
     return 0;
 }
-
-
-
-
-
-//a mettre dans le main
-
-/*Tensions result = Tension(choix, masse_cabine, masse_contrepoids, alpha);
-
-// Affichage des résultats
-if (choix == 0) {
-    std::cout << "Tension de la cabine : " << result.cabine << " N" << std::endl;
-}
-else if (choix == 1) {
-    std::cout << "Tension du contrepoids : " << result.contrepoids << " N" << std::endl;
-}
-else if (choix == 2) {
-    std::cout << "Tension de la cabine : " << result.cabine << " N" << std::endl;
-    std::cout << "Tension du contrepoids : " << result.contrepoids << " N" << std::endl;
-}*/
