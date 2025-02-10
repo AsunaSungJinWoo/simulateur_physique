@@ -1,5 +1,5 @@
 # simulateur_physique
-
+a faire en paralleles et demander aux prof ou regarder sur internet pour le reamed en anglais(pour moi sa doit etre une notice dutulisation en anglais pour savoir se que fait le prog se quon doit mettre dedans "cin" et commentsen servir)
 fait:
 - les calcul :
         -les tension
