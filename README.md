@@ -15,12 +15,13 @@ fait:
 
 
 a faire;
--commenter tout les fonction
-
-
+-finir de commenter la structure "tension"
+-rajouter de potentiels commentaires
+-vérifier pour opti le code (au niveaud des variables au niveau du .csv)
 
 -optimisation:
         -.csv
         -simulation en 3D // a la fin 
         -faire la deriver de la fonction // a voir car il faut demander deux point une vitesse max et faire une deriver mais a voir si on fait
 
+ ## -Pour faire fonctionner: placer le fichier .csv dans le dossier du projet vscode (met le dans chaque fichier si ca marche pas)
