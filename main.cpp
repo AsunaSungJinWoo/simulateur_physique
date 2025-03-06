@@ -6,14 +6,14 @@ using namespace std;
 
 /* IDEE GENERALE DU PROGRAMME */
 /*
- * le programme nous permet d'obtenir toute les donnes relatif d'un ascenseur tel que le couple moteur ,la puissance du moteur ,les tension ect...
- * ce programme est constituer de formule de physique ou chaque valeur a calculer sera dans des fonction.
+ * le programme nous permet d'obtenir toutes les donnees relatives d'un ascenseur tel que le couple moteur ,la puissance du moteur ,les tension ect...
+ * ce programme est constitué de formules de physique ou chaque des valeurs sera calculée dans des fonction.
  */
 
 
 int main()
 {
-    //Programme 
+    //Utilisation de la fonction "Affichage" qui va nous permettre de démarrer le programme entier
     Affichage();
 
     return 0;
