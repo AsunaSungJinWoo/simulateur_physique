@@ -17,24 +17,28 @@ struct Tensions {
 */
 void Affichage(void);
 
+
+
+
+
 void Affichage_donnee(void);
 /*
 {
     R : la fonction permet de calculer les tension des cable c'est a dire T_cabine et T_contrepoids
-    E :le choix de de la/les tension a renvoyer (0 =tension_ cabien , 1=tension_contrepoids , 2= les deux), 
-    la masse de la cabine et du contrepoids et alpha lacceleration  
-    S :ils renvoie soit l'une des deux tension soit les deux en fonction du choix de l'utulisateur grace a un struct 
+    E :le choix de de la/les tension a renvoyer (0 =tension_ cabien , 1=tension_contrepoids , 2= les deux),
+    la masse de la cabine et du contrepoids et alpha lacceleration
+    S :ils renvoie soit l'une des deux tension soit les deux en fonction du choix de l'utulisateur grace a un struct
 }
 */
-Tensions Calcule_Tension(int choix_formule, 
-                         int choix_donnees, 
-                         float masse_cabine, 
-                         float masse_contrepoids, 
-                         float alpha, 
-                         float moments_dinertie, 
-                         float rayon, 
-                         float p_moteur, 
-                         float vitesse);
+Tensions Calcule_Tension(int choix_formule,
+    int choix_donnees,
+    float masse_cabine,
+    float masse_contrepoids,
+    float alpha,
+    float moments_dinertie,
+    float rayon,
+    float p_moteur,
+    float vitesse);
 
 /*
 {
@@ -44,14 +48,14 @@ Tensions Calcule_Tension(int choix_formule,
     S : La fonction renvoie la valeur du couple moteur
 }
 */
-double couple_moteur(int choix, 
-                     float tension_cabine, 
-                     float tension_contrepoids, 
-                     float alpha, 
-                     float moments_dinertie, 
-                     float rayon, 
-                     float puissance_moteur, 
-                     float vitesse);
+double couple_moteur(int choix,
+    float tension_cabine,
+    float tension_contrepoids,
+    float alpha,
+    float moments_dinertie,
+    float rayon,
+    float puissance_moteur,
+    float vitesse);
 
 /*
 {
@@ -60,20 +64,20 @@ double couple_moteur(int choix,
     S : La fonction renvoie la valeur de la puissance moteur
 }
 */
-double puissance_moteur(float couple_mot, 
-                        float vitesse , 
-                        float rayon );
+double puissance_moteur(float couple_mot,
+    float vitesse,
+    float rayon);
 
 
 /*
 {
-    R :La fonction permet de calculer le rayon de la poulie 
-    E :Prend en entrée: la vitesse et la vitesse angulaire de l'ascenseur 
+    R :La fonction permet de calculer le rayon de la poulie
+    E :Prend en entrée: la vitesse et la vitesse angulaire de l'ascenseur
     S :La fonction renvoie la valeur du rayon de la poulie
 }
 */
 double rayon_poulie(float vitesse,
-                    float  vitesse_angulaire);
+    float  vitesse_angulaire);
 
 /*
 {
@@ -91,8 +95,8 @@ double vitesse_rotation(float vitesse_angulaire);
     S :La fonction renvoie la valeur du temps de montée et de descente
 }
 */
-double temps_montee_and_descente(float distance ,
-                                 float vitesse);
+double temps_montee_and_descente(float distance,
+    float vitesse);
 
 /*
 {
@@ -102,11 +106,11 @@ double temps_montee_and_descente(float distance ,
 }
 */
 double acceleration(int choix,
-                    float masse_contrepoids, 
-                    float masse_cabine,
-                    float tension_contrepoids, 
-                    float tension_cabine, 
-                    float vitesse);
+    float masse_contrepoids,
+    float masse_cabine,
+    float tension_contrepoids,
+    float tension_cabine,
+    float vitesse);
 
 /*
 {
@@ -116,3 +120,10 @@ double acceleration(int choix,
 */
 void test_fonction();
 
+/*
+{
+    R :
+    S :
+}
+*/
+void sfml_simu(void);
