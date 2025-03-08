@@ -11,6 +11,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <SFML/Graphics.hpp>
 
 // On définit nos constantes
 #define M_PI 3.14159265358979323846  // pi
@@ -43,6 +44,7 @@ void Affichage(void) {
         cout << "8. Executer les tests\n";
         cout << "9. Quitter\n";
         cout << "10. Utiliser un fichier .csv\n";
+        cout << "11. voir la simulation\n";
         cout << "Entrez votre choix : ";
         cin >> choix;
 
@@ -154,11 +156,15 @@ void Affichage(void) {
         }
 
               // Choix 8 : Executer les tests
-        case 8:
+        case 8: {
             test_fonction();
             break;
-
-            // Choix invalide
+        }
+        case 11: {
+            sfml_simu();
+            break;
+        }
+               // Choix invalide
         default:
             cout << "Choix invalide, veuillez reessayer.\n";
         }
@@ -278,7 +284,7 @@ void Affichage_donnee(void) {
 
             switch (choix_donne) {
             case 1: {
-              float a_angulaire2 = a_angulaire,
+                float a_angulaire2 = a_angulaire,
                     mom_inertie2 = mom_inertie,
                     m_cabine2 = m_cabine,
                     m_contrepoids2 = m_contrepoids,
@@ -464,5 +470,92 @@ void test_fonction() {
     }
     catch (...) {
         cerr << " Erreur lors de l'execution des tests !" << endl;
+    }
+}
+
+void sfml_simu(void) {
+    unsigned int width = 1600;
+    unsigned int height = 900;
+    sf::RenderWindow window(sf::VideoMode({ width, height }), "Ascenseur SFML");
+    window.setFramerateLimit(60);
+
+    // Moteur (Poulie)
+    sf::CircleShape moteur(120.f);
+    moteur.setOrigin({ 120.f, 120.f });
+    moteur.setPosition({ 800.f, 200.f });
+    moteur.setFillColor(sf::Color::White);
+    moteur.setOutlineThickness(3);
+    moteur.setOutlineColor(sf::Color::Black);
+
+    // Cabine
+    sf::RectangleShape cabine({ 120.f,160.f });
+    cabine.setOrigin({ 60.f, 80.f });
+    cabine.setPosition({ 920.f, 800.f });
+    cabine.setFillColor(sf::Color::White);
+    cabine.setOutlineThickness(3);
+    cabine.setOutlineColor(sf::Color::Black);
+
+    // Contrepoids
+    sf::RectangleShape contrepoids({ 80.f, 140.f });
+    contrepoids.setOrigin({ 40.f, 70.f });
+    contrepoids.setPosition({ 680.f, 400.f });
+    contrepoids.setFillColor(sf::Color::White);
+    contrepoids.setOutlineThickness(3);
+    contrepoids.setOutlineColor(sf::Color::Black);
+
+    // Câble 1 (Cabine → Poulie)
+    sf::RectangleShape cable1({ 3.f, 520.f });
+    cable1.setOrigin({ 1.5f, 0.f });
+    cable1.setPosition({ 921.f, 200.f });
+    cable1.setFillColor(sf::Color::Black);
+
+    // Câble 2 (Poulie → Contrepoids)
+    sf::RectangleShape cable2({ 3.f, 150.f });
+    cable2.setOrigin({ 1.5f, 0.f });
+    cable2.setPosition({ 680.f, 200.f });
+    cable2.setFillColor(sf::Color::Black);
+
+    // Vitesse du mouvement
+    float vitesse = 5.0f;
+
+    while (window.isOpen()) {
+        while (const std::optional<sf::Event> event = window.pollEvent()) {
+            if (event->is<sf::Event::Closed>()) {
+                window.close();
+            }
+            else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+                if (keyPressed->scancode == sf::Keyboard::Scancode::Escape) {
+                    window.close();
+                }
+            }
+        }
+
+        // Mouvement de la cabine et du contrepoids
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) { // Monte
+            cabine.move({ 0.f, -vitesse });
+            contrepoids.move({0.f, vitesse});
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) { // Descend
+            cabine.move({0.f, vitesse});
+            contrepoids.move({ 0.f, -vitesse });
+        }
+
+        // Mise à jour des câbles pour suivre les mouvements
+        cable1.setSize({ 3.f, cabine.getPosition().y - 200.f });
+        cable1.setPosition({ 921.f, 200.f });
+
+        cable2.setSize({ 3.f, contrepoids.getPosition().y - 200.f });
+        cable2.setPosition({ 680.f, 200.f });
+
+
+
+        // Affichage
+        window.clear(sf::Color::White);
+        window.draw(moteur);
+        window.draw(cable1);
+        window.draw(cable2);
+        window.draw(cabine);
+        window.draw(contrepoids);
+        window.display();
     }
 }
