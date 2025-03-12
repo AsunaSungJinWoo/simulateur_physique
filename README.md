@@ -12,6 +12,8 @@ fait:
 -rajouter la posibiliter de choisir la formule a utuliser (pur w a voir si on fait)
 -creation dune fonction affichage
 - #define // definir toute les variables
+-.csv
+-simulation en 3D // a la fin 
 
 
 a faire;
@@ -20,8 +22,6 @@ a faire;
 -vérifier pour opti le code (au niveaud des variables au niveau du .csv)
 
 -optimisation:
-        -.csv
-        -simulation en 3D // a la fin 
         -faire la deriver de la fonction // a voir car il faut demander deux point une vitesse max et faire une deriver mais a voir si on fait
 
  ## -Pour faire fonctionner: placer le fichier .csv dans le dossier du projet vscode (met le dans chaque fichier si ca marche pas)
