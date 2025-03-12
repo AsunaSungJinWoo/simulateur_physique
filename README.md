@@ -32,3 +32,14 @@ a faire;
         -faire la deriver de la fonction // a voir car il faut demander deux point une vitesse max et faire une deriver mais a voir si on fait
 
  ## -Pour faire fonctionner: placer le fichier .csv dans le dossier du projet vscode (met le dans chaque fichier si ca marche pas)
+
+
+
+-mettre , à la place ; dans .csv
+
+quelle données avez vous ?
+
+1: acce et masse
+2: tension...
+
+décaler les define dans le .h
