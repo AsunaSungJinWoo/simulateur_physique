@@ -181,7 +181,7 @@ void Affichage_donnee(void) {
     ifstream le_fichier; // Flux de fichier d'entrée
 
     // Algorithme
-    le_fichier.open("Fichier_Donnee.csv", ios::in); // Ouverture du fichier en lecture
+    le_fichier.open("../dependances_exterieurs/Fichier_Donnee.csv", ios::in); // Ouverture du fichier en lecture
     if (le_fichier.is_open()) {
         // Lire et ignorer la première ligne (en-tête)
         getline(le_fichier, ligne);
@@ -483,7 +483,7 @@ void sfml_simu(void) {
     window.setFramerateLimit(60);
 
     sf::Font font;
-    std::string fontPath = "C:/___DONNEES___/Theo/Cours/saé_info/simu_papp/fonts/Roboto-BlackItalic.ttf";
+    std::string fontPath = "../dependances_exterieurs/fonts/Roboto-BlackItalic.ttf";
 
     if (!std::filesystem::exists(fontPath)) {
         std::cerr << "Le fichier " << fontPath << " nexiste pas!" << std::endl;
@@ -556,10 +556,12 @@ void sfml_simu(void) {
         while (const std::optional<sf::Event> event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
+                return;
             }
             else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                 if (keyPressed->scancode == sf::Keyboard::Scancode::Escape) {
                     window.close();
+                    return;
                 }
                 if (keyPressed->scancode == sf::Keyboard::Scancode::H) {
                     showHelp = !showHelp; // Toggle affichage aide
