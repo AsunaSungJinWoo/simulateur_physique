@@ -14,12 +14,19 @@ fait:
 - #define // definir toute les variables
 -.csv
 -simulation en 3D // a la fin 
+-commentaires
+
+Problèmes rencontrés:
+-création et implémentation du code .csv
+-faire fonctionner la police sur l’interface graphique
 
 
 a faire;
 -finir de commenter la structure "tension"
 -rajouter de potentiels commentaires
 -vérifier pour opti le code (au niveaud des variables au niveau du .csv)
+-améliorer interface graphique éventuellement
+-améliorer les commentaires
 
 -optimisation:
         -faire la deriver de la fonction // a voir car il faut demander deux point une vitesse max et faire une deriver mais a voir si on fait
