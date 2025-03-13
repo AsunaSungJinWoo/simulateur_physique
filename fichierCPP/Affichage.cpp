@@ -1,6 +1,6 @@
 #include "Affichage.h"
 #include "CalculePhysique.h"
-#include "a mettre je lavait enlever car tout et mort sur csv"
+
 #include "InterfaceGraphique.h"
 
 #include <SFML/Graphics.hpp>
@@ -25,17 +25,41 @@ enum MenuOption {
     gi_Quitter = 11,
 };
 
-// Fonction pour sécuriser l'entrée utilisateur
-static void SecuriserSaisie() {
-    if (cin.fail()) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Saisie invalide. Veuillez entrer une valeur correcte.\n";
+// Fonction pour sécuriser la saisie d'un entier
+void i_SecuriserSaisie(int& valeur) {
+    while (true) {
+        cin >> valeur;
+
+        if (cin.fail()) {  // Vérifie si la saisie est invalide
+            cout << "Saisie invalide. Veuillez entrer un nombre entier valide : ";
+            cin.clear();  // Efface l'état d'erreur
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Vide le buffer
+        }
+        else {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Supprime les caractères superflus
+            break;  // Sort de la boucle si la saisie est correcte
+        }
+    }
+}
+
+// Fonction pour sécuriser la saisie d'un flottant
+void f_SecuriserSaisie(float& valeur) {
+    while (true) {
+        cin >> valeur;
+
+        if (cin.fail()) {  // Vérifie si la saisie est invalide
+            cout << "Saisie invalide. Veuillez entrer un nombre décimal valide : ";
+            cin.clear();  // Efface l'état d'erreur
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Vide le buffer
+        }
+        else {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Supprime les caractères superflus
+            break;  // Sort de la boucle si la saisie est correcte
+        }
     }
 }
 
 void Affichage(void) {
-    // Initialisation des variables
     int li_Choix = 0;
 
     while (true) {
@@ -53,13 +77,7 @@ void Affichage(void) {
             << "11. Quitter\n"
             << "Entrez votre choix : ";
 
-        cin >> li_Choix;
-        SecuriserSaisie(); // Vérifie la validité de l'entrée
-
-        if (li_Choix < 1 || li_Choix > 11) {
-            cout << "Choix invalide. Veuillez réessayer.\n";
-            continue;  // Recommence le menu
-        }
+        i_SecuriserSaisie(li_Choix);  // Sécurisation correcte de l'entrée
 
         switch (li_Choix) {
         case gi_CalculTension: {
@@ -68,19 +86,17 @@ void Affichage(void) {
             int li_ChoixCalcul = 0, li_ChoixTension = 0, li_ChoixResult = 0;
             Tensions result{};
 
-            // Demander ce que l'utilisateur veut calculer
             cout << "Que voulez-vous calculer ?\n"
                 << "0 = Tension cabine\n"
                 << "1 = Tension contrepoids\n"
                 << "2 = Les deux tensions\n"
                 << "3 = Retourner en arrière\n"
                 << "Votre choix : ";
-            cin >> li_ChoixTension;
-            SecuriserSaisie();
+            i_SecuriserSaisie(li_ChoixTension);
 
             if (li_ChoixTension == 3) {
                 cout << "Retour au menu principal.\n";
-                break;  // Retour au menu principal
+                break;
             }
 
             switch (li_ChoixTension) {
@@ -89,101 +105,87 @@ void Affichage(void) {
                     << "0 = Utiliser accélération et masse de la cabine\n"
                     << "1 = Utiliser moments de force\n"
                     << "Votre choix : ";
-                cin >> li_ChoixCalcul;
-                SecuriserSaisie();
+                i_SecuriserSaisie(li_ChoixCalcul);
 
                 if (li_ChoixCalcul == CHOIX_CALCUL_TENSION_AVEC_SOMME_FORCE) {
-                    cout << "Entrez la masse de la cabine (kg) : "; cin >> lf_MasseCabine;
-                    cout << "Entrez l'accélération angulaire (rad/s) : "; cin >> lf_Alpha;
-                    SecuriserSaisie();
+                    cout << "Entrez la masse de la cabine (kg) : ";
+                    f_SecuriserSaisie(lf_MasseCabine);
+                    cout << "Entrez l'accélération angulaire (rad/s²) : ";
+                    f_SecuriserSaisie(lf_Alpha);
                 }
                 else if (li_ChoixCalcul == CHOIX_CALCUL_TENSION_AVEC_CM) {
-                    cout << "Entrez le moment d'inertie (kg·m) : "; cin >> lf_MomentsDinertie;
-                    cout << "Entrez le rayon (m) : "; cin >> lf_Rayon;
-                    cout << "Entrez le couple moteur (N·m) : "; cin >> lf_CoupleMoteur;
-                    cout << "Entrez la vitesse (m/s) : "; cin >> lf_Vitesse;
-                    cout << "Entrez la masse du contrepoids (kg) : "; cin >> lf_MasseContrepoids;
-                    cout << "Entrez l'accélération angulaire (rad/s) : "; cin >> lf_Alpha;
-                    SecuriserSaisie();
+                    cout << "Entrez le moment d'inertie (kg·m²) : ";
+                    f_SecuriserSaisie(lf_MomentsDinertie);
+                    cout << "Entrez le rayon (m) : ";
+                    f_SecuriserSaisie(lf_Rayon);
+                    cout << "Entrez le couple moteur (N·m) : ";
+                    f_SecuriserSaisie(lf_CoupleMoteur);
+                    cout << "Entrez la vitesse (m/s) : ";
+                    f_SecuriserSaisie(lf_Vitesse);
+                    cout << "Entrez la masse du contrepoids (kg) : ";
+                    f_SecuriserSaisie(lf_MasseContrepoids);
+                    cout << "Entrez l'accélération angulaire (rad/s²) : ";
+                    f_SecuriserSaisie(lf_Alpha);
                 }
-                else {
 
-
-                }
                 result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
                 cout << "Tension cabine : " << result.cabine << " N\n";
                 break;
             }
             case CHOIX_TENSION_CONTREPOIDS: {
-                cout << "Choisissez la formule :\n"
-                    << "0 = Utiliser accélération et masse du contrepoids\n"
-                    << "1 = Utiliser moments de force\n"
-                    << "Votre choix : ";
-                cin >> li_ChoixCalcul;
-                SecuriserSaisie();
+                cout << "Entrez la masse du contrepoids (kg) : ";
+                f_SecuriserSaisie(lf_MasseContrepoids);
+                cout << "Entrez l'accélération angulaire (rad/s²) : ";
+                f_SecuriserSaisie(lf_Alpha);
 
-                if (li_ChoixCalcul == CHOIX_CALCUL_TENSION_AVEC_SOMME_FORCE) {
-                    cout << "Entrez la masse du contrepoids (kg) : "; cin >> lf_MasseContrepoids;
-                    cout << "Entrez l'accélération angulaire (rad/s) : "; cin >> lf_Alpha;
-                    SecuriserSaisie();
-                }
-                else if (li_ChoixCalcul == CHOIX_CALCUL_TENSION_AVEC_CM) {
-                    cout << "Entrez le moment d'inertie (kg·m) : "; cin >> lf_MomentsDinertie;
-                    cout << "Entrez le rayon (m) : "; cin >> lf_Rayon;
-                    cout << "Entrez le couple moteur (N·m) : "; cin >> lf_CoupleMoteur;
-                    cout << "Entrez la vitesse (m/s) : "; cin >> lf_Vitesse;
-                    cout << "Entrez la masse de la cabine (kg) : "; cin >> lf_MasseCabine;
-                    cout << "Entrez l'accélération angulaire (rad/s) : "; cin >> lf_Alpha;
-                    SecuriserSaisie();
-                }
-                else {
-
-
-                }
                 result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
-                cout << "Tension cabine : " << result.cabine << " N\n";
+                cout << "Tension contrepoids : " << result.contrepoids << " N\n";
                 break;
             }
             case CHOIX_DES_DEUX_TENSIONS: {
-                li_ChoixCalcul = 0;
-                cout << "Entrez la masse de la cabine (kg) : "; cin >> lf_MasseCabine;
-                cout << "Entrez la masse du contrepoids (kg) : "; cin >> lf_MasseContrepoids;
-                cout << "Entrez l'accélération angulaire (rad/s) : "; cin >> lf_Alpha;
-                SecuriserSaisie();
+                cout << "Entrez la masse de la cabine (kg) : ";
+                f_SecuriserSaisie(lf_MasseCabine);
+                cout << "Entrez la masse du contrepoids (kg) : ";
+                f_SecuriserSaisie(lf_MasseContrepoids);
+                cout << "Entrez l'accélération angulaire (rad/s²) : ";
+                f_SecuriserSaisie(lf_Alpha);
 
                 result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
                 cout << "Tension cabine : " << result.cabine << " N\n";
                 cout << "Tension contrepoids : " << result.contrepoids << " N\n";
                 break;
             }
-
             }
             break;
         }
         case gi_CalculCouple: {
             float lf_TensionCabine = 0, lf_TensionContrepoids = 0, lf_acceleration = 0, lf_MomentsDinertie = 0, lf_Rayon = 0, lf_PMoteur = 0, lf_Vitesse = 0;
-            int li_ChoixCouple;
+            int li_ChoixCouple = 0;
 
-            cout << "Choisissez (0 = couple par puissance (rayon, Pm, vitesse), 1 = couple par tensions(tension cabine/contrepoids ,moments dinertie ,acceleration)) : "; cin >> li_ChoixCouple;
+            cout << "Choisissez (0 = couple par puissance, 1 = couple par tensions) : ";
+            i_SecuriserSaisie(li_ChoixCouple);
 
             if (li_ChoixCouple == 0) {
-                cout << "Entrez le rayon : "; cin >> lf_Rayon;
-                cout << "Entrez la puissance moteur : "; cin >> lf_PMoteur;
-                cout << "Entrez la vitesse : "; cin >> lf_Vitesse;
-                SecuriserSaisie();
-                cout << "Couple moteur : " << CoupleMoteur(li_ChoixCouple, lf_TensionCabine, lf_TensionContrepoids, lf_acceleration, lf_MomentsDinertie, lf_Rayon, lf_PMoteur, lf_Vitesse) << " Nm\n";
+                cout << "Entrez le rayon : ";
+                f_SecuriserSaisie(lf_Rayon);
+                cout << "Entrez la puissance moteur : ";
+                f_SecuriserSaisie(lf_PMoteur);
+                cout << "Entrez la vitesse : ";
+                f_SecuriserSaisie(lf_Vitesse);
             }
             else if (li_ChoixCouple == 1) {
-                cout << "Entrez l'acceleration angulaire: "; cin >> lf_acceleration;
-                cout << "Entrez le moment d'inertie : "; cin >> lf_MomentsDinertie;
-                cout << "Entrez la tension cabine : "; cin >> lf_TensionCabine;
-                cout << "Entrez la tension contrepoids : "; cin >> lf_TensionContrepoids;
-                cout << "Entrez le rayon : "; cin >> lf_Rayon;
+                cout << "Entrez l'accélération angulaire : ";
+                f_SecuriserSaisie(lf_acceleration);
+                cout << "Entrez le moment d'inertie : ";
+                f_SecuriserSaisie(lf_MomentsDinertie);
+                cout << "Entrez la tension cabine : ";
+                f_SecuriserSaisie(lf_TensionCabine);
+                cout << "Entrez la tension contrepoids : ";
+                f_SecuriserSaisie(lf_TensionContrepoids);
+                cout << "Entrez le rayon : ";
+                f_SecuriserSaisie(lf_Rayon);
             }
-            else {
-                cout << "Choix invalide, veuillez réessayer.\n";
-                break;
-            }
+
             cout << "Couple moteur : " << CoupleMoteur(li_ChoixCouple, lf_TensionCabine, lf_TensionContrepoids, lf_acceleration, lf_MomentsDinertie, lf_Rayon, lf_PMoteur, lf_Vitesse) << " Nm\n";
             break;
         }
@@ -194,13 +196,12 @@ void Affichage(void) {
             cout << "Entrez la vitesse : "; cin >> lf_Vitesse;
             cout << "Entrez le rayon : "; cin >> lf_Rayon;
 
-            SecuriserSaisie();
             cout << "Puissance moteur : " << PuissanceMoteur(lf_CoupleMot, lf_Vitesse, lf_Rayon) << " W\n";
             break;
         }
 
         case gi_CalculRayon: {
-            float lf_Vitesse = 0 ,lf_VitesseAngulaire = 0,lf_CoupleMot = 0,lt_PuissanceMot = 0;
+            float lf_Vitesse = 0, lf_VitesseAngulaire = 0, lf_CoupleMot = 0, lt_PuissanceMot = 0;
             int li_ChoixCalcul;
 
             cout << "Choisissez la formule :\n"
@@ -222,7 +223,7 @@ void Affichage(void) {
                 cout << "Choix invalide, veuillez réessayer.\n";
                 break;
             }
-            SecuriserSaisie();
+
             cout << "Rayon de la poulie : " << RayonPoulie(li_ChoixCalcul, lf_Vitesse, lf_VitesseAngulaire, lf_CoupleMot, lt_PuissanceMot) << " m\n";
             break;
         }
@@ -231,7 +232,7 @@ void Affichage(void) {
             float lf_VitesseAngulaire;
             cout << "Entrez la vitesse angulaire : "; cin >> lf_VitesseAngulaire;
 
-            SecuriserSaisie();
+
             cout << "Vitesse de rotation : " << VitesseRotation(lf_VitesseAngulaire) << " tr/min\n";
             break;
         }
@@ -241,11 +242,17 @@ void Affichage(void) {
             cout << "Entrez la distance : "; cin >> lf_Distance;
             cout << "Entrez la vitesse : "; cin >> lf_Vitesse;
 
-            SecuriserSaisie();
+
             cout << "Temps de montee/descente : " << TempsMonteeAndDescente(lf_Distance, lf_Vitesse) << " s\n";
             break;
         }
+        case gi_CalculAcceleration: {
+            float lf_MasseCabine = 0, lf_MasseContrepoids = 0, lf_Vitesse = 0, lf_TensionCabine = 0, lf_TensionContrepoids = 0;
+            int li_ChoixCalcul = 0;
 
+            Acceleration(li_ChoixCalcul, lf_MasseContrepoids, lf_MasseCabine, lf_TensionContrepoids, lf_TensionCabine, lf_Vitesse);
+            break;
+        }
         case gi_UtiliserCsv:
             break;
 
@@ -258,11 +265,12 @@ void Affichage(void) {
             break;
 
         case gi_Quitter:
-            cout << "Programme terminé.\n";
+            cout << "Programme termine.\n";
             return;
 
         default:
-            cout << "Choix invalide, veuillez réessayer.\n";
+            cout << "Choix invalide, veuillez reessayer.\n";
         }
+        
     }
 }
