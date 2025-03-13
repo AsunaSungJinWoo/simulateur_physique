@@ -1,129 +1,124 @@
-#include "Affichage.h"
-#include "CalculePhysique.h"
+#pragma once
 
-#include "InterfaceGraphique.h"
+// On définit nos constantes
+#define M_PI 3.14159265358979323846  // Pi
+#define Graviter 9.81  // Constante de gravité
 
-#include <cmath>
-#include <cassert>
-#include <iostream>
+// On définit les différents choix qui pourront être effectués lors des calculs
+#define CHOIX_CALCUL_TENSION_AVEC_SOMME_FORCE 0
+#define CHOIX_CALCUL_TENSION_AVEC_CM 1
+#define CHOIX_TENSION_CABINE 0
+#define CHOIX_TENSION_CONTREPOIDS 1
+#define CHOIX_DES_DEUX_TENSIONS 2
+
+// Structure pour stocker les tensions
+struct Tensions {
+    float cabine;
+    float contrepoids;
+};
 
 #define _CRT_SECURE_NO_WARNINGS
 
-using namespace std;
-
-Tensions CalculerTension(int choixFormule, int choixDonnees, float masseCabine, float masseContrepoids,
-    float alpha, float momentsInertie, float rayon, float pMoteur, float vitesse) {
-
-    float tensionCabine = 0, tensionContrepoids = 0;
-
-    if (choixFormule == CHOIX_CALCUL_TENSION_AVEC_SOMME_FORCE) {
-        tensionCabine = masseCabine * (alpha + Graviter);
-        tensionContrepoids = masseContrepoids * (Graviter - alpha);
-    }
-    else if (choixFormule == CHOIX_CALCUL_TENSION_AVEC_CM) {
-        tensionCabine = masseContrepoids * (Graviter - alpha) - (pMoteur / momentsInertie);
-        tensionContrepoids = (pMoteur + (momentsInertie * masseCabine) * (alpha + Graviter)) / momentsInertie;
-    }
-    else {
-        cout << "La valeur du choix pour la formule est invalide. Veuillez reessayer." << endl;
-        return { 0, 0 };
-    }
-
-    switch (choixDonnees) {
-    case CHOIX_TENSION_CABINE: return { tensionCabine, 0 };
-    case CHOIX_TENSION_CONTREPOIDS: return { 0, tensionContrepoids };
-    case CHOIX_DES_DEUX_TENSIONS: return { tensionCabine, tensionContrepoids };
-    default:
-        cout << "La valeur du choix est invalide. Veuillez reessayer." << endl;
-        return { 0, 0 };
-    }
+/*
+{
+    R : Cette fonction permet de calculer les tensions des câbles, c'est-à-dire T_cabine et T_contrepoids.
+    E : Les paramètres d'entrée sont le choix de la formule (calcul avec somme de forces ou calcul avec centre de masse),
+        le choix de la tension à renvoyer (0 = tension cabine, 1 = tension contrepoids, 2 = les deux tensions),
+        la masse de la cabine et du contrepoids, l'accélération angulaire (alpha), le moment d'inertie, le rayon, la puissance du moteur,
+        et la vitesse.
+    S : La fonction renvoie soit la tension de la cabine, soit celle du contrepoids, soit les deux tensions, sous forme de struct Tensions.
 }
+*/
+Tensions CalculerTension(int choixFormule,
+    int choixDonnees,
+    float masseCabine,
+    float masseContrepoids,
+    float alpha,
+    float momentsInertie,
+    float rayon,
+    float pMoteur,
+    float vitesse);
 
-float CoupleMoteur(int choix, float tensionCabine, float tensionContrepoids, float alpha,
-                   float momentsInertie, float rayon, float pMoteur, float vitesse) {
-    float cm = 0;
-    switch (choix) {
-    case 0:
-        cm = pMoteur / (vitesse / rayon);
-        break;
-    case 1:
-        cm = (((momentsInertie * alpha) / rayon) - rayon * (tensionContrepoids - tensionCabine));
-        break;
-    default:
-        cout << "La valeur du choix est invalide. Veuillez reessayer." << endl;
-        return 0;
-    }
-    if (cm < 0) {
-        return cm * -1;
-    }
-    else {
-        return cm;
-    }
+/*
+{
+    R : Cette fonction permet de calculer le couple moteur.
+    E : Les paramètres d'entrée sont le choix de la formule (0 = couple par puissance, 1 = couple par tensions),
+        les tensions de la cabine et du contrepoids, l'accélération angulaire, le moment d'inertie, le rayon de la poulie,
+        la puissance du moteur et la vitesse.
+    S : La fonction renvoie la valeur du couple moteur en fonction de la formule choisie.
 }
+*/
+float CoupleMoteur(int choix,
+    float tensionCabine,
+    float tensionContrepoids,
+    float alpha,
+    float momentsInertie,
+    float rayon,
+    float puissanceMoteur,
+    float vitesse);
 
-float PuissanceMoteur(float coupleMot, float vitesse, float rayon) {
-    if (rayon == 0) {
-        cerr << "Erreur : division par zéro dans PuissanceMoteur !" << endl;
-        return 0;
-    }
-    return coupleMot * (vitesse / rayon);
+/*
+{
+    R : Cette fonction permet de calculer la puissance du moteur.
+    E : Les paramètres d'entrée sont le couple moteur, la vitesse et le rayon de la poulie.
+    S : La fonction renvoie la valeur de la puissance moteur calculée à partir des paramètres fournis.
 }
+*/
+float PuissanceMoteur(float coupleMot,
+                      float vitesse,
+                      float rayon);
 
-float RayonPoulie(int choix ,float vitesse ,float vitesseAngulaire ,float CoupleMoteur ,float PuissanceMoteur) {
-    if (choix == 0){
-        return vitesse / vitesseAngulaire;
-    }
-    else if (choix == 1) {
-        return (vitesse * CoupleMoteur) / PuissanceMoteur;
-    }
+/*
+{
+    R : Cette fonction permet de calculer le rayon de la poulie.
+    E : Les paramètres d'entrée sont la vitesse linéaire de l'ascenseur et la vitesse angulaire de la poulie.
+    S : La fonction renvoie le rayon de la poulie, calculé en fonction de la vitesse linéaire et angulaire.
 }
+*/
+float RayonPoulie(int choix,
+    float vitesse,
+    float vitesseAngulaire,
+    float CoupleMoteur,
+    float PuissanceMoteur);
 
-float VitesseRotation(float vitesseAngulaire) {
-    return (vitesseAngulaire * 30) / M_PI;
+/*
+{
+    R : Cette fonction permet de calculer la vitesse de rotation.
+    E : Le paramètre d'entrée est la vitesse angulaire de la poulie.
+    S : La fonction renvoie la vitesse de rotation calculée en fonction de la vitesse angulaire.
 }
+*/
+float VitesseRotation(float vitesseAngulaire);
 
-float TempsMonteeAndDescente(float distance, float vitesse) {
-    return distance / vitesse;
+/*
+{
+    R : Cette fonction permet de calculer le temps de montée et de descente de l'ascenseur.
+    E : Les paramètres d'entrée sont la distance parcourue et la vitesse de l'ascenseur.
+    S : La fonction renvoie le temps nécessaire pour monter ou descendre sur la distance donnée avec la vitesse spécifiée.
 }
+*/
+float TempsMonteeAndDescente(float distance,
+    float vitesse);
 
-float Acceleration(int choix, float masseContrepoids, float masseCabine, float tensionContrepoids, float tensionCabine, float vitesse) {
-    if (choix == 0) {
-        return (tensionCabine - masseCabine * Graviter) / masseCabine;
-    }
-    else if (choix == 1) {
-        return (tensionContrepoids - masseContrepoids * Graviter) / masseContrepoids;
-    }
-    else if (choix == 2) {
-        return 0; // A faire voir si on le fait vraiment
-    }
-    else {
-        cout << "La valeur du choix est invalide. Veuillez reessayer.";
-        return 0;
-    }
+/*
+{
+    R : Cette fonction permet de calculer l'accélération de l'ascenseur.
+    E : Les paramètres d'entrée sont le choix de la formule (0 = accélération par la somme des forces, 1 = accélération par les tensions),
+        la masse de la cabine et du contrepoids, les tensions dans les câbles de la cabine et du contrepoids, et la vitesse de l'ascenseur.
+    S : La fonction renvoie la valeur de l'accélération calculée en fonction des paramètres fournis.
 }
+*/
+float Acceleration(int choix,
+    float masseContrepoids,
+    float masseCabine,
+    float tensionContrepoids,
+    float tensionCabine,
+    float vitesse);
 
-void TestFonction() {
-    try {
-        Tensions t1 = CalculerTension(0, 0, 350, 100, 0.3, 0, 0, 0, 0);
-        assert(fabs(t1.cabine - 3538.5) < 0.01 && "Erreur: CalculerTension test 1");
-
-        float couple = CoupleMoteur(0, 0,0,0,0,0.3,3750,1.5);
-        assert(fabs(couple - 750) < 0.1 && "Erreur: CoupleMoteur test 1");
-        couple = CoupleMoteur(1, 3538.5, 951, 0.1, 0.1, 0.3, 0, 0);
-        assert(fabs(couple - 776.2833) < 0.1 && "Erreur: CoupleMoteur test 2");
-
-        assert(fabs(PuissanceMoteur(750, 1.5, 0.3) - 3750) < 0.01 && "Erreur: PuissanceMoteur test 1");
-
-        assert(fabs(RayonPoulie(0,1.5,3,0,0) - 0.5) < 0.01 && "Erreur: RayonPoulie test 1");
-        assert(fabs(RayonPoulie(1, 1.5, 0, 750, 3750) - 0.3) < 0.01 && "Erreur: RayonPoulie test 1");
-
-        assert(fabs(VitesseRotation(10.0) - 95.49) < 0.01 && "Erreur: VitesseRotation test 1");
-        assert(fabs(TempsMonteeAndDescente(20.0, 2.0) - 10.0) < 0.01 && "Erreur: TempsMonteeAndDescente test 1");
-        assert(fabs(Acceleration(0, 100, 350, 951, 3538.5, 2.0) - 0.3) < 0.01 && "Erreur: Acceleration test 1");
-
-        cout << "Tous les tests sont reussis !" << endl;
-    }
-    catch (const exception& e) {
-        cerr << "Erreur lors de l'exécution des tests ! Détails : " << e.what() << endl;
-    }
+/*
+{
+    R : Cette fonction permet de tester la validité des calculs effectués par les différentes fonctions de calcul.
+    S : La fonction renvoie les résultats des tests effectués sur les fonctions pour vérifier leur précision et leur bon fonctionnement.
 }
+*/
+void TestFonction();
