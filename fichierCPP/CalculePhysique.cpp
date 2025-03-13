@@ -7,20 +7,22 @@
 #include <cassert>
 #include <iostream>
 
+#define _CRT_SECURE_NO_WARNINGS
+
 using namespace std;
 
-Tensions CalculerTension( int choixFormule, int choixDonnees, float masseCabine, float masseContrepoids,
-                          float alpha, float momentsInertie, float rayon, float pMoteur, float vitesse) {
+Tensions CalculerTension(int choixFormule, int choixDonnees, float masseCabine, float masseContrepoids,
+    float alpha, float momentsInertie, float rayon, float pMoteur, float vitesse) {
 
     float tensionCabine = 0, tensionContrepoids = 0;
 
     if (choixFormule == CHOIX_CALCUL_TENSION_AVEC_SOMME_FORCE) {
-        tensionCabine = masseCabine * (alpha + G);
-        tensionContrepoids = masseContrepoids * (G - alpha);
+        tensionCabine = masseCabine * (alpha + Graviter);
+        tensionContrepoids = masseContrepoids * (Graviter - alpha);
     }
     else if (choixFormule == CHOIX_CALCUL_TENSION_AVEC_CM) {
-        tensionCabine = masseContrepoids * (G - alpha) - (pMoteur / momentsInertie);
-        tensionContrepoids = (pMoteur + (momentsInertie * masseCabine) * (alpha + G)) / momentsInertie;
+        tensionCabine = masseContrepoids * (Graviter - alpha) - (pMoteur / momentsInertie);
+        tensionContrepoids = (pMoteur + (momentsInertie * masseCabine) * (alpha + Graviter)) / momentsInertie;
     }
     else {
         cout << "La valeur du choix pour la formule est invalide. Veuillez reessayer." << endl;
@@ -28,26 +30,26 @@ Tensions CalculerTension( int choixFormule, int choixDonnees, float masseCabine,
     }
 
     switch (choixDonnees) {
-        case CHOIX_TENSION_CABINE: return { tensionCabine, 0 };
-        case CHOIX_TENSION_CONTREPOIDS: return { 0, tensionContrepoids };
-        case CHOIX_DES_DEUX_TENSIONS: return { tensionCabine, tensionContrepoids };
-        default:
-            cout << "La valeur du choix est invalide. Veuillez reessayer." << endl;
-            return { 0, 0 };
+    case CHOIX_TENSION_CABINE: return { tensionCabine, 0 };
+    case CHOIX_TENSION_CONTREPOIDS: return { 0, tensionContrepoids };
+    case CHOIX_DES_DEUX_TENSIONS: return { tensionCabine, tensionContrepoids };
+    default:
+        cout << "La valeur du choix est invalide. Veuillez reessayer." << endl;
+        return { 0, 0 };
     }
 }
 
-float CoupleMoteur( int choix, float tensionCabine, float tensionContrepoids, float alpha,
-                     float momentsInertie, float rayon, float pMoteur, float vitesse) {
+float CoupleMoteur(int choix, float tensionCabine, float tensionContrepoids, float alpha,
+    float momentsInertie, float rayon, float pMoteur, float vitesse) {
 
     switch (choix) {
-        case 0:
-            return (pMoteur * rayon) / vitesse;
-        case 1:
-            return ((momentsInertie * alpha) * (tensionContrepoids - tensionCabine));
-        default:
-            cout << "La valeur du choix est invalide. Veuillez reessayer." << endl;
-            return 0;
+    case 0:
+        return (pMoteur * rayon) / vitesse;
+    case 1:
+        return ((momentsInertie * alpha) * (tensionContrepoids - tensionCabine));
+    default:
+        cout << "La valeur du choix est invalide. Veuillez reessayer." << endl;
+        return 0;
     }
 }
 
@@ -73,10 +75,10 @@ float TempsMonteeAndDescente(float distance, float vitesse) {
 
 float Acceleration(int choix, float masseContrepoids, float masseCabine, float tensionContrepoids, float tensionCabine, float vitesse) {
     if (choix == 0) {
-        return (tensionCabine - masseCabine * G) / masseCabine;
+        return (tensionCabine - masseCabine * Graviter) / masseCabine;
     }
     else if (choix == 1) {
-        return (tensionContrepoids - masseContrepoids * G) / masseContrepoids;
+        return (tensionContrepoids - masseContrepoids * Graviter) / masseContrepoids;
     }
     else if (choix == 2) {
         return 0; // A faire voir si on le fait vraiment
