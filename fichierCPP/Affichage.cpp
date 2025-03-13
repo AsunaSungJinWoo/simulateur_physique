@@ -108,24 +108,16 @@ void Affichage(void) {
                 i_SecuriserSaisie(li_ChoixCalcul);
 
                 if (li_ChoixCalcul == CHOIX_CALCUL_TENSION_AVEC_SOMME_FORCE) {
-                    cout << "Entrez la masse de la cabine (kg) : ";
-                    f_SecuriserSaisie(lf_MasseCabine);
-                    cout << "Entrez l'accélération angulaire (rad/s²) : ";
-                    f_SecuriserSaisie(lf_Alpha);
+                    cout << "Entrez la masse de la cabine (kg) : ";       f_SecuriserSaisie(lf_MasseCabine);
+                    cout << "Entrez l'accélération angulaire (rad/s) : "; f_SecuriserSaisie(lf_Alpha);
                 }
                 else if (li_ChoixCalcul == CHOIX_CALCUL_TENSION_AVEC_CM) {
-                    cout << "Entrez le moment d'inertie (kg·m²) : ";
-                    f_SecuriserSaisie(lf_MomentsDinertie);
-                    cout << "Entrez le rayon (m) : ";
-                    f_SecuriserSaisie(lf_Rayon);
-                    cout << "Entrez le couple moteur (N·m) : ";
-                    f_SecuriserSaisie(lf_CoupleMoteur);
-                    cout << "Entrez la vitesse (m/s) : ";
-                    f_SecuriserSaisie(lf_Vitesse);
-                    cout << "Entrez la masse du contrepoids (kg) : ";
-                    f_SecuriserSaisie(lf_MasseContrepoids);
-                    cout << "Entrez l'accélération angulaire (rad/s²) : ";
-                    f_SecuriserSaisie(lf_Alpha);
+                    cout << "Entrez le moment d'inertie (kg·m) : ";       f_SecuriserSaisie(lf_MomentsDinertie);
+                    cout << "Entrez le rayon (m) : ";                     f_SecuriserSaisie(lf_Rayon);
+                    cout << "Entrez le couple moteur (N·m) : ";           f_SecuriserSaisie(lf_CoupleMoteur);
+                    cout << "Entrez la vitesse (m/s) : ";                 f_SecuriserSaisie(lf_Vitesse);
+                    cout << "Entrez la masse du contrepoids (kg) : ";     f_SecuriserSaisie(lf_MasseContrepoids);
+                    cout << "Entrez l'accélération angulaire (rad/s) : "; f_SecuriserSaisie(lf_Alpha);
                 }
 
                 result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
@@ -133,22 +125,17 @@ void Affichage(void) {
                 break;
             }
             case CHOIX_TENSION_CONTREPOIDS: {
-                cout << "Entrez la masse du contrepoids (kg) : ";
-                f_SecuriserSaisie(lf_MasseContrepoids);
-                cout << "Entrez l'accélération angulaire (rad/s²) : ";
-                f_SecuriserSaisie(lf_Alpha);
+                cout << "Entrez la masse du contrepoids (kg) : ";     f_SecuriserSaisie(lf_MasseContrepoids);
+                cout << "Entrez l'accélération angulaire (rad/s) : "; f_SecuriserSaisie(lf_Alpha);
 
                 result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
                 cout << "Tension contrepoids : " << result.contrepoids << " N\n";
                 break;
             }
             case CHOIX_DES_DEUX_TENSIONS: {
-                cout << "Entrez la masse de la cabine (kg) : ";
-                f_SecuriserSaisie(lf_MasseCabine);
-                cout << "Entrez la masse du contrepoids (kg) : ";
-                f_SecuriserSaisie(lf_MasseContrepoids);
-                cout << "Entrez l'accélération angulaire (rad/s²) : ";
-                f_SecuriserSaisie(lf_Alpha);
+                cout << "Entrez la masse de la cabine (kg) : ";        f_SecuriserSaisie(lf_MasseCabine);
+                cout << "Entrez la masse du contrepoids (kg) : ";      f_SecuriserSaisie(lf_MasseContrepoids);
+                cout << "Entrez l'accélération angulaire (rad/s) : "; f_SecuriserSaisie(lf_Alpha);
 
                 result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
                 cout << "Tension cabine : " << result.cabine << " N\n";
@@ -166,24 +153,16 @@ void Affichage(void) {
             i_SecuriserSaisie(li_ChoixCouple);
 
             if (li_ChoixCouple == 0) {
-                cout << "Entrez le rayon : ";
-                f_SecuriserSaisie(lf_Rayon);
-                cout << "Entrez la puissance moteur : ";
-                f_SecuriserSaisie(lf_PMoteur);
-                cout << "Entrez la vitesse : ";
-                f_SecuriserSaisie(lf_Vitesse);
+                cout << "Entrez le rayon : ";            f_SecuriserSaisie(lf_Rayon);
+                cout << "Entrez la puissance moteur : "; f_SecuriserSaisie(lf_PMoteur);
+                cout << "Entrez la vitesse : ";          f_SecuriserSaisie(lf_Vitesse);
             }
             else if (li_ChoixCouple == 1) {
-                cout << "Entrez l'accélération angulaire : ";
-                f_SecuriserSaisie(lf_acceleration);
-                cout << "Entrez le moment d'inertie : ";
-                f_SecuriserSaisie(lf_MomentsDinertie);
-                cout << "Entrez la tension cabine : ";
-                f_SecuriserSaisie(lf_TensionCabine);
-                cout << "Entrez la tension contrepoids : ";
-                f_SecuriserSaisie(lf_TensionContrepoids);
-                cout << "Entrez le rayon : ";
-                f_SecuriserSaisie(lf_Rayon);
+                cout << "Entrez l'accélération angulaire : ";  f_SecuriserSaisie(lf_acceleration);
+                cout << "Entrez le moment d'inertie : ";       f_SecuriserSaisie(lf_MomentsDinertie);
+                cout << "Entrez la tension cabine : ";         f_SecuriserSaisie(lf_TensionCabine);
+                cout << "Entrez la tension contrepoids : ";    f_SecuriserSaisie(lf_TensionContrepoids);
+                cout << "Entrez le rayon : ";                  f_SecuriserSaisie(lf_Rayon);
             }
 
             cout << "Couple moteur : " << CoupleMoteur(li_ChoixCouple, lf_TensionCabine, lf_TensionContrepoids, lf_acceleration, lf_MomentsDinertie, lf_Rayon, lf_PMoteur, lf_Vitesse) << " Nm\n";
@@ -192,9 +171,9 @@ void Affichage(void) {
 
         case gi_CalculPuissance: {
             float lf_CoupleMot, lf_Vitesse, lf_Rayon;
-            cout << "Entrez le couple moteur : "; cin >> lf_CoupleMot;
-            cout << "Entrez la vitesse : "; cin >> lf_Vitesse;
-            cout << "Entrez le rayon : "; cin >> lf_Rayon;
+            cout << "Entrez le couple moteur : ";  f_SecuriserSaisie(lf_CoupleMot);
+            cout << "Entrez la vitesse : ";        f_SecuriserSaisie(lf_Vitesse);
+            cout << "Entrez le rayon : ";          f_SecuriserSaisie(lf_Rayon);
 
             cout << "Puissance moteur : " << PuissanceMoteur(lf_CoupleMot, lf_Vitesse, lf_Rayon) << " W\n";
             break;
@@ -208,29 +187,29 @@ void Affichage(void) {
                 << "0 = Utiliser vitesse lineaire et vitesse angulaire\n"
                 << "1 = Utiliser vitesse ,cm ,pm\n"
                 << "Votre choix : ";
-            cin >> li_ChoixCalcul;
+            i_SecuriserSaisie(li_ChoixCalcul);
 
             if (li_ChoixCalcul == 0) {
-                cout << "Entrez la vitesse : "; cin >> lf_Vitesse;
-                cout << "Entrez la vitesse angulaire : "; cin >> lf_VitesseAngulaire;
+                cout << "Entrez la vitesse : ";          f_SecuriserSaisie(lf_Vitesse);
+                cout << "Entrez la vitesse angulaire : ";f_SecuriserSaisie(lf_VitesseAngulaire);
             }
             else if (li_ChoixCalcul == 1) {
-                cout << "Entrez la vitesse : "; cin >> lf_Vitesse;
-                cout << "Entrez le couple moteur : "; cin >> lf_CoupleMot;
-                cout << "Entrez la puissance du moteur: "; cin >> lt_PuissanceMot;
+                cout << "Entrez la vitesse : ";            f_SecuriserSaisie(lf_Vitesse);
+                cout << "Entrez le couple moteur : ";      f_SecuriserSaisie(lf_CoupleMot);
+                cout << "Entrez la puissance du moteur: "; f_SecuriserSaisie(lf_PuissanceMot);
             }
             else {
                 cout << "Choix invalide, veuillez réessayer.\n";
                 break;
             }
 
-            cout << "Rayon de la poulie : " << RayonPoulie(li_ChoixCalcul, lf_Vitesse, lf_VitesseAngulaire, lf_CoupleMot, lt_PuissanceMot) << " m\n";
+            cout << "Rayon de la poulie : " << RayonPoulie(li_ChoixCalcul, lf_Vitesse, lf_VitesseAngulaire, lf_CoupleMot, lf_PuissanceMot) << " m\n";
             break;
         }
 
         case gi_CalculVitesseRotation: {
             float lf_VitesseAngulaire;
-            cout << "Entrez la vitesse angulaire : "; cin >> lf_VitesseAngulaire;
+            cout << "Entrez la vitesse angulaire : "; f_SecuriserSaisie(lf_VitesseAngulaire);
 
 
             cout << "Vitesse de rotation : " << VitesseRotation(lf_VitesseAngulaire) << " tr/min\n";
@@ -239,8 +218,8 @@ void Affichage(void) {
 
         case gi_CalculTempsMontee: {
             float lf_Distance, lf_Vitesse;
-            cout << "Entrez la distance : "; cin >> lf_Distance;
-            cout << "Entrez la vitesse : "; cin >> lf_Vitesse;
+            cout << "Entrez la distance : "; f_SecuriserSaisie(lf_Distance);
+            cout << "Entrez la vitesse : ";  f_SecuriserSaisie(lf_Vitesse);
 
 
             cout << "Temps de montee/descente : " << TempsMonteeAndDescente(lf_Distance, lf_Vitesse) << " s\n";
