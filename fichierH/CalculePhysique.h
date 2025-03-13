@@ -2,7 +2,7 @@
 
 // On définit nos constantes
 #define M_PI 3.14159265358979323846  // Pi
-#define G 9.81  // Constante de gravité
+#define Graviter 9.81  // Constante de gravité
 
 // On définit les différents choix qui pourront être effectués lors des calculs
 #define CHOIX_CALCUL_TENSION_AVEC_SOMME_FORCE 0
@@ -16,6 +16,8 @@ struct Tensions {
     float cabine;
     float contrepoids;
 };
+
+#define _CRT_SECURE_NO_WARNINGS
 
 /*
 {
