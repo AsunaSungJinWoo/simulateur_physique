@@ -1,5 +1,19 @@
 #pragma once
 
+
+/*
+
+
+
+*/
+void i_SecuriserSaisie(int& valeur);
+
+/*
+
+
+*/
+void f_SecuriserSaisie(float& valeur);
+
 /*
     Fonction : Affichage
 
@@ -15,3 +29,4 @@
         - Aucune valeur de retour (void).
 */
 void Affichage(void);
+
