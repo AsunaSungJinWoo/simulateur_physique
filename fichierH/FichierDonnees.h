@@ -1,5 +1,5 @@
 #pragma once
 
-void AffichageDonnee(void);
+void AffichageAvecDonnees(void);
 
 
