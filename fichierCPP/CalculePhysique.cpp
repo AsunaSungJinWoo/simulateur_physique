@@ -1,6 +1,6 @@
 #include "Affichage.h"
 #include "CalculePhysique.h"
-#include "FichierDonnees.h"
+#include "pareil"
 #include "InterfaceGraphique.h"
 
 #include <cmath>
@@ -40,16 +40,24 @@ Tensions CalculerTension(int choixFormule, int choixDonnees, float masseCabine, 
 }
 
 float CoupleMoteur(int choix, float tensionCabine, float tensionContrepoids, float alpha,
-    float momentsInertie, float rayon, float pMoteur, float vitesse) {
-
+                   float momentsInertie, float rayon, float pMoteur, float vitesse) {
+    float cm = 0;
     switch (choix) {
     case 0:
-        return (pMoteur * rayon) / vitesse;
+        cm = pMoteur / (vitesse / rayon);
+        break;
     case 1:
-        return ((momentsInertie * alpha) * (tensionContrepoids - tensionCabine));
+        cm = (((momentsInertie * alpha) / rayon) - rayon * (tensionContrepoids - tensionCabine));
+        break;
     default:
         cout << "La valeur du choix est invalide. Veuillez reessayer." << endl;
         return 0;
+    }
+    if (cm < 0) {
+        return cm * -1;
+    }
+    else {
+        return cm;
     }
 }
 
@@ -61,8 +69,13 @@ float PuissanceMoteur(float coupleMot, float vitesse, float rayon) {
     return coupleMot * (vitesse / rayon);
 }
 
-float RayonPoulie(float vitesse, float vitesseAngulaire) {
-    return vitesse / vitesseAngulaire;
+float RayonPoulie(int choix ,float vitesse ,float vitesseAngulaire ,float CoupleMoteur ,float PuissanceMoteur) {
+    if (choix == 0){
+        return vitesse / vitesseAngulaire;
+    }
+    else if (choix == 1) {
+        return (vitesse * CoupleMoteur) / PuissanceMoteur;
+    }
 }
 
 float VitesseRotation(float vitesseAngulaire) {
@@ -94,16 +107,21 @@ void TestFonction() {
         Tensions t1 = CalculerTension(0, 0, 350, 100, 0.3, 0, 0, 0, 0);
         assert(fabs(t1.cabine - 3538.5) < 0.01 && "Erreur: CalculerTension test 1");
 
-        float couple = CoupleMoteur(1, 3538.5, 951, 0.1, 0.1, 0.3, 2000, 2.0);
-        assert(fabs(couple - 749.4) < 0.01 && "Erreur: CoupleMoteur test 1");
+        float couple = CoupleMoteur(0, 0,0,0,0,0.3,3750,1.5);
+        assert(fabs(couple - 750) < 0.1 && "Erreur: CoupleMoteur test 1");
+        couple = CoupleMoteur(1, 3538.5, 951, 0.1, 0.1, 0.3, 0, 0);
+        assert(fabs(couple - 776.2833) < 0.1 && "Erreur: CoupleMoteur test 2");
 
-        assert(fabs(PuissanceMoteur(749.4, 2.0, 0.3) - 4996) < 0.01 && "Erreur: PuissanceMoteur test 1");
-        assert(fabs(RayonPoulie(2.0, 10.0) - 0.2) < 0.01 && "Erreur: RayonPoulie test 1");
+        assert(fabs(PuissanceMoteur(750, 1.5, 0.3) - 3750) < 0.01 && "Erreur: PuissanceMoteur test 1");
+
+        assert(fabs(RayonPoulie(0,1.5,3,0,0) - 0.5) < 0.01 && "Erreur: RayonPoulie test 1");
+        assert(fabs(RayonPoulie(1, 1.5, 0, 750, 3750) - 0.3) < 0.01 && "Erreur: RayonPoulie test 1");
+
         assert(fabs(VitesseRotation(10.0) - 95.49) < 0.01 && "Erreur: VitesseRotation test 1");
         assert(fabs(TempsMonteeAndDescente(20.0, 2.0) - 10.0) < 0.01 && "Erreur: TempsMonteeAndDescente test 1");
         assert(fabs(Acceleration(0, 100, 350, 951, 3538.5, 2.0) - 0.3) < 0.01 && "Erreur: Acceleration test 1");
 
-        cout << "Tous les tests sont réussis !" << endl;
+        cout << "Tous les tests sont reussis !" << endl;
     }
     catch (const exception& e) {
         cerr << "Erreur lors de l'exécution des tests ! Détails : " << e.what() << endl;
