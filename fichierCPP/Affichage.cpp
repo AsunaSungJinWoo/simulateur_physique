@@ -1,6 +1,6 @@
 #include "Affichage.h"
 #include "CalculePhysique.h"
-#include "FichierDonnees.h"
+#include "a mettre je lavait enlever car tout et mort sur csv"
 #include "InterfaceGraphique.h"
 
 #include <SFML/Graphics.hpp>
@@ -161,20 +161,30 @@ void Affichage(void) {
             break;
         }
         case gi_CalculCouple: {
-            float lf_TensionCabine, lf_TensionContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_PMoteur, lf_Vitesse;
+            float lf_TensionCabine = 0, lf_TensionContrepoids = 0, lf_acceleration = 0, lf_MomentsDinertie = 0, lf_Rayon = 0, lf_PMoteur = 0, lf_Vitesse = 0;
             int li_ChoixCouple;
 
-            cout << "Entrez la tension cabine : "; cin >> lf_TensionCabine;
-            cout << "Entrez la tension contrepoids : "; cin >> lf_TensionContrepoids;
-            cout << "Entrez l'acceleration angulaire: "; cin >> lf_Alpha;
-            cout << "Entrez le moment d'inertie : "; cin >> lf_MomentsDinertie;
-            cout << "Entrez le rayon : "; cin >> lf_Rayon;
-            cout << "Entrez la puissance moteur : "; cin >> lf_PMoteur;
-            cout << "Entrez la vitesse : "; cin >> lf_Vitesse;
-            cout << "Choisissez (0 = couple par puissance, 1 = couple par tensions) : "; cin >> li_ChoixCouple;
+            cout << "Choisissez (0 = couple par puissance (rayon, Pm, vitesse), 1 = couple par tensions(tension cabine/contrepoids ,moments dinertie ,acceleration)) : "; cin >> li_ChoixCouple;
 
-            SecuriserSaisie();
-            cout << "Couple moteur : " << CoupleMoteur(li_ChoixCouple, lf_TensionCabine, lf_TensionContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_PMoteur, lf_Vitesse) << " Nm\n";
+            if (li_ChoixCouple == 0) {
+                cout << "Entrez le rayon : "; cin >> lf_Rayon;
+                cout << "Entrez la puissance moteur : "; cin >> lf_PMoteur;
+                cout << "Entrez la vitesse : "; cin >> lf_Vitesse;
+                SecuriserSaisie();
+                cout << "Couple moteur : " << CoupleMoteur(li_ChoixCouple, lf_TensionCabine, lf_TensionContrepoids, lf_acceleration, lf_MomentsDinertie, lf_Rayon, lf_PMoteur, lf_Vitesse) << " Nm\n";
+            }
+            else if (li_ChoixCouple == 1) {
+                cout << "Entrez l'acceleration angulaire: "; cin >> lf_acceleration;
+                cout << "Entrez le moment d'inertie : "; cin >> lf_MomentsDinertie;
+                cout << "Entrez la tension cabine : "; cin >> lf_TensionCabine;
+                cout << "Entrez la tension contrepoids : "; cin >> lf_TensionContrepoids;
+                cout << "Entrez le rayon : "; cin >> lf_Rayon;
+            }
+            else {
+                cout << "Choix invalide, veuillez réessayer.\n";
+                break;
+            }
+            cout << "Couple moteur : " << CoupleMoteur(li_ChoixCouple, lf_TensionCabine, lf_TensionContrepoids, lf_acceleration, lf_MomentsDinertie, lf_Rayon, lf_PMoteur, lf_Vitesse) << " Nm\n";
             break;
         }
 
@@ -190,12 +200,30 @@ void Affichage(void) {
         }
 
         case gi_CalculRayon: {
-            float lf_Vitesse, lf_VitesseAngulaire;
-            cout << "Entrez la vitesse : "; cin >> lf_Vitesse;
-            cout << "Entrez la vitesse angulaire : "; cin >> lf_VitesseAngulaire;
+            float lf_Vitesse = 0 ,lf_VitesseAngulaire = 0,lf_CoupleMot = 0,lt_PuissanceMot = 0;
+            int li_ChoixCalcul;
 
+            cout << "Choisissez la formule :\n"
+                << "0 = Utiliser vitesse lineaire et vitesse angulaire\n"
+                << "1 = Utiliser vitesse ,cm ,pm\n"
+                << "Votre choix : ";
+            cin >> li_ChoixCalcul;
+
+            if (li_ChoixCalcul == 0) {
+                cout << "Entrez la vitesse : "; cin >> lf_Vitesse;
+                cout << "Entrez la vitesse angulaire : "; cin >> lf_VitesseAngulaire;
+            }
+            else if (li_ChoixCalcul == 1) {
+                cout << "Entrez la vitesse : "; cin >> lf_Vitesse;
+                cout << "Entrez le couple moteur : "; cin >> lf_CoupleMot;
+                cout << "Entrez la puissance du moteur: "; cin >> lt_PuissanceMot;
+            }
+            else {
+                cout << "Choix invalide, veuillez réessayer.\n";
+                break;
+            }
             SecuriserSaisie();
-            cout << "Rayon de la poulie : " << RayonPoulie(lf_Vitesse, lf_VitesseAngulaire) << " m\n";
+            cout << "Rayon de la poulie : " << RayonPoulie(li_ChoixCalcul, lf_Vitesse, lf_VitesseAngulaire, lf_CoupleMot, lt_PuissanceMot) << " m\n";
             break;
         }
 
@@ -219,7 +247,6 @@ void Affichage(void) {
         }
 
         case gi_UtiliserCsv:
-            AffichageDonnee();
             break;
 
         case gi_VoirSimulation:
