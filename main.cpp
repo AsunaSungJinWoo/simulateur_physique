@@ -1,8 +1,32 @@
-#include "fonction.h"
+#include "Affichage.h"
+#include "CalculePhysique.h"
+#include "FichierDonnees.h"
+#include "InterfaceGraphique.h"
+
 #include <iostream>
-#include <cassert>
 
 using namespace std;
+
+/* ****************************************************************************** */
+/*                                                                                */
+/*                                                        ____            ____    */
+/*   main.cpp                                            |	  |   ____   |    |   */
+/*                                                       |	  |  |  __|  |    |   */
+/*                                                       |	  |   \ \    |    |   */
+/*   By: Theo.G And Bastien.d                            |	  |   / /_   |    |   */
+/*                                                       |	  |  |____|  |    |   */
+/*   Created: 2025/03/12   by Theo                       |	  | _______  |    |   */
+/*   Updated: 2025/03/12   by Theo                       | 	  ||____   \ |    |   */
+/*                                                       |	  |     \  | |    |   */
+/*                                                       |	  |    _/  / |    |   */
+/*                                                       |	  |   |___/  |    |   */
+/*                                                       |	  |__________|    |   */
+/*                                                        \                  /    */
+/*                                                         \                /     */
+/*                                                          \______________/      */
+/*                                                                                */
+/* ****************************************************************************** */
+
 
 /* IDEE GENERALE DU PROGRAMME */
 /*
@@ -10,11 +34,12 @@ using namespace std;
  * ce programme est constitué de formules de physique ou chaque des valeurs sera calculée dans des fonction.
  */
 
+ //gi = global integer
+ //li = local integer
 
 int main()
 {
-    //Utilisation de la fonction "Affichage" qui va nous permettre de démarrer le programme entier
-    Affichage();
+    Affichage();//lancement programme affichage
 
     return 0;
 }
