@@ -1,6 +1,6 @@
 #include "Affichage.h"
 #include "CalculePhysique.h"
-#include "pareil"
+
 #include "InterfaceGraphique.h"
 
 #include <cmath>
@@ -118,7 +118,9 @@ void TestFonction() {
         assert(fabs(RayonPoulie(1, 1.5, 0, 750, 3750) - 0.3) < 0.01 && "Erreur: RayonPoulie test 1");
 
         assert(fabs(VitesseRotation(10.0) - 95.49) < 0.01 && "Erreur: VitesseRotation test 1");
+
         assert(fabs(TempsMonteeAndDescente(20.0, 2.0) - 10.0) < 0.01 && "Erreur: TempsMonteeAndDescente test 1");
+
         assert(fabs(Acceleration(0, 100, 350, 951, 3538.5, 2.0) - 0.3) < 0.01 && "Erreur: Acceleration test 1");
 
         cout << "Tous les tests sont reussis !" << endl;
