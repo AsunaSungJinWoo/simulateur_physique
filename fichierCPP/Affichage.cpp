@@ -6,6 +6,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#define _CRT_SECURE_NO_WARNINGS
+
 using namespace std;
 
 // Énumération pour les choix du menu
@@ -64,7 +66,7 @@ void Affichage(void) {
             float lf_MasseCabine = 0, lf_MasseContrepoids = 0, lf_Alpha = 0;
             float lf_MomentsDinertie = 0, lf_Rayon = 0, lf_CoupleMoteur = 0, lf_Vitesse = 0;
             int li_ChoixCalcul = 0, li_ChoixTension = 0, li_ChoixResult = 0;
-            Tensions result;
+            Tensions result{};
 
             // Demander ce que l'utilisateur veut calculer
             cout << "Que voulez-vous calculer ?\n"
@@ -94,8 +96,6 @@ void Affichage(void) {
                     cout << "Entrez la masse de la cabine (kg) : "; cin >> lf_MasseCabine;
                     cout << "Entrez l'accélération angulaire (rad/s) : "; cin >> lf_Alpha;
                     SecuriserSaisie();
-
-                    result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
                 }
                 else if (li_ChoixCalcul == CHOIX_CALCUL_TENSION_AVEC_CM) {
                     cout << "Entrez le moment d'inertie (kg·m) : "; cin >> lf_MomentsDinertie;
@@ -105,14 +105,13 @@ void Affichage(void) {
                     cout << "Entrez la masse du contrepoids (kg) : "; cin >> lf_MasseContrepoids;
                     cout << "Entrez l'accélération angulaire (rad/s) : "; cin >> lf_Alpha;
                     SecuriserSaisie();
-
-                    result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
-
                 }
                 else {
 
 
                 }
+                result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
+                cout << "Tension cabine : " << result.cabine << " N\n";
                 break;
             }
             case CHOIX_TENSION_CONTREPOIDS: {
@@ -127,8 +126,6 @@ void Affichage(void) {
                     cout << "Entrez la masse du contrepoids (kg) : "; cin >> lf_MasseContrepoids;
                     cout << "Entrez l'accélération angulaire (rad/s) : "; cin >> lf_Alpha;
                     SecuriserSaisie();
-
-                    result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
                 }
                 else if (li_ChoixCalcul == CHOIX_CALCUL_TENSION_AVEC_CM) {
                     cout << "Entrez le moment d'inertie (kg·m) : "; cin >> lf_MomentsDinertie;
@@ -138,14 +135,13 @@ void Affichage(void) {
                     cout << "Entrez la masse de la cabine (kg) : "; cin >> lf_MasseCabine;
                     cout << "Entrez l'accélération angulaire (rad/s) : "; cin >> lf_Alpha;
                     SecuriserSaisie();
-
-                    result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
-
                 }
                 else {
 
 
                 }
+                result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
+                cout << "Tension cabine : " << result.cabine << " N\n";
                 break;
             }
             case CHOIX_DES_DEUX_TENSIONS: {
@@ -156,11 +152,14 @@ void Affichage(void) {
                 SecuriserSaisie();
 
                 result = CalculerTension(li_ChoixCalcul, li_ChoixResult, lf_MasseCabine, lf_MasseContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_CoupleMoteur, lf_Vitesse);
+                cout << "Tension cabine : " << result.cabine << " N\n";
+                cout << "Tension contrepoids : " << result.contrepoids << " N\n";
                 break;
             }
-                                        break;
-            }
 
+            }
+            break;
+        }
         case gi_CalculCouple: {
             float lf_TensionCabine, lf_TensionContrepoids, lf_Alpha, lf_MomentsDinertie, lf_Rayon, lf_PMoteur, lf_Vitesse;
             int li_ChoixCouple;
@@ -238,9 +237,5 @@ void Affichage(void) {
         default:
             cout << "Choix invalide, veuillez réessayer.\n";
         }
-
-        }
     }
 }
-
-
