@@ -2,7 +2,6 @@
 #include "CalculePhysique.h"
 #include "FichierDonnees.h"
 #include "InterfaceGraphique.h"
-
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <fstream>
@@ -12,193 +11,211 @@
 #include <sstream>
 #include <string>
 #include <vector>
-
 #include <iostream>
 
 
 
 using namespace std;
 
-void AffichageDonnee(void) {
+void AffichageAvecDonnees(void) {
     // Initialisation des variables
-    float m_cabine = 0.0, m_contrepoids = 0.0, t_cabine = 0.0, t_contrepoids = 0.0, r_poulie = 0.0, vitesse_max = 0.0, duree_acceleration = 0.0, couple_mot = 0.0, puissance_mot = 0.0, a_angulaire = 0.0, mom_inertie = 0.0, distance = 0.0;
-    int choix_donne = 0;
-    string ligne;
-    ifstream le_fichier; // Flux de fichier d'entrée
+    float lfMasseCabine = 0.0, lfMasseContrepoids = 0.0, lfTensionCabine = 0.0, lfTensionContrepoids = 0.0, lfRayonPoulie = 0.0, lfVitesseMax = 0.0, lfDureeAcceleration = 0.0, lfCoupleMoteur = 0.0, lfPuissanceMoteur = 0.0, lfAccelerationAngulaire = 0.0, lfMomentInertie = 0.0, lfDistance = 0.0;
+    int liChoixDonne = 0;
+    string lsLigne;
+    ifstream lsFichier; // Flux de fichier d'entrée
 
     // Algorithme
-    le_fichier.open("../dependances_exterieurs/Fichier_Donnee.csv", ios::in); // Ouverture du fichier en lecture
-    if (le_fichier.is_open()) {
+    lsFichier.open("../dependances_exterieurs/Fichier_Donnee.csv", ios::in); // Ouverture du fichier en lecture
+    if (lsFichier.is_open()) {
         // Lire et ignorer la première ligne (en-tête)
-        getline(le_fichier, ligne);
+        getline(lsFichier, lsLigne);
 
         // Lire la deuxième ligne
-        getline(le_fichier, ligne);
+        getline(lsFichier, lsLigne);
 
-        le_fichier.close();
+        lsFichier.close();
 
         // Convertir la ligne en tableau de caractères
-        std::vector<char> str(ligne.begin(), ligne.end());
-        str.push_back('\0'); // Ajouter un caractère nul à la fin
+        std::vector<char> lvStr(lsLigne.begin(), lsLigne.end());
+        lvStr.push_back('\0'); // Ajouter un caractère nul à la fin
 
         // Décomposer la ligne en tokens
-        char* pch = strtok(str.data(), " ;");
+        char* pch = strtok(lvStr.data(), " ,");
         if (pch != nullptr) {
-            m_cabine = atof(pch);
-            pch = strtok(nullptr, " ;");
+            lfMasseCabine = atof(pch);
+            pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            m_contrepoids = atof(pch);
-            pch = strtok(nullptr, " ;");
+            lfMasseContrepoids = atof(pch);
+            pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            r_poulie = atof(pch);
-            pch = strtok(nullptr, " ;");
+            lfRayonPoulie = atof(pch);
+            pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            vitesse_max = atof(pch);
-            pch = strtok(nullptr, " ;");
+            lfVitesseMax = atof(pch);
+            pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            duree_acceleration = atof(pch);
-            pch = strtok(nullptr, " ;");
+            lfDureeAcceleration = atof(pch);
+            pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            couple_mot = atof(pch);
-            pch = strtok(nullptr, " ;");
+            lfCoupleMoteur = atof(pch);
+            pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            puissance_mot = atof(pch);
-            pch = strtok(nullptr, " ;");
+            lfPuissanceMoteur = atof(pch);
+            pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            t_cabine = atof(pch);
-            pch = strtok(nullptr, " ;");
+            lfTensionCabine = atof(pch);
+            pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            t_contrepoids = atof(pch);
-            pch = strtok(nullptr, " ;");
+            lfTensionContrepoids = atof(pch);
+            pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            a_angulaire = atof(pch);
-            pch = strtok(nullptr, " ;");
+            lfAccelerationAngulaire = atof(pch);
+            pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            mom_inertie = atof(pch);
-            pch = strtok(nullptr, " ;");
+            lfMomentInertie = atof(pch);
+            pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            distance = atof(pch);
+            lfDistance = atof(pch);
         }
 
         // Afficher les valeurs des variables
-        cout << "m_cabine: " << m_cabine << endl;
-        cout << "m_contrepoids: " << m_contrepoids << endl;
-        cout << "r_poulie: " << r_poulie << endl;
-        cout << "vitesse_max: " << vitesse_max << endl;
-        cout << "duree_acceleration: " << duree_acceleration << endl;
-        cout << "couple_moteur: " << couple_mot << endl;
-        cout << "t_cabine: " << t_cabine << endl;
-        cout << "t_contrepoids: " << t_contrepoids << endl;
-        cout << "v_angulaire: " << a_angulaire << endl;
-        cout << "mom_inertie: " << mom_inertie << endl;
-        cout << "distance: " << distance << endl;
-
+        cout << "Masse de la cabine: " << lfMasseCabine << endl;
+        cout << "Masse du contrepoids: " << lfMasseContrepoids << endl;
+        cout << "Rayon de la poulie: " << lfRayonPoulie << endl;
+        cout << "Vitesse maximum: " << lfVitesseMax << endl;
+        cout << "Duree de l'acceleration: " << lfDureeAcceleration << endl;
+        cout << "Couple moteur: " << lfCoupleMoteur << endl;
+        cout << "Tension de la cabine: " << lfTensionCabine << endl;
+        cout << "Tension du contrepoids: " << lfTensionContrepoids << endl;
+        cout << "Acceleration angulaire: " << lfAccelerationAngulaire << endl;
+        cout << "Moment d'inertie: " << lfMomentInertie << endl;
+        cout << "Distance: " << lfDistance << endl;
 
         while (true) { // Boucle pour répéter le menu après chaque calcul/choix
-            cout << "\n=== MENU PRINCIPAL (.csv active) ===\n";
-            cout << "1. Calculer la tension\n";
-            cout << "2. Calculer le couple moteur\n";
-            cout << "3. Calculer la puissance moteur\n";
-            cout << "4. Calculer le rayon de la poulie\n";
-            cout << "5. Calculer la vitesse de rotation\n";
-            cout << "6. Calculer le temps de montee/descente\n";
-            cout << "7. Calculer l'acceleration\n";
-            cout << "8. Executer les tests\n";
-            cout << "9. Quitter\n";
-            cout << "10. Arreter d'utiliser le fichier .csv\n";
-            cout << "Entrez votre choix : ";
-            cin >> choix_donne;
+            cout << "\n==== MENU PRINCIPAL (Fichier .csv actif) ====\n"
+                << " 1. Calculer la tension\n"
+                << " 2. Calculer le couple moteur\n"
+                << " 3. Calculer la puissance moteur\n"
+                << " 4. Calculer le rayon de la poulie\n"
+                << " 5. Calculer la vitesse de rotation\n"
+                << " 6. Calculer le temps de montee/descente\n"
+                << " 7. Calculer l'acceleration\n"
+                << " 8. Voir la simulation\n"
+                << " 9. Executer les tests\n"
+                << "10. Quitter le .csv\n"
+                << "Entrez votre choix : ";
+            cin >> liChoixDonne;
 
-            if (choix_donne == 10) {
-                cout << "Arrêt du fichier .csv\n";
-                break;
-            }
-
-            if (choix_donne == 9) {
-                cout << "Programme termine.\n";
-                break;
-            }
-
-            switch (choix_donne) {
+            switch (liChoixDonne) {
             case 1: {
-                float a_angulaire2 = a_angulaire,
-                    mom_inertie2 = mom_inertie,
-                    m_cabine2 = m_cabine,
-                    m_contrepoids2 = m_contrepoids,
-                    r_poulie2 = r_poulie,
-                    puissance_moteur2 = puissance_mot,
-                    vitesse_max2 = vitesse_max;
+                float lfAccelerationAngulaire2 = lfAccelerationAngulaire,
+                    lfMomentInertie2 = lfMomentInertie,
+                    lfMasseCabine2 = lfMasseCabine,
+                    lfMasseContrepoids2 = lfMasseContrepoids,
+                    lfRayonPoulie2 = lfRayonPoulie,
+                    lfPuissanceMoteur2 = lfPuissanceMoteur,
+                    lfVitesseMax2 = lfVitesseMax;
 
-                int choix_tension, choix_result;
+                int liChoixTension, liChoixResult;
 
-                cout << "Donner la formule a utiliser en fonction des valeurs que vous avez (0 = acceleration et masse, 1 = les moments de force, les moments d'inertie et acceleration) : ";
-                cin >> choix_tension;
-                cout << "Donner le resultat de sortie (0 = tension cabine, 1 = tension contrepoids, 2 = les deux) : ";
-                cin >> choix_result;
+                cout << "Donner la formule a utiliser en fonction des valeurs que vous avez: \n" 
+                     << "0 = acceleration et masse \n"
+                     << "1 = les moments de force, les moments d'inertie et acceleration \n";
+                cin >> liChoixTension;
+                cout << "Donner le resultat que vous voulez \n"
+                    << "0 = tension de la cabine \n"
+                    << "1 = tension du contrepoids \n"
+                    << "2 = les deux \n";
+                cin >> liChoixResult;
 
-                Tensions result = CalculerTension(choix_tension, choix_result, m_cabine2, m_contrepoids2, a_angulaire2, mom_inertie2, r_poulie2, puissance_moteur2, vitesse_max2);
-                cout << "Tension cabine: " << result.cabine << " N, Tension contrepoids: " << result.contrepoids << " N\n";
+                Tensions lsResult = CalculerTension(liChoixTension, liChoixResult, lfMasseCabine2, lfMasseContrepoids2, lfAccelerationAngulaire2, lfMomentInertie2, lfRayonPoulie2, lfPuissanceMoteur2, lfVitesseMax2);
+                cout << "Tension cabine: " << lsResult.cabine << " N, Tension contrepoids: " << lsResult.contrepoids << " N\n";
                 break;
             }
 
             case 2: {
-                float tension_cabine2 = t_cabine, tension_contrepoids2 = t_contrepoids, alpha2 = a_angulaire, moments_dinertie2 = mom_inertie, rayon2 = r_poulie, p_moteur2 = puissance_mot, vitesse2 = vitesse_max;
-                int choix_couple;
+                float lfTensionCabine2 = lfTensionCabine, lfTensionContrepoids2 = lfTensionContrepoids, lfAlpha2 = lfAccelerationAngulaire, lfMomentsDInertie2 = lfMomentInertie, lfRayon2 = lfRayonPoulie, lfPMoteur2 = lfPuissanceMoteur, lfVitesse2 = lfVitesseMax;
+                int liChoixCouple;
 
-                cout << "Choisissez (0 = couple moteur par puissance, 1 = couple moteur par tensions) : ";
-                cin >> choix_couple;
-                cout << "Couple moteur : " << CoupleMoteur(choix_couple, tension_cabine2, tension_contrepoids2, alpha2, moments_dinertie2, rayon2, p_moteur2, vitesse2) << " Nm\n";
+                cout << "Choisissez votre methode de calcul \n"
+                     << "0 = couple moteur par puissance \n"
+                     << "1 = couple moteur par tensions) \n";
+
+                cin >> liChoixCouple;
+                cout << "Couple moteur : " << CoupleMoteur(liChoixCouple, lfTensionCabine2, lfTensionContrepoids2, lfAlpha2, lfMomentsDInertie2, lfRayon2, lfPMoteur2, lfVitesse2) << " Nm\n";
                 break;
             }
 
             case 3: {
-                float couple_mot2 = couple_mot, vitesse2 = vitesse_max, rayon2 = r_poulie;
-                cout << "Puissance moteur : " << PuissanceMoteur(couple_mot2, vitesse2, rayon2) << " W\n";
+                float lfCoupleMot2 = lfCoupleMoteur, lfVitesse2 = lfVitesseMax, lfRayon2 = lfRayonPoulie;
+                cout << "Puissance moteur : " << PuissanceMoteur(lfCoupleMot2, lfVitesse2, lfRayon2) << " W\n";
                 break;
             }
 
             case 4: {
-                float vitesse2 = vitesse_max, vitesse_angulaire2 = a_angulaire;
-                cout << "Rayon de la poulie : " << RayonPoulie(vitesse2, vitesse_angulaire2) << " m\n";
+                float lfVitesse2 = lfVitesseMax, lfVitesseAngulaire2 = lfAccelerationAngulaire, lfCoupleMoteur2 = lfCoupleMoteur, lfPuissanceMoteur2 = lfPuissanceMoteur;
+                int li_ChoixCalcul2;
+                cout << "Choisissez la formule :\n"
+                    << "0 = Utiliser vitesse lineaire et vitesse angulaire\n"
+                    << "1 = Utiliser vitesse ,cm ,pm\n"
+                    << "Votre choix : ";
+                cin >> li_ChoixCalcul2;
+
+                i_SecuriserSaisie(li_ChoixCalcul2);
+                cout << "Rayon de la poulie : " << RayonPoulie(li_ChoixCalcul2, lfVitesse2, lfVitesseAngulaire2, lfCoupleMoteur2, lfPuissanceMoteur2) << " m\n";
                 break;
             }
 
             case 5: {
-                float vitesse_angulaire2 = a_angulaire;
-                cout << "Vitesse de rotation : " << VitesseRotation(vitesse_angulaire2) << " tr/min\n";
+                float lfVitesseAngulaire2 = lfAccelerationAngulaire;
+                cout << "Vitesse de rotation : " << VitesseRotation(lfVitesseAngulaire2) << " tr/min\n";
                 break;
             }
 
             case 6: {
-                float distance2 = distance, vitesse2 = vitesse_max;
-                cout << "Temps de montee/descente : " << TempsMonteeAndDescente(distance2, vitesse2) << " s\n";
+                float lfDistance2 = lfDistance, lfVitesse2 = lfVitesseMax;
+                cout << "Temps de montee/descente : " << TempsMonteeAndDescente(lfDistance2, lfVitesse2) << " s\n";
                 break;
             }
 
             case 7: {
-                float masse_cabine2 = m_cabine, masse_contrepoids2 = m_contrepoids, tension_cabine2 = t_cabine, tension_contrepoids2 = t_contrepoids, vitesse2 = vitesse_max;
-                int choix_acc;
+                float lfMasseCabine2 = lfMasseCabine, lfMasseContrepoids2 = lfMasseContrepoids, lfTensionCabine2 = lfTensionCabine, lfTensionContrepoids2 = lfTensionContrepoids, lfVitesse2 = lfVitesseMax;
+                int liChoixAcc;
 
-                cout << "Choisissez (0 = cabine, 1 = contrepoids, 2 = aucun) : ";
-                cin >> choix_acc;
-                cout << "Acceleration : " << Acceleration(choix_acc, masse_contrepoids2, masse_cabine2, tension_contrepoids2, tension_cabine2, vitesse2) << " m/s²\n";
+                cout << "Choisissez votre méthode de calcul: "
+                     << "0 = cabine \n"
+                     << "1 = contrepoids \n"
+                     << "2 = aucun \n";
+                cin >> liChoixAcc;
+                i_SecuriserSaisie(liChoixAcc);
+
+                cout << "Acceleration : " << Acceleration(liChoixAcc, lfMasseContrepoids2, lfMasseCabine2, lfTensionContrepoids2, lfTensionCabine2, lfVitesse2) << " m/s²\n";
                 break;
             }
 
             case 8:
-                TestFonction();
+                SFMLSimulation();
+
                 break;
+            case 9:
+                TestFonction();
+
+                break;
+            case 10:
+                cout << "Arrêt du fichier .csv\n";
+
+                break;                                 //verifier parce que le code s'arrete pas
 
             default:
                 cout << "Choix invalide, veuillez reessayer.\n";
