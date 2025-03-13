@@ -201,7 +201,7 @@ void Affichage(void) {
         }
 
         case gi_CalculRayon: {
-            float lf_Vitesse = 0, lf_VitesseAngulaire = 0, lf_CoupleMot = 0, lt_PuissanceMot = 0;
+            float lf_Vitesse = 0, lf_VitesseAngulaire = 0, lf_CoupleMot = 0, lf_PuissanceMot = 0;
             int li_ChoixCalcul;
 
             cout << "Choisissez la formule :\n"
