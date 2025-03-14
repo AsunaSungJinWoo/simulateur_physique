@@ -1,11 +1,12 @@
 #include "Affichage.h"
 #include "CalculePhysique.h"
-
 #include "InterfaceGraphique.h"
 
+#include <SFML/Graphics.hpp>
 #include <cmath>
 #include <cassert>
 #include <iostream>
+#include <filesystem>
 
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -76,6 +77,7 @@ float RayonPoulie(int choix ,float vitesse ,float vitesseAngulaire ,float Couple
     else if (choix == 1) {
         return (vitesse * CoupleMoteur) / PuissanceMoteur;
     }
+    return 0.0f;
 }
 
 float VitesseRotation(float vitesseAngulaire) {
@@ -123,7 +125,22 @@ void TestFonction() {
 
         assert(fabs(Acceleration(0, 100, 350, 951, 3538.5, 2.0) - 0.3) < 0.01 && "Erreur: Acceleration test 1");
 
+        sf::Font font;
+        std::string fontPath = "../dependances_exterieurs/fonts/Roboto-BlackItalic.ttf";
+
         cout << "Tous les tests sont reussis !" << endl;
+        if (!std::filesystem::exists(fontPath)) {
+            std::cerr << "Le fichier " << fontPath << " nexiste pas!" << std::endl;
+        }
+        else {
+            std::cout << "Le fichier " << fontPath << " existe!" << std::endl;
+            if (!font.openFromFile(fontPath)) {
+                std::cerr << "Erreur lors du chargement de la police!" << std::endl;
+            }
+            else {
+                std::cout << "Police chargee avec succes!" << std::endl;
+            }
+        }
     }
     catch (const exception& e) {
         cerr << "Erreur lors de l'exécution des tests ! Détails : " << e.what() << endl;
