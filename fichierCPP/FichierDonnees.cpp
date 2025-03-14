@@ -17,6 +17,20 @@
 
 using namespace std;
 
+// Énumération pour les choix du menu
+enum MenuOption {
+    gi_CalculTension = 1,
+    gi_CalculCouple = 2,
+    gi_CalculPuissance = 3,
+    gi_CalculRayon = 4,
+    gi_CalculVitesseRotation = 5,
+    gi_CalculTempsMontee = 6,
+    gi_CalculAcceleration = 7,
+    gi_VoirSimulation = 8,
+    gi_ExecuterTests = 9,
+    gi_Quitter = 10,
+};
+
 void AffichageAvecDonnees(void) {
     // Initialisation des variables
     float lfMasseCabine = 0.0, lfMasseContrepoids = 0.0, lfTensionCabine = 0.0, lfTensionContrepoids = 0.0, lfRayonPoulie = 0.0, lfVitesseMax = 0.0, lfDureeAcceleration = 0.0, lfCoupleMoteur = 0.0, lfPuissanceMoteur = 0.0, lfAccelerationAngulaire = 0.0, lfMomentInertie = 0.0, lfDistance = 0.0;
@@ -118,7 +132,7 @@ void AffichageAvecDonnees(void) {
             cin >> liChoixDonne;
 
             switch (liChoixDonne) {
-            case 1: {
+            case gi_CalculTension: {
                 float lfAccelerationAngulaire2 = lfAccelerationAngulaire,
                     lfMomentInertie2 = lfMomentInertie,
                     lfMasseCabine2 = lfMasseCabine,
@@ -129,9 +143,9 @@ void AffichageAvecDonnees(void) {
 
                 int liChoixTension, liChoixResult;
 
-                cout << "Donner la formule a utiliser en fonction des valeurs que vous avez: \n" 
-                     << "0 = acceleration et masse \n"
-                     << "1 = les moments de force, les moments d'inertie et acceleration \n";
+                cout << "Donner la formule a utiliser en fonction des valeurs que vous avez: \n"
+                    << "0 = acceleration et masse \n"
+                    << "1 = les moments de force, les moments d'inertie et acceleration \n";
                 cin >> liChoixTension;
                 cout << "Donner le resultat que vous voulez \n"
                     << "0 = tension de la cabine \n"
@@ -144,26 +158,26 @@ void AffichageAvecDonnees(void) {
                 break;
             }
 
-            case 2: {
+            case gi_CalculCouple: {
                 float lfTensionCabine2 = lfTensionCabine, lfTensionContrepoids2 = lfTensionContrepoids, lfAlpha2 = lfAccelerationAngulaire, lfMomentsDInertie2 = lfMomentInertie, lfRayon2 = lfRayonPoulie, lfPMoteur2 = lfPuissanceMoteur, lfVitesse2 = lfVitesseMax;
                 int liChoixCouple;
 
                 cout << "Choisissez votre methode de calcul \n"
-                     << "0 = couple moteur par puissance \n"
-                     << "1 = couple moteur par tensions) \n";
+                    << "0 = couple moteur par puissance \n"
+                    << "1 = couple moteur par tensions) \n";
 
                 cin >> liChoixCouple;
                 cout << "Couple moteur : " << CoupleMoteur(liChoixCouple, lfTensionCabine2, lfTensionContrepoids2, lfAlpha2, lfMomentsDInertie2, lfRayon2, lfPMoteur2, lfVitesse2) << " Nm\n";
                 break;
             }
 
-            case 3: {
+            case gi_CalculPuissance: {
                 float lfCoupleMot2 = lfCoupleMoteur, lfVitesse2 = lfVitesseMax, lfRayon2 = lfRayonPoulie;
                 cout << "Puissance moteur : " << PuissanceMoteur(lfCoupleMot2, lfVitesse2, lfRayon2) << " W\n";
                 break;
             }
 
-            case 4: {
+            case gi_CalculRayon: {
                 float lfVitesse2 = lfVitesseMax, lfVitesseAngulaire2 = lfAccelerationAngulaire, lfCoupleMoteur2 = lfCoupleMoteur, lfPuissanceMoteur2 = lfPuissanceMoteur;
                 int li_ChoixCalcul2;
                 cout << "Choisissez la formule :\n"
@@ -177,26 +191,26 @@ void AffichageAvecDonnees(void) {
                 break;
             }
 
-            case 5: {
+            case gi_CalculVitesseRotation: {
                 float lfVitesseAngulaire2 = lfAccelerationAngulaire;
                 cout << "Vitesse de rotation : " << VitesseRotation(lfVitesseAngulaire2) << " tr/min\n";
                 break;
             }
 
-            case 6: {
+            case gi_CalculTempsMontee: {
                 float lfDistance2 = lfDistance, lfVitesse2 = lfVitesseMax;
                 cout << "Temps de montee/descente : " << TempsMonteeAndDescente(lfDistance2, lfVitesse2) << " s\n";
                 break;
             }
 
-            case 7: {
+            case gi_CalculAcceleration: {
                 float lfMasseCabine2 = lfMasseCabine, lfMasseContrepoids2 = lfMasseContrepoids, lfTensionCabine2 = lfTensionCabine, lfTensionContrepoids2 = lfTensionContrepoids, lfVitesse2 = lfVitesseMax;
                 int liChoixAcc;
 
                 cout << "Choisissez votre méthode de calcul: "
-                     << "0 = cabine \n"
-                     << "1 = contrepoids \n"
-                     << "2 = aucun \n";
+                    << "0 = cabine \n"
+                    << "1 = contrepoids \n"
+                    << "2 = aucun \n";
                 cin >> liChoixAcc;
                 i_SecuriserSaisie(liChoixAcc);
 
@@ -204,21 +218,21 @@ void AffichageAvecDonnees(void) {
                 break;
             }
 
-            case 8:
+            case gi_VoirSimulation:
                 SFMLSimulation();
 
                 break;
-            case 9:
+            case gi_ExecuterTests:
                 TestFonction();
 
                 break;
-            case 10:
-                cout << "Arrêt du fichier .csv\n";
-
-                break;                                 //verifier parce que le code s'arrete pas
+            case gi_Quitter:
+                cout << "Arret du fichier .csv\n";
+                return;
 
             default:
                 cout << "Choix invalide, veuillez reessayer.\n";
+                break;
             }
         }
     }
