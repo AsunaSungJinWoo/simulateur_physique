@@ -1,8 +1,8 @@
 #pragma once
 
 // On définit nos constantes
-#define M_PI 3.14159265358979323846  // Pi
-#define Graviter 9.81  // Constante de gravité
+#define M_PI 3.14159265358979323846f  // Pi
+#define Graviter 9.81f  // Constante de gravité
 
 // On définit les différents choix qui pourront être effectués lors des calculs
 #define CHOIX_CALCUL_TENSION_AVEC_SOMME_FORCE 0
@@ -16,8 +16,6 @@ struct Tensions {
     float cabine;
     float contrepoids;
 };
-
-#define _CRT_SECURE_NO_WARNINGS
 
 /*
 {
@@ -42,7 +40,8 @@ Tensions CalculerTension(int choixFormule,
 /*
 {
     R : Cette fonction permet de calculer le couple moteur.
-    E : Les paramètres d'entrée sont le choix de la formule (0 = couple par puissance, 1 = couple par tensions),
+    E : Les paramètres d'entrée sont le choix de la formule (0 = couple par puissance avec puissance, vitesse et rayon, 1 = couple par tensions avec moments d'inertie,
+        accélération, rayon et les tensions des câbles),
         les tensions de la cabine et du contrepoids, l'accélération angulaire, le moment d'inertie, le rayon de la poulie,
         la puissance du moteur et la vitesse.
     S : La fonction renvoie la valeur du couple moteur en fonction de la formule choisie.
@@ -65,21 +64,22 @@ float CoupleMoteur(int choix,
 }
 */
 float PuissanceMoteur(float coupleMot,
-                      float vitesse,
-                      float rayon);
+    float vitesse,
+    float rayon);
 
 /*
 {
     R : Cette fonction permet de calculer le rayon de la poulie.
-    E : Les paramètres d'entrée sont la vitesse linéaire de l'ascenseur et la vitesse angulaire de la poulie.
+    E : Les paramètres d'entrée sont la vitesse linéaire de l'ascenseur, la vitesse angulaire de la poulie, le couple du moteur et la puissance du moteur.
+        De plus, il y a la possibilité de choisir la formule à utiliser (0 = vitesse linéaire/angulaire, 1 = vitesse, couple et puissance).
     S : La fonction renvoie le rayon de la poulie, calculé en fonction de la vitesse linéaire et angulaire.
 }
 */
 float RayonPoulie(int choix,
     float vitesse,
     float vitesseAngulaire,
-    float CoupleMoteur,
-    float PuissanceMoteur);
+    float coupleMoteur,
+    float puissanceMoteur);
 
 /*
 {
@@ -118,7 +118,9 @@ float Acceleration(int choix,
 /*
 {
     R : Cette fonction permet de tester la validité des calculs effectués par les différentes fonctions de calcul.
+        Elle permet aussi de faire des tests sur l'ouverture de certains fichiers comme la police pour l'interface graphique.
     S : La fonction renvoie les résultats des tests effectués sur les fonctions pour vérifier leur précision et leur bon fonctionnement.
+        Elle vérifie plusieurs cas et renvoie un message d'erreur spécifique pour faciliter la réparation des bugs éventuels.
 }
 */
 void TestFonction();
