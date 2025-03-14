@@ -24,7 +24,7 @@ enum MenuOption {
 };
 
 // Fonction pour sécuriser la saisie d'un entier
-void i_SecuriserSaisie(int& valeur) {
+void i_SecuriserSaisie(int& valeur) {  //cree une refenrences 
     while (true) {
         cin >> valeur;
 
@@ -249,6 +249,6 @@ void Affichage(void) {
         default:
             cout << "Choix invalide, veuillez reessayer.\n";
         }
-        
+
     }
 }
