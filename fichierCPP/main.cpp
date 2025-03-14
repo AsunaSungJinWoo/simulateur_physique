@@ -14,36 +14,35 @@ using namespace std;
 /*                                                        ____________________    */
 /*                                                       |____________________|   */
 /*                                                        ____            ____    */
-/*   main.cpp                                            |	  |   ____   |    |   */
-/*                                                       |	  |  |  __|  |    |   */
-/*                                                       |	  |   \ \    |    |   */
-/*   By: Theo.G And Bastien.d                            |	  |   / /_   |    |   */
-/*                                                       |	  |  |____|  |    |   */
-/*   Created: 2025/03/12   by Theo                       |	  | _______  |    |   */
-/*   Updated: 2025/03/12   by Theo                       | 	  ||____   \ |    |   */
-/*                                                       |	  |     \  | |    |   */
-/*                                                       |	  |    _/  / |    |   */
-/*                                                       |	  |   |___/  |    |   */
-/*                                                       |	  |__________|    |   */
+/*   main.cpp                                            |    |   ____   |    |   */
+/*                                                       |    |  |  __|  |    |   */
+/*                                                       |    |   \ \    |    |   */
+/*   By: Theo.G And Bastien.d                            |    |   / /_   |    |   */
+/*                                                       |    |  |____|  |    |   */
+/*   Created: 2025/03/12   by Theo                       |    | _______  |    |   */
+/*   Updated: 2025/03/12   by Theo                       |    ||____   \ |    |   */
+/*                                                       |    |     \  | |    |   */
+/*                                                       |    |    _/  / |    |   */
+/*                                                       |    |   |___/  |    |   */
+/*                                                       |    |__________|    |   */
 /*                                                        \                  /    */
 /*                                                         \                /     */
 /*                                                          \______________/      */
 /*                                                                                */
 /* ****************************************************************************** */
 
-
 /* IDEE GENERALE DU PROGRAMME */
 /*
- * le programme nous permet d'obtenir toutes les donnees relatives d'un ascenseur tel que le couple moteur ,la puissance du moteur ,les tension ect...
- * ce programme est constitué de formules de physique ou chaque des valeurs sera calculée dans des fonction.
+ * Le programme permet d'obtenir toutes les données relatives à un ascenseur telles que le couple moteur, la puissance du moteur, les tensions, etc.
+ * Ce programme est constitué de formules de physique où chaque valeur est calculée dans des fonctions spécifiques.
  */
 
- //gi = global integer
- //li = local integer
+ // gi = global integer
+ // li = local integer
 
 int main()
 {
-    Affichage();//lancement programme affichage
+    Affichage(); // Lancement du programme d'affichage
 
     return 0;
 }
