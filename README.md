@@ -7,7 +7,7 @@ fait:
         -rayon poulie
         -vitesse rotation
         -temps de monter et descente
-        -acceleration                   *
+        -acceleration                   *a refaire manque des chose
 -structurer le code 
 -rajouter la posibiliter de choisir la formule a utuliser
 -creation dune fonction de gestion
@@ -20,7 +20,6 @@ a faire;
 
 
 -optimisation:
-        -faire l'acceleration // a voir car il faut demander deux point une vitesse max et faire une deriver mais a voir si on fait
         -améliorer interface graphique éventuellement
 
 
