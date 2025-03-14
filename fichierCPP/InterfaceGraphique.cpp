@@ -17,15 +17,10 @@ void SFMLSimulation(void) {
         std::cerr << "Le fichier " << fontPath << " nexiste pas!" << std::endl;
     }
     else {
-        std::cout << "Le fichier " << fontPath << " existe!" << std::endl;
         if (!font.openFromFile(fontPath)) {
             std::cerr << "Erreur lors du chargement de la police!" << std::endl;
         }
-        else {
-            std::cout << "Police chargee avec succes!" << std::endl;
-        }
     }
-
 
     //fenetre help
     sf::RectangleShape helpBox(sf::Vector2f(400, 200));
@@ -65,12 +60,12 @@ void SFMLSimulation(void) {
     contrepoids.setOutlineColor(sf::Color::Black);
 
     // Câbles
-    sf::RectangleShape cable1({ 3.f, 520.f }); // Câble cabine → Poulie
+    sf::RectangleShape cable1({ 3.f, 520.f }); // Câble cabine ? Poulie
     cable1.setOrigin({ 1.5f, 0.f });
     cable1.setPosition({ 921.f, 200.f });
     cable1.setFillColor(sf::Color::Black);
 
-    sf::RectangleShape cable2({ 3.f, 150.f }); // Câble contrepoids → Poulie
+    sf::RectangleShape cable2({ 3.f, 150.f }); // Câble contrepoids ? Poulie
     cable2.setOrigin({ 1.5f, 0.f });
     cable2.setPosition({ 680.f, 200.f });
     cable2.setFillColor(sf::Color::Black);
