@@ -15,13 +15,10 @@ fait:
 -.csv
 -simulation en 3D  
 
-a faire;
--finir de commenter 
-
 
 -optimisation:
         -améliorer interface graphique éventuellement
-
+        -les log
 
 un fichier README, au format texte, rédigé en anglais, décrivant rapidement la fonctionnalité
 de votre programme et expliquant comment l’utiliser, avec des exemples.
