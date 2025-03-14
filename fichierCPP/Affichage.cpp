@@ -1,12 +1,10 @@
 #include "Affichage.h"
 #include "CalculePhysique.h"
-
+#include "FichierDonnees.h"
 #include "InterfaceGraphique.h"
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-
-#define _CRT_SECURE_NO_WARNINGS
 
 using namespace std;
 
@@ -233,6 +231,7 @@ void Affichage(void) {
             break;
         }
         case gi_UtiliserCsv:
+            AffichageAvecDonnees();
             break;
 
         case gi_VoirSimulation:
