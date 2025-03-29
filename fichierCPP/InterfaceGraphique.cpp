@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <filesystem>
 #include <iostream>
-
+#include "logger.h"
 
 void SFMLSimulation(void) {
     unsigned int width = 1600;
@@ -12,15 +12,6 @@ void SFMLSimulation(void) {
 
     sf::Font font;
     std::string fontPath = "../dependances_exterieurs/fonts/Roboto-BlackItalic.ttf";
-
-    if (!std::filesystem::exists(fontPath)) {
-        std::cerr << "Le fichier " << fontPath << " nexiste pas!" << std::endl;
-    }
-    else {
-        if (!font.openFromFile(fontPath)) {
-            std::cerr << "Erreur lors du chargement de la police!" << std::endl;
-        }
-    }
 
     //fenetre help
     sf::RectangleShape helpBox(sf::Vector2f(400, 200));
