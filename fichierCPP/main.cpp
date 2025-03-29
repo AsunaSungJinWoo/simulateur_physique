@@ -2,6 +2,7 @@
 #include "CalculePhysique.h"
 #include "FichierDonnees.h"
 #include "InterfaceGraphique.h"
+#include "logger.h"
 
 #include <iostream>
 
@@ -17,10 +18,10 @@ using namespace std;
 /*   main.cpp                                            |    |   ____   |    |   */
 /*                                                       |    |  |  __|  |    |   */
 /*                                                       |    |   \ \    |    |   */
-/*   By: Theo.G And Bastien.d                            |    |   / /_   |    |   */
+/*   By: Theo.G And Bastien.D                            |    |   / /_   |    |   */
 /*                                                       |    |  |____|  |    |   */
 /*   Created: 2025/03/12   by Theo                       |    | _______  |    |   */
-/*   Updated: 2025/03/12   by Theo                       |    ||____   \ |    |   */
+/*   Updated: 2025/03/29   by Theo                       |    ||____   \ |    |   */
 /*                                                       |    |     \  | |    |   */
 /*                                                       |    |    _/  / |    |   */
 /*                                                       |    |   |___/  |    |   */
@@ -42,7 +43,9 @@ using namespace std;
 
 int main()
 {
+    Logger logger("log.txt");
+    logger.log(LogLevel::INFO, "Application demarree");
     Affichage(); // Lancement du programme d'affichage
-
+    logger.log(LogLevel::INFO, "Application termine");
     return 0;
 }
