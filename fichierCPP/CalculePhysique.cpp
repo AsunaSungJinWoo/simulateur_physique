@@ -1,6 +1,7 @@
 #include "Affichage.h"
 #include "CalculePhysique.h"
 #include "InterfaceGraphique.h"
+#include "logger.h"
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
@@ -10,10 +11,14 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+Logger logger("log.txt");
+
 using namespace std;
 
 Tensions CalculerTension(int choixFormule, int choixDonnees, float masseCabine, float masseContrepoids,
     float alpha, float momentsInertie, float rayon, float pMoteur, float vitesse) {
+
+    logger.log(LogLevel::INFO, "Appel de CalculerTension");
 
     float tensionCabine = 0, tensionContrepoids = 0;
 
@@ -26,22 +31,29 @@ Tensions CalculerTension(int choixFormule, int choixDonnees, float masseCabine, 
         tensionContrepoids = (pMoteur + (momentsInertie * masseCabine) * (alpha + Graviter)) / momentsInertie;
     }
     else {
-        cout << "La valeur du choix pour la formule est invalide. Veuillez reessayer." << endl;
+        logger.log(LogLevel::WARNING, "Le choix de la formule CalculerTension nest pas valide");
         return { 0, 0 };
     }
 
+    Tensions result;
     switch (choixDonnees) {
-    case CHOIX_TENSION_CABINE: return { tensionCabine, 0 };
-    case CHOIX_TENSION_CONTREPOIDS: return { 0, tensionContrepoids };
-    case CHOIX_DES_DEUX_TENSIONS: return { tensionCabine, tensionContrepoids };
+    case CHOIX_TENSION_CABINE: result = { tensionCabine, 0 }; break;
+    case CHOIX_TENSION_CONTREPOIDS: result = { 0, tensionContrepoids }; break;
+    case CHOIX_DES_DEUX_TENSIONS: result = { tensionCabine, tensionContrepoids }; break;
     default:
-        cout << "La valeur du choix est invalide. Veuillez reessayer." << endl;
+        logger.log(LogLevel::WARNING, "Le choix de la sortie de CalculerTension nest pas valide");
         return { 0, 0 };
     }
+
+    logger.log(LogLevel::INFO, "CalculerTension - Resultat: " + std::to_string(tensionCabine) + ", " + std::to_string(tensionContrepoids));
+    return result;
 }
 
 float CoupleMoteur(int choix, float tensionCabine, float tensionContrepoids, float alpha,
     float momentsInertie, float rayon, float pMoteur, float vitesse) {
+
+    logger.log(LogLevel::INFO, "Appel de CoupleMoteur");
+
     float cm = 0;
     switch (choix) {
     case 0:
@@ -51,58 +63,64 @@ float CoupleMoteur(int choix, float tensionCabine, float tensionContrepoids, flo
         cm = (((momentsInertie * alpha) / rayon) - rayon * (tensionContrepoids - tensionCabine));
         break;
     default:
-        cout << "La valeur du choix est invalide. Veuillez reessayer." << endl;
+        logger.log(LogLevel::WARNING, "Le choix de la formule CoupleMoteur nest pas valide");
         return 0;
     }
-    if (cm < 0) {
-        return cm * -1;
-    }
-    else {
-        return cm;
-    }
+
+    cm = (cm < 0) ? -cm : cm;
+    logger.log(LogLevel::INFO, "CoupleMoteur - Resultat: " + std::to_string(cm));
+    return cm;
 }
 
 float PuissanceMoteur(float coupleMot, float vitesse, float rayon) {
+    logger.log(LogLevel::INFO, "Appel de PuissanceMoteur");
     if (rayon == 0) {
-        cerr << "Erreur : division par zéro dans PuissanceMoteur !" << endl;
+        logger.log(LogLevel::WARNING, "Division par 0 dans PuissanceMoteur");
         return 0;
     }
-    return coupleMot * (vitesse / rayon);
+    float result = coupleMot * (vitesse / rayon);
+    logger.log(LogLevel::INFO, "PuissanceMoteur - Resultat: " + std::to_string(result));
+    return result;
 }
 
 float RayonPoulie(int choix, float vitesse, float vitesseAngulaire, float CoupleMoteur, float PuissanceMoteur) {
-    if (choix == 0) {
-        return vitesse / vitesseAngulaire;
-    }
-    else if (choix == 1) {
-        return (vitesse * CoupleMoteur) / PuissanceMoteur;
-    }
-    return 0.0f;
+    logger.log(LogLevel::INFO, "Appel de RayonPoulie");
+    float result = (choix == 0) ? (vitesse / vitesseAngulaire) : ((choix == 1) ? (vitesse * CoupleMoteur) / PuissanceMoteur : 0.0f);
+    logger.log(LogLevel::INFO, "RayonPoulie - Resultat: " + std::to_string(result));
+    return result;
 }
 
 float VitesseRotation(float vitesseAngulaire) {
-    return (vitesseAngulaire * 30) / M_PI;
+    logger.log(LogLevel::INFO, "Appel de VitesseRotation");
+    float result = (vitesseAngulaire * 30) / M_PI;
+    logger.log(LogLevel::INFO, "VitesseRotation - Resultat: " + std::to_string(result));
+    return result;
 }
 
 float TempsMonteeAndDescente(float distance, float vitesse) {
-    return distance / vitesse;
+    logger.log(LogLevel::INFO, "Appel de TempsMonteeAndDescente");
+    float result = distance / vitesse;
+    logger.log(LogLevel::INFO, "TempsMonteeAndDescente - Resultat: " + std::to_string(result));
+    return result;
 }
 
-float Acceleration(int choix, float masseContrepoids, float masseCabine, float tensionContrepoids, float tensionCabine, float vitesse) {
+float Acceleration(int choix, float masseContrepoids, float masseCabine, float tensionContrepoids, float tensionCabine) {
+    logger.log(LogLevel::INFO, "Appel de Acceleration");
+    float result;
     if (choix == 0) {
-        return (tensionCabine - masseCabine * Graviter) / masseCabine;
+        result = (Graviter - (tensionCabine / masseCabine));
     }
     else if (choix == 1) {
-        return (tensionContrepoids - masseContrepoids * Graviter) / masseContrepoids;
-    }
-    else if (choix == 2) {
-        return 0; // A faire voir si on le fait vraiment
+        result = (-Graviter + (tensionContrepoids / masseContrepoids));
     }
     else {
-        cout << "La valeur du choix est invalide. Veuillez reessayer.";
+        logger.log(LogLevel::WARNING, "Le choix de la formule Acceleration nest pas valide");
         return 0;
     }
+    logger.log(LogLevel::INFO, "Acceleration - Resultat: " + std::to_string(result));
+    return result;
 }
+
 
 void TestFonction() {
     try {
@@ -123,7 +141,8 @@ void TestFonction() {
 
         assert(fabs(TempsMonteeAndDescente(20.0, 2.0) - 10.0) < 0.01 && "Erreur: TempsMonteeAndDescente test 1");
 
-        assert(fabs(Acceleration(0, 100, 350, 951, 3538.5, 2.0) - 0.3) < 0.01 && "Erreur: Acceleration test 1");
+        assert(fabs(Acceleration(0,0, 100,0, 951) - 0.3) < 0.01 && "Erreur: Acceleration test 1");
+        assert(fabs(Acceleration(1, 350, 0, 3538.5, 0) - 0.3) < 0.01 && "Erreur: Acceleration test 2");
 
         sf::Font font;
         std::string fontPath = "../dependances_exterieurs/fonts/Roboto-BlackItalic.ttf";
@@ -131,11 +150,13 @@ void TestFonction() {
         cout << "Tous les tests sont reussis !" << endl;
         if (!std::filesystem::exists(fontPath)) {
             std::cerr << "Le fichier " << fontPath << " nexiste pas!" << std::endl;
+            logger.log(LogLevel::ERROR, "le fichier de police nexiste pas.");
         }
         else {
             std::cout << "Le fichier " << fontPath << " existe!" << std::endl;
             if (!font.openFromFile(fontPath)) {
                 std::cerr << "Erreur lors du chargement de la police!" << std::endl;
+                logger.log(LogLevel::WARNING, "le fichier de police ne se charge pas");
             }
             else {
                 std::cout << "Police chargee avec succes!" << std::endl;
@@ -145,5 +166,6 @@ void TestFonction() {
 
     catch (const exception& e) {
         cerr << "Erreur lors de l'exécution des tests ! Détails : " << e.what() << endl;
+        logger.log(LogLevel::WARNING, "test non valider");
     }
 }
