@@ -2,6 +2,7 @@
 #include "CalculePhysique.h"
 #include "FichierDonnees.h"
 #include "InterfaceGraphique.h"
+
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <fstream>
@@ -204,17 +205,24 @@ void AffichageAvecDonnees(void) {
             }
 
             case gi_CalculAcceleration: {
-                float lfMasseCabine2 = lfMasseCabine, lfMasseContrepoids2 = lfMasseContrepoids, lfTensionCabine2 = lfTensionCabine, lfTensionContrepoids2 = lfTensionContrepoids, lfVitesse2 = lfVitesseMax;
+                float lfMasseCabine2 = lfMasseCabine, lfMasseContrepoids2 = lfMasseContrepoids, lfTensionCabine2 = lfTensionCabine, lfTensionContrepoids2 = lfTensionContrepoids;
                 int liChoixAcc;
 
-                cout << "Choisissez votre méthode de calcul: "
-                    << "0 = cabine \n"
-                    << "1 = contrepoids \n"
-                    << "2 = aucun \n";
-                cin >> liChoixAcc;
+                cout << "Choisissez la formule :\n"
+                    << "0 = Utiliser tensionCabine, masseCabine \n"
+                    << "1 = Utiliser tensionContrepoids, masseContrepoids\n"
+                    << "Votre choix : ";
                 i_SecuriserSaisie(liChoixAcc);
 
-                cout << "Acceleration : " << Acceleration(liChoixAcc, lfMasseContrepoids2, lfMasseCabine2, lfTensionContrepoids2, lfTensionCabine2, lfVitesse2) << " m/s²\n";
+                if (liChoixAcc == 0) {
+                    cout << "Entrez la masse de la cabine : "; f_SecuriserSaisie(lfMasseCabine);
+                    cout << "Entrez la tension du cable de la cabine : ";  f_SecuriserSaisie(lfTensionCabine2);
+                }
+                else if (liChoixAcc == 1) {
+                    cout << "Entrez la masse de la contrepoid : "; f_SecuriserSaisie(lfMasseContrepoids2);
+                    cout << "Entrez la tension du cable de la contrepoids : ";  f_SecuriserSaisie(lfTensionContrepoids2);
+                }
+                Acceleration(liChoixAcc, lfMasseContrepoids2, lfMasseCabine, lfTensionContrepoids2, lfTensionCabine2);
                 break;
             }
 
