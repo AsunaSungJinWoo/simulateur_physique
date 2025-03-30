@@ -15,6 +15,8 @@ fait:
 -.csv
 -simulation en 3D  
 
+a faire:
+refaire fonctionner le .csv et ajouter vérifation des données
 
 -optimisation:
         -améliorer interface graphique éventuellement
