@@ -46,6 +46,6 @@ int main()
     Logger logger("log.txt");
     logger.log(LogLevel::INFO, "Application demarree");
     Affichage(); // Lancement du programme d'affichage
-    logger.log(LogLevel::INFO, "Application termine");
+    logger.log(LogLevel::INFO, "Application terminee");
     return 0;
 }
