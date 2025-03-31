@@ -17,6 +17,7 @@ fait:
 
 a faire:
 refaire fonctionner le .csv et ajouter vérifation des données
+-rajouter des commentaires
 
 -optimisation:
         -améliorer interface graphique éventuellement
