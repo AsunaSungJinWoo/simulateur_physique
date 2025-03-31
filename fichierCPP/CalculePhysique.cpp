@@ -124,20 +124,20 @@ float Acceleration(int choix, float masseContrepoids, float masseCabine, float t
 
 void TestFonction() {
     try {
-        Tensions t1 = CalculerTension(0, 0, 350, 100, 0.3, 0, 0, 0, 0);
+        Tensions t1 = CalculerTension(0, 0, 350, 100, 0.3f, 0, 0, 0, 0);
         assert(fabs(t1.cabine - 3538.5) < 0.01 && "Erreur: CalculerTension test 1");
 
-        float couple = CoupleMoteur(0, 0, 0, 0, 0, 0.3, 3750, 1.5);
+        float couple = CoupleMoteur(0, 0, 0, 0, 0, 0.3f, 3750, 1.5f);
         assert(fabs(couple - 750) < 0.1 && "Erreur: CoupleMoteur test 1");
-        couple = CoupleMoteur(1, 3538.5, 951, 0.1, 0.1, 0.3, 0, 0);
+        couple = CoupleMoteur(1, 3538.5f, 951, 0.1f, 0.1f, 0.3f, 0, 0);
         assert(fabs(couple - 776.2833) < 0.1 && "Erreur: CoupleMoteur test 2");
 
-        assert(fabs(PuissanceMoteur(750, 1.5, 0.3) - 3750) < 0.01 && "Erreur: PuissanceMoteur test 1");
+        assert(fabs(PuissanceMoteur(750, 1.5f, 0.3f) - 3750) < 0.01 && "Erreur: PuissanceMoteur test 1");
 
-        assert(fabs(RayonPoulie(0, 1.5, 3, 0, 0) - 0.5) < 0.01 && "Erreur: RayonPoulie test 1");
-        assert(fabs(RayonPoulie(1, 1.5, 0, 750, 3750) - 0.3) < 0.01 && "Erreur: RayonPoulie test 1");
+        assert(fabs(RayonPoulie(0, 1.5f, 3, 0, 0) - 0.5f) < 0.01 && "Erreur: RayonPoulie test 1");
+        assert(fabs(RayonPoulie(1, 1.5f, 0, 750, 3750) - 0.3f) < 0.01 && "Erreur: RayonPoulie test 1");
 
-        assert(fabs(VitesseRotation(10.0) - 95.49) < 0.01 && "Erreur: VitesseRotation test 1");
+        assert(fabs(VitesseRotation(10.0) - 95.49f) < 0.01 && "Erreur: VitesseRotation test 1");
 
         assert(fabs(TempsMonteeAndDescente(20.0, 2.0) - 10.0) < 0.01 && "Erreur: TempsMonteeAndDescente test 1");
 
