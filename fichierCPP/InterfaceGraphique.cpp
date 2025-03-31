@@ -10,8 +10,18 @@ void SFMLSimulation(void) {
     sf::RenderWindow window(sf::VideoMode({ width, height }), "Ascenseur SFML");
     window.setFramerateLimit(60);
 
-    sf::Font font;
-    std::string fontPath = "../dependances_exterieurs/fonts/Roboto-BlackItalic.ttf";
+    if (!std::filesystem::exists(fontPath)) {
+    std::cerr << "Le fichier " << fontPath << " nexiste pas!" << std::endl;
+}
+else {
+    std::cout << "Le fichier " << fontPath << " existe!" << std::endl;
+    if (!font.openFromFile(fontPath)) {
+        std::cerr << "Erreur lors du chargement de la police!" << std::endl;
+    }
+    else {
+        std::cout << "Police chargee avec succes!" << std::endl;
+    }
+}
 
     //fenetre help
     sf::RectangleShape helpBox(sf::Vector2f(400, 200));
