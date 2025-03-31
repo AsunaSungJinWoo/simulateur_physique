@@ -57,51 +57,51 @@ void AffichageAvecDonnees(void) {
         // Décomposer la ligne en tokens
         char* pch = strtok(lvStr.data(), " ,");
         if (pch != nullptr) {
-            lfMasseCabine = atof(pch);
+            lfMasseCabine = (float)atof(pch);
             pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            lfMasseContrepoids = atof(pch);
+            lfMasseContrepoids = (float)atof(pch);
             pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            lfRayonPoulie = atof(pch);
+            lfRayonPoulie = (float)atof(pch);
             pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            lfVitesseMax = atof(pch);
+            lfVitesseMax = (float)atof(pch);
             pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            lfDureeAcceleration = atof(pch);
+            lfDureeAcceleration = (float)atof(pch);
             pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            lfCoupleMoteur = atof(pch);
+            lfCoupleMoteur = (float)atof(pch);
             pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            lfPuissanceMoteur = atof(pch);
+            lfPuissanceMoteur = (float)atof(pch);
             pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            lfTensionCabine = atof(pch);
+            lfTensionCabine = (float)atof(pch);
             pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            lfTensionContrepoids = atof(pch);
+            lfTensionContrepoids = (float)atof(pch);
             pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            lfAccelerationAngulaire = atof(pch);
+            lfAccelerationAngulaire = (float)atof(pch);
             pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            lfMomentInertie = atof(pch);
+            lfMomentInertie = (float)atof(pch);
             pch = strtok(nullptr, " ,");
         }
         if (pch != nullptr) {
-            lfDistance = atof(pch);
+            lfDistance = (float)atof(pch);
         }
 
         // Afficher les valeurs des variables
@@ -160,7 +160,7 @@ void AffichageAvecDonnees(void) {
             }
 
             case gi_CalculCouple: {
-                float lfTensionCabine2 = lfTensionCabine, lfTensionContrepoids2 = lfTensionContrepoids, lfAlpha2 = lfAccelerationAngulaire, lfMomentsDInertie2 = lfMomentInertie, lfRayon2 = lfRayonPoulie, lfPMoteur2 = lfPuissanceMoteur, lfVitesse2 = lfVitesseMax;
+                float lfTensionCabine2 = lfTensionCabine, lfTensionContrepoids2 = lfTensionContrepoids, lfacceleration2 = lfAccelerationAngulaire, lfMomentsDInertie2 = lfMomentInertie, lfRayon2 = lfRayonPoulie, lfPMoteur2 = lfPuissanceMoteur, lfVitesse2 = lfVitesseMax;
                 int liChoixCouple;
 
                 cout << "Choisissez votre methode de calcul \n"
@@ -168,7 +168,7 @@ void AffichageAvecDonnees(void) {
                     << "1 = couple moteur par tensions) \n";
 
                 cin >> liChoixCouple;
-                cout << "Couple moteur : " << CoupleMoteur(liChoixCouple, lfTensionCabine2, lfTensionContrepoids2, lfAlpha2, lfMomentsDInertie2, lfRayon2, lfPMoteur2, lfVitesse2) << " Nm\n";
+                cout << "Couple moteur : " << CoupleMoteur(liChoixCouple, lfTensionCabine2, lfTensionContrepoids2, lfacceleration2, lfMomentsDInertie2, lfRayon2, lfPMoteur2, lfVitesse2) << " Nm\n";
                 break;
             }
 
