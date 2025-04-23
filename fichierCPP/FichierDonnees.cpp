@@ -50,30 +50,57 @@ void AffichageAvecDonnees(void) {
     float lfAccelerationAngulaire = 0.0;
 
     int liChoixDonne = 0;
-    string lsLigne;
-    ifstream lsFichier; // Flux de fichier d'entrée
+
+    string lsLigne; // On utiliseras une chaine de charactères
+    ifstream lsFichier; // Flux de fichier d'entrée, ifstream est utilisé pour lire des données à partir de fichiers.
 
     // Algorithme
     lsFichier.open("../dependances_exterieurs/Fichier_Donnee.csv", ios::in); // Ouverture du fichier en lecture
     if (lsFichier.is_open()) {
-        // Lire et ignorer la première ligne (en-tête)
+        // Nous lisons les lignes et ignorons la première ligne car inutile (indique quelle valeur est assignée la colonne)
         getline(lsFichier, lsLigne);
 
         // Lire la deuxième ligne
         getline(lsFichier, lsLigne);
 
-        lsFichier.close();
+        lsFichier.close(); //On ferme le fichier
 
-        // Convertir la ligne en tableau de caractères
-        std::vector<char> lvStr(lsLigne.begin(), lsLigne.end());
-        lvStr.push_back('\0'); // Ajouter un caractère nul à la fin
 
-        // Décomposer la ligne en tokens
+        std::vector<char> lvStr(lsLigne.begin(), lsLigne.end()); 
+        /*Utilité: Copie chaque caractère de la chaîne lsLigne dans le vecteur lvStr,
+        cela permet de convertir la chaîne de caractères en un tableau de caractères dynamique.
+
+            Explications:
+            crée un vecteur de caractères (std::vector<char>) nommé lvStr.
+            LsLigne.begin et Ls.end sont respectivement le début et la fin de la chaîne Ls ligne
+            */
+
+        lvStr.push_back('\0'); // Ajouter un caractère nul à la fin, utile pour marquer la fin d'une chaîne de charactères.
+
+
         char* pch = strtok(lvStr.data(), " ,");
-        if (pch != nullptr) {
-            lfMasseCabine = (float)atof(pch);
-            pch = strtok(nullptr, " ,");
+
+        /* Utilité: sert à décomposer la ligne en tokens
+           strkok sert à découper la chaîne de charactères en tokens (qui sont ,
+           lvStr.data() renvoie un pointeur vers le premier élément de lvStr,
+
+        */
+        
+        
+        if (pch != nullptr) {                   //vérifie si il reste des tokens à traiter
+
+
+            lfMasseCabine = (float)atof(pch);   //convertit le token pointé par pch en un nombre à virgule flottante.
+                                                //atof sert à convertir une chaîne de caractères en un double.
+                                                //Le résultat de atof est ensuite converti en float et assigné à la variable lfMasseCabine.
+
+            pch = strtok(nullptr, " ,");// Lorsque strtok est appelée avec nullptr comme premier argument, elle continue à découper la chaîne à partir de l'endroit où elle s'était arrêtée précédemment.
+                                        // Globalement cela permet de récupérer le token suivant dans la chaîne, en utilisant les mêmes délimiteurs (virgules).
+       
+        
         }
+
+
         if (pch != nullptr) {
             lfMasseContrepoids = (float)atof(pch);
             pch = strtok(nullptr, " ,");
@@ -415,6 +442,6 @@ void AffichageAvecDonnees(void) {
         }
     }
     else {
-        cout << "Impossible d'ouvrir le fichier." << endl;
+        cout << "Impossible d'ouvrir le fichier." << endl; // si on n'arrive à ouvrir le fichier, on renvoie une erreur 
     }
 }
