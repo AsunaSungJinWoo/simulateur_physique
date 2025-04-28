@@ -43,7 +43,34 @@ Then you should see the results of the calculation.
 
 ### Example 2 : Usage of the .csv file
 
-blibli
+Start the code and enter "8" to choose the use of a .csv file.
+
+![image](https://github.com/user-attachments/assets/9a51d115-a511-4bd1-bf9d-2ba4d989c3c7)
+
+Then, you can choose witch dimension you wanna calculate (for exemple 6).
+
+![image](https://github.com/user-attachments/assets/0716c5d4-4dca-4a4d-8f13-e270c2bd817c)
+
+To quit, enter 10.
+
+To edit the values go to your projet file --> dependances_exterieurs --> Fichier_Donnee.csv --> then edit your values
+
+![image](https://github.com/user-attachments/assets/cfc5c8b9-3ad8-4adb-9be1-fe80682a3887)
+
+![image_2025-04-28_223719414-removebg-preview](https://github.com/user-attachments/assets/7997ab5b-7045-4445-b876-1020d9719d57)
+
+
+
+![image](https://github.com/user-attachments/assets/db0d0849-f4ca-4e83-8b74-ffec50af4644)
+
+![image_2025-04-28_223719414-removebg-preview](https://github.com/user-attachments/assets/1b621ff2-ac1c-482a-b231-45dd25cf7d24)
+
+
+
+
+
+![image](https://github.com/user-attachments/assets/bd8d3584-1d60-40c9-a7da-005f7afcfecb)
+
 
 ### Example 3 : Usage of the graphical interface.
 
