@@ -1,5 +1,6 @@
 ## simulateur physique
 
+mettre les derniere modif du projet mattre aaussi la progretion dans notre cas "fini",eventuellement langages
 
 ## Authors
 Duris Bastien and Gay Théo
@@ -8,6 +9,10 @@ Duris Bastien and Gay Théo
 
 
 This code allows us to calculate the dimensions of an elevator (such as its tension, angular velocity, etc.) based on data requested by the code or through a .csv file. We can also simulate this elevator using the graphical interface.
+
+
+tu peut rajouter aussi les log pour voir ce quon a fait avant
+
 
 ## Examples of usage
 
@@ -81,6 +86,13 @@ mettre les url de nos profil
 
 ## Licence
 [MIT](https://choosealicense.com/licenses/mit/)
+
+## Contact
+
+mettre adresse mail etc pour contact
+
+ex:
+linkedin ,mail
 
 un fichier README, au fmat texte, rédigé en anglais, décrivant rapidement la fonctionnalité
 de votre programme et expliquant comment l’utiliser, avec des exemples.
