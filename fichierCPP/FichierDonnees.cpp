@@ -50,57 +50,30 @@ void AffichageAvecDonnees(void) {
     float lfAccelerationAngulaire = 0.0;
 
     int liChoixDonne = 0;
-
-    string lsLigne; // On utiliseras une chaine de charactères
-    ifstream lsFichier; // Flux de fichier d'entrée, ifstream est utilisé pour lire des données à partir de fichiers.
+    string lsLigne;
+    ifstream lsFichier; // Flux de fichier d'entrée
 
     // Algorithme
     lsFichier.open("../dependances_exterieurs/Fichier_Donnee.csv", ios::in); // Ouverture du fichier en lecture
     if (lsFichier.is_open()) {
-        // Nous lisons les lignes et ignorons la première ligne car inutile (indique quelle valeur est assignée la colonne)
+        // Lire et ignorer la première ligne (en-tête)
         getline(lsFichier, lsLigne);
 
         // Lire la deuxième ligne
         getline(lsFichier, lsLigne);
 
-        lsFichier.close(); //On ferme le fichier
+        lsFichier.close();
 
+        // Convertir la ligne en tableau de caractères
+        std::vector<char> lvStr(lsLigne.begin(), lsLigne.end());
+        lvStr.push_back('\0'); // Ajouter un caractère nul à la fin
 
-        std::vector<char> lvStr(lsLigne.begin(), lsLigne.end()); 
-        /*Utilité: Copie chaque caractère de la chaîne lsLigne dans le vecteur lvStr,
-        cela permet de convertir la chaîne de caractères en un tableau de caractères dynamique.
-
-            Explications:
-            crée un vecteur de caractères (std::vector<char>) nommé lvStr.
-            LsLigne.begin et Ls.end sont respectivement le début et la fin de la chaîne Ls ligne
-            */
-
-        lvStr.push_back('\0'); // Ajouter un caractère nul à la fin, utile pour marquer la fin d'une chaîne de charactères.
-
-
+        // Décomposer la ligne en tokens
         char* pch = strtok(lvStr.data(), " ,");
-
-        /* Utilité: sert à décomposer la ligne en tokens
-           strkok sert à découper la chaîne de charactères en tokens (qui sont ,
-           lvStr.data() renvoie un pointeur vers le premier élément de lvStr,
-
-        */
-        
-        
-        if (pch != nullptr) {                   //vérifie si il reste des tokens à traiter
-
-
-            lfMasseCabine = (float)atof(pch);   //convertit le token pointé par pch en un nombre à virgule flottante.
-                                                //atof sert à convertir une chaîne de caractères en un double.
-                                                //Le résultat de atof est ensuite converti en float et assigné à la variable lfMasseCabine.
-
-            pch = strtok(nullptr, " ,");// Lorsque strtok est appelée avec nullptr comme premier argument, elle continue à découper la chaîne à partir de l'endroit où elle s'était arrêtée précédemment.
-                                        // Globalement cela permet de récupérer le token suivant dans la chaîne, en utilisant les mêmes délimiteurs (virgules).
-       
-        
+        if (pch != nullptr) {
+            lfMasseCabine = (float)atof(pch);
+            pch = strtok(nullptr, " ,");
         }
-
-
         if (pch != nullptr) {
             lfMasseContrepoids = (float)atof(pch);
             pch = strtok(nullptr, " ,");
@@ -144,7 +117,7 @@ void AffichageAvecDonnees(void) {
         if (pch != nullptr) {
             lfDistance = (float)atof(pch);
         }
-        
+
         if (pch != nullptr) {
             lfAccelerationAngulaire = (float)atof(pch);
         }
@@ -201,20 +174,20 @@ void AffichageAvecDonnees(void) {
                 i_SecuriserSaisie(liChoixTension);
 
                 if (liChoixTension == 0 and
-                   (lfAccelerationAngulaire2 == 0 ||
-                   lfMasseCabine2 == 0 ||
-                   lfMasseContrepoids2 == 0))
+                    (lfAccelerationAngulaire2 == 0 ||
+                        lfMasseCabine2 == 0 ||
+                        lfMasseContrepoids2 == 0))
                 {
                     cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
                     break;
                 }
 
-                if (liChoixTension == 1 and 
-                   (lfAccelerationAngulaire2 == 0 || 
-                   lfMasseCabine2 == 0 ||
-                   lfMasseContrepoids2 == 0 || 
-                   lfPuissanceMoteur2 == 0 || 
-                   lfMomentInertie2 == 0))
+                if (liChoixTension == 1 and
+                    (lfAccelerationAngulaire2 == 0 ||
+                        lfMasseCabine2 == 0 ||
+                        lfMasseContrepoids2 == 0 ||
+                        lfPuissanceMoteur2 == 0 ||
+                        lfMomentInertie2 == 0))
 
                 {
                     cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
@@ -226,7 +199,7 @@ void AffichageAvecDonnees(void) {
                     << "1 = tension du contrepoids \n"
                     << "2 = les deux \n";
                 i_SecuriserSaisie(liChoixResult);
- 
+
 
                 Tensions lsResult = CalculerTension(
                     liChoixTension,
@@ -263,7 +236,7 @@ void AffichageAvecDonnees(void) {
                 if (liChoixCouple == 0 and
                     (lfPuissanceMoteur2 == 0 ||
                         lfVitesse2 == 0 ||
-                        lfRayon2 == 0 ))
+                        lfRayon2 == 0))
                 {
                     cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
                     break;
@@ -271,10 +244,10 @@ void AffichageAvecDonnees(void) {
 
                 if (liChoixCouple == 1 and
                     (lfMomentsInertie2 == 0 ||
-                    lfAlpha2 == 0 ||
-                    lfRayon2 == 0 ||
-                    lfTensionCabine2 == 0 ||
-                    lfTensionContrepoids2 == 0))
+                        lfAlpha2 == 0 ||
+                        lfRayon2 == 0 ||
+                        lfTensionCabine2 == 0 ||
+                        lfTensionContrepoids2 == 0))
                 {
                     cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
                     break;
@@ -295,12 +268,12 @@ void AffichageAvecDonnees(void) {
 
             case gi_CalculPuissance: {
                 float lfCoupleMot2 = lfCoupleMoteur,
-                      lfVitesse2 = lfVitesseMax,
-                      lfRayon2 = lfRayonPoulie;
+                    lfVitesse2 = lfVitesseMax,
+                    lfRayon2 = lfRayonPoulie;
 
                 if (lfCoupleMot2 == 0 ||
-                        lfVitesse2 == 0 ||
-                        lfRayon2 == 0)
+                    lfVitesse2 == 0 ||
+                    lfRayon2 == 0)
                 {
                     cout << "Erreur dans les donnees du fichier, il y a présence d'une valeur erronnee ou nulle";
                     break;
@@ -316,9 +289,9 @@ void AffichageAvecDonnees(void) {
 
             case gi_CalculRayon: {
                 float lfVitesse2 = lfVitesseMax,
-                      lfVitesseAngulaire2 = lfAccelerationAngulaire,
-                      lfCoupleMoteur2 = lfCoupleMoteur,
-                      lfPuissanceMoteur2 = lfPuissanceMoteur;
+                    lfVitesseAngulaire2 = lfAccelerationAngulaire,
+                    lfCoupleMoteur2 = lfCoupleMoteur,
+                    lfPuissanceMoteur2 = lfPuissanceMoteur;
 
                 int li_ChoixCalcul2;
                 cout << "Choisissez la formule :\n"
@@ -330,8 +303,8 @@ void AffichageAvecDonnees(void) {
                 i_SecuriserSaisie(li_ChoixCalcul2);
 
                 if (li_ChoixCalcul2 == 0 and
-                   (lfVitesse2 == 0 ||
-                    lfVitesseAngulaire2 == 0))
+                    (lfVitesse2 == 0 ||
+                        lfVitesseAngulaire2 == 0))
                 {
                     cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
                     break;
@@ -339,8 +312,8 @@ void AffichageAvecDonnees(void) {
 
                 if (li_ChoixCalcul2 == 1 and
                     (lfVitesse2 == 0 ||
-                     lfCoupleMoteur2 == 0 ||
-                     lfPuissanceMoteur2 == 0))
+                        lfCoupleMoteur2 == 0 ||
+                        lfPuissanceMoteur2 == 0))
                 {
                     cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
                     break;
@@ -372,7 +345,7 @@ void AffichageAvecDonnees(void) {
 
             case gi_CalculTempsMontee: {
                 float lfDistance2 = lfDistance,
-                      lfVitesse2 = lfVitesseMax;
+                    lfVitesse2 = lfVitesseMax;
 
                 if (lfDistance2 == 0 || lfVitesse2 == 0)
                 {
@@ -390,7 +363,7 @@ void AffichageAvecDonnees(void) {
                     lfTensionCabine2 = lfTensionCabine,
                     lfTensionContrepoids2 = lfTensionContrepoids;
 
-                int liChoixAcc=0.0;
+                int liChoixAcc;
 
                 cout << "Choisissez la formule :\n"
                     << "0 = Utiliser tensionCabine, masseCabine \n"
@@ -400,15 +373,15 @@ void AffichageAvecDonnees(void) {
 
                 if (liChoixAcc == 0 and
                     (lfMasseCabine2 == 0 ||
-                     lfTensionCabine2 == 0 ))
+                        lfTensionCabine2 == 0))
                 {
                     cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
                     break;
-                }    
+                }
 
                 if (liChoixAcc == 1 and
                     (lfMasseContrepoids2 == 0 ||
-                     lfTensionContrepoids2 == 0))
+                        lfTensionContrepoids2 == 0))
                 {
                     cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
                     break;
@@ -442,6 +415,6 @@ void AffichageAvecDonnees(void) {
         }
     }
     else {
-        cout << "Impossible d'ouvrir le fichier." << endl; // si on n'arrive à ouvrir le fichier, on renvoie une erreur 
+        cout << "Impossible d'ouvrir le fichier." << endl;
     }
 }
