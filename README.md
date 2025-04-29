@@ -41,6 +41,8 @@ Install the SFML library and watch the video in the external dependencies to fin
 
 Install the SFML library and watch the video in the external dependencies to finalize the project setup. Once this step is complete, you can run the program.
 
+## https://youtu.be/zElkK2iefWY
+
 If there is a compilation error, it is either due to the implementation of the SFML library or the location of the files.
 
 ## Examples of usage
