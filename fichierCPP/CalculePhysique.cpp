@@ -141,7 +141,7 @@ void TestFonction() {
 
         assert(fabs(TempsMonteeAndDescente(20.0, 2.0) - 10.0) < 0.01 && "Erreur: TempsMonteeAndDescente test 1");
 
-        assert(fabs(Acceleration(0, 0, 100, 0, 951) - 0.3) < 0.01 && "Erreur: Acceleration test 1");
+        assert(fabs(Acceleration(0,0, 100,0, 951) - 0.3) < 0.01 && "Erreur: Acceleration test 1");
         assert(fabs(Acceleration(1, 350, 0, 3538.5, 0) - 0.3) < 0.01 && "Erreur: Acceleration test 2");
 
         sf::Font font;
