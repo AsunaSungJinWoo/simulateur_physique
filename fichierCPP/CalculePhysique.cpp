@@ -16,19 +16,19 @@ Logger logger("log.txt");
 using namespace std;
 
 Tensions CalculerTension(int choixFormule, int choixDonnees, float masseCabine, float masseContrepoids,
-    float alpha, float momentsInertie, float rayon, float pMoteur, float vitesse) {
+    float acceleration, float momentsInertie, float rayon, float pMoteur, float vitesse) {
 
     logger.log(LogLevel::INFO, "Appel de CalculerTension");
 
     float tensionCabine = 0, tensionContrepoids = 0;
 
     if (choixFormule == CHOIX_CALCUL_TENSION_AVEC_SOMME_FORCE) {
-        tensionCabine = masseCabine * (alpha + Graviter);
-        tensionContrepoids = masseContrepoids * (Graviter - alpha);
+        tensionCabine = masseCabine * (acceleration + Graviter);
+        tensionContrepoids = masseContrepoids * (Graviter - acceleration);
     }
     else if (choixFormule == CHOIX_CALCUL_TENSION_AVEC_CM) {
-        tensionCabine = masseContrepoids * (Graviter - alpha) - (pMoteur / momentsInertie);
-        tensionContrepoids = (pMoteur + (momentsInertie * masseCabine) * (alpha + Graviter)) / momentsInertie;
+        tensionCabine = masseContrepoids * (Graviter - acceleration) - (pMoteur / momentsInertie);
+        tensionContrepoids = (pMoteur + (momentsInertie * masseCabine) * (acceleration + Graviter)) / momentsInertie;
     }
     else {
         logger.log(LogLevel::WARNING, "Le choix de la formule CalculerTension nest pas valide");
@@ -49,7 +49,7 @@ Tensions CalculerTension(int choixFormule, int choixDonnees, float masseCabine, 
     return result;
 }
 
-float CoupleMoteur(int choix, float tensionCabine, float tensionContrepoids, float alpha,
+float CoupleMoteur(int choix, float tensionCabine, float tensionContrepoids, float acceleration,
     float momentsInertie, float rayon, float pMoteur, float vitesse) {
 
     logger.log(LogLevel::INFO, "Appel de CoupleMoteur");
@@ -60,7 +60,7 @@ float CoupleMoteur(int choix, float tensionCabine, float tensionContrepoids, flo
         cm = pMoteur / (vitesse / rayon);
         break;
     case 1:
-        cm = (((momentsInertie * alpha) / rayon) - rayon * (tensionContrepoids - tensionCabine));
+        cm = (((momentsInertie * acceleration) / rayon) - rayon * (tensionContrepoids - tensionCabine));
         break;
     default:
         logger.log(LogLevel::WARNING, "Le choix de la formule CoupleMoteur nest pas valide");
@@ -141,7 +141,7 @@ void TestFonction() {
 
         assert(fabs(TempsMonteeAndDescente(20.0, 2.0) - 10.0) < 0.01 && "Erreur: TempsMonteeAndDescente test 1");
 
-        assert(fabs(Acceleration(0,0, 100,0, 951) - 0.3) < 0.01 && "Erreur: Acceleration test 1");
+        assert(fabs(Acceleration(0, 0, 100, 0, 951) - 0.3) < 0.01 && "Erreur: Acceleration test 1");
         assert(fabs(Acceleration(1, 350, 0, 3538.5, 0) - 0.3) < 0.01 && "Erreur: Acceleration test 2");
 
         sf::Font font;
