@@ -48,8 +48,6 @@ If there is a compilation error, it is either due to the implementation of the S
 
 ### Example 1 : Calculate the Tension
 
-Step 1:
-
 
 Start the code and enter "1" to choose the calculation of the tension.
 
