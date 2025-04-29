@@ -112,8 +112,7 @@ float Acceleration(int choix,
     float masseContrepoids,
     float masseCabine,
     float tensionContrepoids,
-    float tensionCabine,
-    float vitesse);
+    float tensionCabine);
 
 /*
 {
