@@ -1,7 +1,7 @@
 # Simulateur Physique
 
-Recentely added : log files
-State: project finished
+#### Recentely added : Log files
+#### State: Project finished
 
 ## Authors
 By Duris Bastien and Gay Théo
@@ -12,8 +12,6 @@ By Duris Bastien and Gay Théo
 This code allows us to calculate the dimensions of an elevator (such as its tension, angular velocity, etc.) based on data requested by the code or through a .csv file. We can also simulate this elevator using the graphical interface.
 
 
-tu peut rajouter aussi les log pour voir ce quon a fait avant
-
 # How to install
 
 Install the files.
@@ -22,7 +20,7 @@ Install the files.
 ![image](https://github.com/user-attachments/assets/cfdc696f-0fa1-4481-bd86-4cc8b1079fec)
 
 
-Open VS and create a project.
+Open VS Code and create a project.
 
 
 ![image](https://github.com/user-attachments/assets/2afb374b-37cc-4f05-a7e0-897e13e6604f)
@@ -55,15 +53,15 @@ Start the code and enter "1" to choose the calculation of the tension.
 
 ![image](https://github.com/user-attachments/assets/41a81c95-9df2-4f03-abec-882f32019c3e)
 
-Select witch tension you wanna calculate, for exemple we are gonna select the first one (we will enter 0 for exemple).
+Select which tension you want to calculate. For example, we will select the first one (we will enter 0 for this example).
 
 ![image](https://github.com/user-attachments/assets/8b317559-3ffc-493b-8156-4cbffbb5c901)
 
-Enter witch value of dimension you can enters (we will again enters a 0).
+Enter which value of dimension you can enter (we will enter a 0 again).
 
 ![image](https://github.com/user-attachments/assets/8d278b6d-5302-4de4-b4e3-3ff78c1ad8d7)
 
-Enters le values of the dimensions resquested
+Enter le values of the dimensions resquested
 
 ![image](https://github.com/user-attachments/assets/7601fff4-3427-4174-9ee5-46db113a3e34)
 
@@ -76,13 +74,13 @@ Start the code and enter "8" to choose the use of a .csv file.
 
 ![image](https://github.com/user-attachments/assets/9a51d115-a511-4bd1-bf9d-2ba4d989c3c7)
 
-Then, you can choose witch dimension you wanna calculate (for exemple 6).
+Then, you can choose which dimension you want to calculate (for exemple 6).
 
 ![image](https://github.com/user-attachments/assets/0716c5d4-4dca-4a4d-8f13-e270c2bd817c)
 
 To quit, enter 10.
 
-To edit the values go to your projet file --> dependances_exterieurs --> Fichier_Donnee.csv --> then edit your values
+To edit the values, go to your projet file --> dependances_exterieurs --> Fichier_Donnee.csv --> then edit your values
 
 ![image](https://github.com/user-attachments/assets/cfc5c8b9-3ad8-4adb-9be1-fe80682a3887)
 
@@ -107,17 +105,29 @@ Start the code and enter "9" to choose the graphical interface.
 
 ![image](https://github.com/user-attachments/assets/268d9693-c500-435d-b62c-ae1fa5b2aa8d)
 
-To show the commands, type "H"
+To show the commands, type "H".
+
+![image](https://github.com/user-attachments/assets/a70caf50-3be6-4541-9515-774bff1e3f8f)
 
 ### Example 4 : Usage of the log files.
+
+Go to your project folder.
+
+![image](https://github.com/user-attachments/assets/98dd77d5-d146-4681-97b5-92e31c3b10c8)
+
+Go to the folder "SimulateurAscenseur".
+
+![image](https://github.com/user-attachments/assets/2f860abc-a5d7-488a-8b8b-a01ffd5238b1)
+
+And then open "log.txt" to see your logs.
+
+![image](https://github.com/user-attachments/assets/119a2be0-5571-4520-96ac-347404580b21)
 
 
 ## Common Mistakes
 
-If there is an error when running the code, check for any incorrect paths in the files and libraries. Otherwise, please contact us.
+If there is an error when running the code, check for any incorrect paths in the files and libraries or restart VS code. Otherwise, please contact us.
 
-## Contributors
-mettre les url de nos profil 
 
 ## Licence
 [MIT](https://choosealicense.com/licenses/mit/)
