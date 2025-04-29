@@ -76,7 +76,11 @@ To edit the values go to your projet file --> dependances_exterieurs --> Fichier
 ### Example 3 : Usage of the graphical interface.
 
 
+## Contributeur
+mettre les url de nos profil 
 
+## Licence
+[MIT](https://choosealicense.com/licenses/mit/)
 
 un fichier README, au fmat texte, rédigé en anglais, décrivant rapidement la fonctionnalité
 de votre programme et expliquant comment l’utiliser, avec des exemples.
