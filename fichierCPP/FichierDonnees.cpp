@@ -386,12 +386,11 @@ void AffichageAvecDonnees(void) {
 
             case gi_CalculAcceleration: {
                 float lfMasseCabine2 = lfMasseCabine,
-                      lfMasseContrepoids2 = lfMasseContrepoids,
-                      lfTensionCabine2 = lfTensionCabine,
-                      lfTensionContrepoids2 = lfTensionContrepoids,
-                      lfVitesse2 = lfVitesseMax;
+                    lfMasseContrepoids2 = lfMasseContrepoids,
+                    lfTensionCabine2 = lfTensionCabine,
+                    lfTensionContrepoids2 = lfTensionContrepoids;
 
-                int liChoixAcc;
+                int liChoixAcc=0.0;
 
                 cout << "Choisissez la formule :\n"
                     << "0 = Utiliser tensionCabine, masseCabine \n"
@@ -420,8 +419,7 @@ void AffichageAvecDonnees(void) {
                     lfMasseContrepoids2,
                     lfMasseCabine,
                     lfTensionContrepoids2,
-                    lfTensionCabine2,
-                    lfVitesse2) << "m/s2";
+                    lfTensionCabine2) << "m/s2";
                 break;
             }
 
