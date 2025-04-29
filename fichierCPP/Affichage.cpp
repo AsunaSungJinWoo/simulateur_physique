@@ -9,7 +9,7 @@
 
 using namespace std;
 
-// �num�ration pour les choix du menu
+// Énumération pour les choix du menu
 enum MenuOption {
     gi_CalculTension = 1,
     gi_CalculCouple = 2,
@@ -24,35 +24,35 @@ enum MenuOption {
     gi_Quitter = 11,
 };
 
-// Fonction pour s�curiser la saisie d'un entier
+// Fonction pour sécuriser la saisie d'un entier
 void i_SecuriserSaisie(int& valeur) {  //cree une refenrences 
     while (true) {
         cin >> valeur;
 
-        if (cin.fail()) {  // V�rifie si la saisie est invalide
+        if (cin.fail()) {  // Vérifie si la saisie est invalide
             cout << "Saisie invalide. Veuillez entrer un nombre entier valide : ";
-            cin.clear();  // Efface l'�tat d'erreur
+            cin.clear();  // Efface l'état d'erreur
             cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Vide le buffer
         }
         else {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Supprime les caract�res superflus
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Supprime les caractères superflus
             break;  // Sort de la boucle si la saisie est correcte
         }
     }
 }
 
-// Fonction pour s�curiser la saisie d'un flottant
+// Fonction pour sécuriser la saisie d'un flottant
 void f_SecuriserSaisie(float& valeur) {
     while (true) {
         cin >> valeur;
 
-        if (cin.fail()) {  // V�rifie si la saisie est invalide
-            cout << "Saisie invalide. Veuillez entrer un nombre d�cimal valide : ";
-            cin.clear();  // Efface l'�tat d'erreur
+        if (cin.fail()) {  // Vérifie si la saisie est invalide
+            cout << "Saisie invalide. Veuillez entrer un nombre décimal valide : ";
+            cin.clear();  // Efface l'état d'erreur
             cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Vide le buffer
         }
         else {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Supprime les caract�res superflus
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Supprime les caractères superflus
             break;  // Sort de la boucle si la saisie est correcte
         }
     }
@@ -76,7 +76,7 @@ void Affichage(void) {
             << "11. Quitter\n"
             << "Entrez votre choix : ";
 
-        i_SecuriserSaisie(li_Choix);  // S�curisation correcte de l'entr�e
+        i_SecuriserSaisie(li_Choix);  // Sécurisation correcte de l'entrée
 
         switch (li_Choix) {
         case gi_CalculTension: {
@@ -198,7 +198,7 @@ void Affichage(void) {
                 cout << "Entrez la puissance du moteur (W): "; f_SecuriserSaisie(lf_PuissanceMot);
             }
             else {
-                cout << "Choix invalide, veuillez r�essayer.\n";
+                cout << "Choix invalide, veuillez réessayer.\n";
                 break;
             }
 
