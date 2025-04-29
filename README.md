@@ -1,9 +1,10 @@
-## simulateur physique
+# Simulateur Physique
 
-mettre les derniere modif du projet mattre aaussi la progretion dans notre cas "fini",eventuellement langages
+Recentely added : log files
+State: project finished
 
 ## Authors
-Duris Bastien and Gay Théo
+By Duris Bastien and Gay Théo
 
 ## Project description
 
@@ -13,6 +14,34 @@ This code allows us to calculate the dimensions of an elevator (such as its tens
 
 tu peut rajouter aussi les log pour voir ce quon a fait avant
 
+# How to install
+
+Install the files.
+
+
+![image](https://github.com/user-attachments/assets/cfdc696f-0fa1-4481-bd86-4cc8b1079fec)
+
+
+Open VS and create a project.
+
+
+![image](https://github.com/user-attachments/assets/2afb374b-37cc-4f05-a7e0-897e13e6604f)
+
+
+Place the downloaded files in the project you created, as you need the external dependencies. Open the Solution Explorer and select the header/source files.
+
+
+![image](https://github.com/user-attachments/assets/f0a801d5-9735-4bf0-abde-821f0d8867ed)
+
+Attach the .h and .cpp files.
+
+
+![image](https://github.com/user-attachments/assets/fbf994ff-9460-4f17-9adb-6ba6999eb964)
+
+
+Install the SFML library and watch the video in the external dependencies to finalize the project setup. Once this step is complete, you can run the program.
+
+If there is a compilation error, it is either due to the implementation of the SFML library or the location of the files.
 
 ## Examples of usage
 
@@ -26,19 +55,13 @@ Start the code and enter "1" to choose the calculation of the tension.
 
 ![image](https://github.com/user-attachments/assets/41a81c95-9df2-4f03-abec-882f32019c3e)
 
-Step 2:
-
 Select witch tension you wanna calculate, for exemple we are gonna select the first one (we will enter 0 for exemple).
 
 ![image](https://github.com/user-attachments/assets/8b317559-3ffc-493b-8156-4cbffbb5c901)
 
-Step 3: 
-
 Enter witch value of dimension you can enters (we will again enters a 0).
 
 ![image](https://github.com/user-attachments/assets/8d278b6d-5302-4de4-b4e3-3ff78c1ad8d7)
-
-Step 4:
 
 Enters le values of the dimensions resquested
 
@@ -80,8 +103,20 @@ To edit the values go to your projet file --> dependances_exterieurs --> Fichier
 
 ### Example 3 : Usage of the graphical interface.
 
+Start the code and enter "9" to choose the graphical interface.
 
-## Contributeur
+![image](https://github.com/user-attachments/assets/268d9693-c500-435d-b62c-ae1fa5b2aa8d)
+
+To show the commands, type "H"
+
+### Example 4 : Usage of the log files.
+
+
+## Common Mistakes
+
+If there is an error when running the code, check for any incorrect paths in the files and libraries. Otherwise, please contact us.
+
+## Contributors
 mettre les url de nos profil 
 
 ## Licence
@@ -89,10 +124,6 @@ mettre les url de nos profil
 
 ## Contact
 
-mettre adresse mail etc pour contact
-
-ex:
-linkedin ,mail
-
-un fichier README, au fmat texte, rédigé en anglais, décrivant rapidement la fonctionnalité
-de votre programme et expliquant comment l’utiliser, avec des exemples.
+bastien.duris@etu.univ-st-etienne.fr
+theo.gay@etu.univ-st-etienne.fr
+ 
