@@ -1,420 +1,171 @@
 #include "Affichage.h"
 #include "CalculePhysique.h"
-#include "FichierDonnees.h"
 #include "InterfaceGraphique.h"
+#include "logger.h"
+
+#include <SFML/Graphics.hpp>
+#include <cmath>
+#include <cassert>
+#include <iostream>
+#include <filesystem>
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <fstream>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <iostream>
-
-
+Logger logger("log.txt");
 
 using namespace std;
 
-// Énumération pour les choix du menu
-enum MenuOption {
-    gi_CalculTension = 1,
-    gi_CalculCouple = 2,
-    gi_CalculPuissance = 3,
-    gi_CalculRayon = 4,
-    gi_CalculVitesseRotation = 5,
-    gi_CalculTempsMontee = 6,
-    gi_CalculAcceleration = 7,
-    gi_VoirSimulation = 8,
-    gi_ExecuterTests = 9,
-    gi_Quitter = 10,
-};
+Tensions CalculerTension(int choixFormule, int choixDonnees, float masseCabine, float masseContrepoids,
+    float acceleration, float momentsInertie, float rayon, float pMoteur, float vitesse) {
 
-void AffichageAvecDonnees(void) {
-    // Initialisation des variables
+    logger.log(LogLevel::INFO, "Appel de CalculerTension");
 
-    float lfMasseCabine = 0.0;
-    float lfMasseContrepoids = 0.0;
-    float lfTensionCabine = 0.0;
-    float lfTensionContrepoids = 0.0;
-    float lfRayonPoulie = 0.0;
-    float lfVitesseMax = 0.0;
-    float lfDureeAcceleration = 0.0;
-    float lfCoupleMoteur = 0.0;
-    float lfPuissanceMoteur = 0.0;
-    float lfVitesseAngulaire = 0.0;
-    float lfMomentInertie = 0.0;
-    float lfDistance = 0.0;
-    float lfAccelerationAngulaire = 0.0;
+    float tensionCabine = 0, tensionContrepoids = 0;
 
-    int liChoixDonne = 0;
-    string lsLigne;
-    ifstream lsFichier; // Flux de fichier d'entrée
+    if (choixFormule == CHOIX_CALCUL_TENSION_AVEC_SOMME_FORCE) {
+        tensionCabine = masseCabine * (acceleration + Graviter);
+        tensionContrepoids = masseContrepoids * (Graviter - acceleration);
+    }
+    else if (choixFormule == CHOIX_CALCUL_TENSION_AVEC_CM) {
+        tensionCabine = masseContrepoids * (Graviter - acceleration) - (pMoteur / momentsInertie);
+        tensionContrepoids = (pMoteur + (momentsInertie * masseCabine) * (acceleration + Graviter)) / momentsInertie;
+    }
+    else {
+        logger.log(LogLevel::WARNING, "Le choix de la formule CalculerTension nest pas valide");
+        return { 0, 0 };
+    }
 
-    // Algorithme
-    lsFichier.open("../dependances_exterieurs/Fichier_Donnee.csv", ios::in); // Ouverture du fichier en lecture
-    if (lsFichier.is_open()) {
-        // Lire et ignorer la première ligne (en-tête)
-        getline(lsFichier, lsLigne);
+    Tensions result;
+    switch (choixDonnees) {
+    case CHOIX_TENSION_CABINE: result = { tensionCabine, 0 }; break;
+    case CHOIX_TENSION_CONTREPOIDS: result = { 0, tensionContrepoids }; break;
+    case CHOIX_DES_DEUX_TENSIONS: result = { tensionCabine, tensionContrepoids }; break;
+    default:
+        logger.log(LogLevel::WARNING, "Le choix de la sortie de CalculerTension nest pas valide");
+        return { 0, 0 };
+    }
 
-        // Lire la deuxième ligne
-        getline(lsFichier, lsLigne);
+    logger.log(LogLevel::INFO, "CalculerTension - Resultat: " + std::to_string(tensionCabine) + ", " + std::to_string(tensionContrepoids));
+    return result;
+}
 
-        lsFichier.close();
+float CoupleMoteur(int choix, float tensionCabine, float tensionContrepoids, float acceleration,
+    float momentsInertie, float rayon, float pMoteur, float vitesse) {
 
-        // Convertir la ligne en tableau de caractères
-        std::vector<char> lvStr(lsLigne.begin(), lsLigne.end());
-        lvStr.push_back('\0'); // Ajouter un caractère nul à la fin
+    logger.log(LogLevel::INFO, "Appel de CoupleMoteur");
 
-        // Décomposer la ligne en tokens
-        char* pch = strtok(lvStr.data(), " ,");
-        if (pch != nullptr) {
-            lfMasseCabine = (float)atof(pch);
-            pch = strtok(nullptr, " ,");
+    float cm = 0;
+    switch (choix) {
+    case 0:
+        cm = pMoteur / (vitesse / rayon);
+        break;
+    case 1:
+        cm = (((momentsInertie * acceleration) / rayon) - rayon * (tensionContrepoids - tensionCabine));
+        break;
+    default:
+        logger.log(LogLevel::WARNING, "Le choix de la formule CoupleMoteur nest pas valide");
+        return 0;
+    }
+
+    cm = (cm < 0) ? -cm : cm;
+    logger.log(LogLevel::INFO, "CoupleMoteur - Resultat: " + std::to_string(cm));
+    return cm;
+}
+
+float PuissanceMoteur(float coupleMot, float vitesse, float rayon) {
+    logger.log(LogLevel::INFO, "Appel de PuissanceMoteur");
+    if (rayon == 0) {
+        logger.log(LogLevel::WARNING, "Division par 0 dans PuissanceMoteur");
+        return 0;
+    }
+    float result = coupleMot * (vitesse / rayon);
+    logger.log(LogLevel::INFO, "PuissanceMoteur - Resultat: " + std::to_string(result));
+    return result;
+}
+
+float RayonPoulie(int choix, float vitesse, float vitesseAngulaire, float CoupleMoteur, float PuissanceMoteur) {
+    logger.log(LogLevel::INFO, "Appel de RayonPoulie");
+    float result = (choix == 0) ? (vitesse / vitesseAngulaire) : ((choix == 1) ? (vitesse * CoupleMoteur) / PuissanceMoteur : 0.0f);
+    logger.log(LogLevel::INFO, "RayonPoulie - Resultat: " + std::to_string(result));
+    return result;
+}
+
+float VitesseRotation(float vitesseAngulaire) {
+    logger.log(LogLevel::INFO, "Appel de VitesseRotation");
+    float result = (vitesseAngulaire * 30) / M_PI;
+    logger.log(LogLevel::INFO, "VitesseRotation - Resultat: " + std::to_string(result));
+    return result;
+}
+
+float TempsMonteeAndDescente(float distance, float vitesse) {
+    logger.log(LogLevel::INFO, "Appel de TempsMonteeAndDescente");
+    float result = distance / vitesse;
+    logger.log(LogLevel::INFO, "TempsMonteeAndDescente - Resultat: " + std::to_string(result));
+    return result;
+}
+
+float Acceleration(int choix, float masseContrepoids, float masseCabine, float tensionContrepoids, float tensionCabine) {
+    logger.log(LogLevel::INFO, "Appel de Acceleration");
+    float result;
+    if (choix == 0) {
+        result = (Graviter - (tensionCabine / masseCabine));
+    }
+    else if (choix == 1) {
+        result = (-Graviter + (tensionContrepoids / masseContrepoids));
+    }
+    else {
+        logger.log(LogLevel::WARNING, "Le choix de la formule Acceleration nest pas valide");
+        return 0;
+    }
+    logger.log(LogLevel::INFO, "Acceleration - Resultat: " + std::to_string(result));
+    return result;
+}
+
+
+void TestFonction() {
+    try {
+        Tensions t1 = CalculerTension(0, 0, 350, 100, 0.3f, 0, 0, 0, 0);
+        assert(fabs(t1.cabine - 3538.5) < 0.01 && "Erreur: CalculerTension test 1");
+
+        float couple = CoupleMoteur(0, 0, 0, 0, 0, 0.3f, 3750, 1.5f);
+        assert(fabs(couple - 750) < 0.1 && "Erreur: CoupleMoteur test 1");
+        couple = CoupleMoteur(1, 3538.5f, 951, 0.1f, 0.1f, 0.3f, 0, 0);
+        assert(fabs(couple - 776.2833) < 0.1 && "Erreur: CoupleMoteur test 2");
+
+        assert(fabs(PuissanceMoteur(750, 1.5f, 0.3f) - 3750) < 0.01 && "Erreur: PuissanceMoteur test 1");
+
+        assert(fabs(RayonPoulie(0, 1.5f, 3, 0, 0) - 0.5f) < 0.01 && "Erreur: RayonPoulie test 1");
+        assert(fabs(RayonPoulie(1, 1.5f, 0, 750, 3750) - 0.3f) < 0.01 && "Erreur: RayonPoulie test 1");
+
+        assert(fabs(VitesseRotation(10.0) - 95.49f) < 0.01 && "Erreur: VitesseRotation test 1");
+
+        assert(fabs(TempsMonteeAndDescente(20.0, 2.0) - 10.0) < 0.01 && "Erreur: TempsMonteeAndDescente test 1");
+
+        assert(fabs(Acceleration(0,0, 100,0, 951) - 0.3) < 0.01 && "Erreur: Acceleration test 1");
+        assert(fabs(Acceleration(1, 350, 0, 3538.5, 0) - 0.3) < 0.01 && "Erreur: Acceleration test 2");
+
+        sf::Font font;
+        std::string fontPath = "../dependances_exterieurs/fonts/Roboto-BlackItalic.ttf";
+
+        cout << "Tous les tests sont reussis !" << endl;
+        if (!std::filesystem::exists(fontPath)) {
+            std::cerr << "Le fichier " << fontPath << " nexiste pas!" << std::endl;
+            logger.log(LogLevel::ERROR, "le fichier de police nexiste pas.");
         }
-        if (pch != nullptr) {
-            lfMasseContrepoids = (float)atof(pch);
-            pch = strtok(nullptr, " ,");
-        }
-        if (pch != nullptr) {
-            lfRayonPoulie = (float)atof(pch);
-            pch = strtok(nullptr, " ,");
-        }
-        if (pch != nullptr) {
-            lfVitesseMax = (float)atof(pch);
-            pch = strtok(nullptr, " ,");
-        }
-        if (pch != nullptr) {
-            lfDureeAcceleration = (float)atof(pch);
-            pch = strtok(nullptr, " ,");
-        }
-        if (pch != nullptr) {
-            lfCoupleMoteur = (float)atof(pch);
-            pch = strtok(nullptr, " ,");
-        }
-        if (pch != nullptr) {
-            lfPuissanceMoteur = (float)atof(pch);
-            pch = strtok(nullptr, " ,");
-        }
-        if (pch != nullptr) {
-            lfTensionCabine = (float)atof(pch);
-            pch = strtok(nullptr, " ,");
-        }
-        if (pch != nullptr) {
-            lfTensionContrepoids = (float)atof(pch);
-            pch = strtok(nullptr, " ,");
-        }
-        if (pch != nullptr) {
-            lfVitesseAngulaire = (float)atof(pch);
-            pch = strtok(nullptr, " ,");
-        }
-        if (pch != nullptr) {
-            lfMomentInertie = (float)atof(pch);
-            pch = strtok(nullptr, " ,");
-        }
-        if (pch != nullptr) {
-            lfDistance = (float)atof(pch);
-        }
-
-        if (pch != nullptr) {
-            lfAccelerationAngulaire = (float)atof(pch);
-        }
-
-        // Afficher les valeurs des variables
-        cout << "Masse de la cabine: " << lfMasseCabine << endl;
-        cout << "Masse du contrepoids: " << lfMasseContrepoids << endl;
-        cout << "Rayon de la poulie: " << lfRayonPoulie << endl;
-        cout << "Vitesse maximum: " << lfVitesseMax << endl;
-        cout << "Duree de l'acceleration: " << lfDureeAcceleration << endl;
-        cout << "Couple moteur: " << lfCoupleMoteur << endl;
-        cout << "Couple moteur: " << lfPuissanceMoteur << endl;
-        cout << "Tension de la cabine: " << lfTensionCabine << endl;
-        cout << "Tension du contrepoids: " << lfTensionContrepoids << endl;
-        cout << "Vitesse angulaire: " << lfVitesseAngulaire << endl;
-        cout << "Moment d'inertie: " << lfMomentInertie << endl;
-        cout << "Distance: " << lfDistance << endl;
-        cout << "Acceleration angulaire: " << lfAccelerationAngulaire << endl;
-
-        while (true) { // Boucle pour répéter le menu après chaque calcul/choix
-            cout << "\n==== MENU PRINCIPAL (Fichier .csv actif) ====\n"
-                << " 1. Calculer la tension\n"
-                << " 2. Calculer le couple moteur\n"
-                << " 3. Calculer la puissance moteur\n"
-                << " 4. Calculer le rayon de la poulie\n"
-                << " 5. Calculer la vitesse de rotation\n"
-                << " 6. Calculer le temps de montee/descente\n"
-                << " 7. Calculer l'acceleration\n"
-                << " 8. Voir la simulation\n"
-                << " 9. Executer les tests\n"
-                << "10. Quitter le .csv\n"
-                << "Entrez votre choix : ";
-            cin >> liChoixDonne;
-
-            int liChoixTension, liChoixResult;
-
-
-            switch (liChoixDonne) {
-            case gi_CalculTension: {
-                float lfAccelerationAngulaire2 = lfAccelerationAngulaire,
-                    lfMomentInertie2 = lfMomentInertie,
-                    lfMasseCabine2 = lfMasseCabine,
-                    lfMasseContrepoids2 = lfMasseContrepoids,
-                    lfRayonPoulie2 = lfRayonPoulie,
-                    lfPuissanceMoteur2 = lfPuissanceMoteur,
-                    lfVitesseMax2 = lfVitesseMax;
-
-
-
-
-                cout << "Donner la formule a utiliser en fonction des valeurs que vous avez: \n"
-                    << "0 = acceleration et masse \n"
-                    << "1 = les moments de force, les moments d'inertie et acceleration \n";
-                i_SecuriserSaisie(liChoixTension);
-
-                if (liChoixTension == 0 and
-                    (lfAccelerationAngulaire2 == 0 ||
-                        lfMasseCabine2 == 0 ||
-                        lfMasseContrepoids2 == 0))
-                {
-                    cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
-                    break;
-                }
-
-                if (liChoixTension == 1 and
-                    (lfAccelerationAngulaire2 == 0 ||
-                        lfMasseCabine2 == 0 ||
-                        lfMasseContrepoids2 == 0 ||
-                        lfPuissanceMoteur2 == 0 ||
-                        lfMomentInertie2 == 0))
-
-                {
-                    cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
-                    break;
-                }
-
-                cout << "Donner le resultat que vous voulez \n"
-                    << "0 = tension de la cabine \n"
-                    << "1 = tension du contrepoids \n"
-                    << "2 = les deux \n";
-                i_SecuriserSaisie(liChoixResult);
-
-
-                Tensions lsResult = CalculerTension(
-                    liChoixTension,
-                    liChoixResult,
-                    lfMasseCabine2,
-                    lfMasseContrepoids2,
-                    lfAccelerationAngulaire2,
-                    lfMomentInertie2,
-                    lfRayonPoulie2,
-                    lfPuissanceMoteur2,
-                    lfVitesseMax2);
-
-                cout << "Tension cabine: " << lsResult.cabine << " N, Tension contrepoids: " << lsResult.contrepoids << " N\n";
-                break;
+        else {
+            std::cout << "Le fichier " << fontPath << " existe!" << std::endl;
+            if (!font.openFromFile(fontPath)) {
+                std::cerr << "Erreur lors du chargement de la police!" << std::endl;
+                logger.log(LogLevel::WARNING, "le fichier de police ne se charge pas");
             }
-
-            case gi_CalculCouple: {
-                float lfTensionCabine2 = lfTensionCabine,
-                    lfTensionContrepoids2 = lfTensionContrepoids,
-                    lfAlpha2 = lfAccelerationAngulaire,
-                    lfMomentsInertie2 = lfMomentInertie,
-                    lfRayon2 = lfRayonPoulie,
-                    lfPuissanceMoteur2 = lfPuissanceMoteur,
-                    lfVitesse2 = lfVitesseMax;
-
-                int liChoixCouple;
-
-                cout << "Choisissez votre methode de calcul \n"
-                    << "0 = couple moteur par puissance \n"
-                    << "1 = couple moteur par tensions) \n";
-                i_SecuriserSaisie(liChoixCouple);
-
-
-                if (liChoixCouple == 0 and
-                    (lfPuissanceMoteur2 == 0 ||
-                        lfVitesse2 == 0 ||
-                        lfRayon2 == 0))
-                {
-                    cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
-                    break;
-                }
-
-                if (liChoixCouple == 1 and
-                    (lfMomentsInertie2 == 0 ||
-                        lfAlpha2 == 0 ||
-                        lfRayon2 == 0 ||
-                        lfTensionCabine2 == 0 ||
-                        lfTensionContrepoids2 == 0))
-                {
-                    cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
-                    break;
-                }
-
-                cout << "Couple moteur : " << CoupleMoteur(
-                    liChoixCouple,
-                    lfTensionCabine2,
-                    lfTensionContrepoids2,
-                    lfAlpha2,
-                    lfMomentsInertie2,
-                    lfRayon2,
-                    lfPuissanceMoteur2,
-                    lfVitesse2)
-                    << " Nm\n";
-                break;
-            }
-
-            case gi_CalculPuissance: {
-                float lfCoupleMot2 = lfCoupleMoteur,
-                    lfVitesse2 = lfVitesseMax,
-                    lfRayon2 = lfRayonPoulie;
-
-                if (lfCoupleMot2 == 0 ||
-                    lfVitesse2 == 0 ||
-                    lfRayon2 == 0)
-                {
-                    cout << "Erreur dans les donnees du fichier, il y a présence d'une valeur erronnee ou nulle";
-                    break;
-                }
-
-                cout << "Puissance moteur : " << PuissanceMoteur(
-                    lfCoupleMot2,
-                    lfVitesse2,
-                    lfRayon2)
-                    << " W\n";
-                break;
-            }
-
-            case gi_CalculRayon: {
-                float lfVitesse2 = lfVitesseMax,
-                    lfVitesseAngulaire2 = lfAccelerationAngulaire,
-                    lfCoupleMoteur2 = lfCoupleMoteur,
-                    lfPuissanceMoteur2 = lfPuissanceMoteur;
-
-                int li_ChoixCalcul2;
-                cout << "Choisissez la formule :\n"
-                    << "0 = Utiliser vitesse lineaire et vitesse angulaire\n"
-                    << "1 = Utiliser vitesse ,cm ,pm\n"
-                    << "Votre choix : ";
-
-                cin >> li_ChoixCalcul2;
-                i_SecuriserSaisie(li_ChoixCalcul2);
-
-                if (li_ChoixCalcul2 == 0 and
-                    (lfVitesse2 == 0 ||
-                        lfVitesseAngulaire2 == 0))
-                {
-                    cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
-                    break;
-                }
-
-                if (li_ChoixCalcul2 == 1 and
-                    (lfVitesse2 == 0 ||
-                        lfCoupleMoteur2 == 0 ||
-                        lfPuissanceMoteur2 == 0))
-                {
-                    cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
-                    break;
-                }
-
-                cout << "Rayon de la poulie : " << RayonPoulie(
-                    li_ChoixCalcul2,
-                    lfVitesse2,
-                    lfVitesseAngulaire2,
-                    lfCoupleMoteur2,
-                    lfPuissanceMoteur2)
-                    << " m\n";
-                break;
-            }
-
-
-            case gi_CalculVitesseRotation: {
-                float lfVitesseAngulaire2 = lfAccelerationAngulaire;
-
-                if (lfVitesseAngulaire2 == 0)
-                {
-                    cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
-                    break;
-                }
-                cout << "Vitesse de rotation : " << VitesseRotation(lfVitesseAngulaire2) << " tr/min\n";
-                break;
-            }
-
-
-            case gi_CalculTempsMontee: {
-                float lfDistance2 = lfDistance,
-                    lfVitesse2 = lfVitesseMax;
-
-                if (lfDistance2 == 0 || lfVitesse2 == 0)
-                {
-                    cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
-                    break;
-                }
-
-                cout << "Temps de montee/descente : " << TempsMonteeAndDescente(lfDistance2, lfVitesse2) << " s\n";
-                break;
-            }
-
-            case gi_CalculAcceleration: {
-                float lfMasseCabine2 = lfMasseCabine,
-                    lfMasseContrepoids2 = lfMasseContrepoids,
-                    lfTensionCabine2 = lfTensionCabine,
-                    lfTensionContrepoids2 = lfTensionContrepoids;
-
-                int liChoixAcc;
-
-                cout << "Choisissez la formule :\n"
-                    << "0 = Utiliser tensionCabine, masseCabine \n"
-                    << "1 = Utiliser tensionContrepoids, masseContrepoids\n"
-                    << "Votre choix : ";
-                i_SecuriserSaisie(liChoixAcc);
-
-                if (liChoixAcc == 0 and
-                    (lfMasseCabine2 == 0 ||
-                        lfTensionCabine2 == 0))
-                {
-                    cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
-                    break;
-                }
-
-                if (liChoixAcc == 1 and
-                    (lfMasseContrepoids2 == 0 ||
-                        lfTensionContrepoids2 == 0))
-                {
-                    cout << "Erreur dans les donnees du fichier, il y a presence d'une valeur erronnee ou nulle";
-                    break;
-                }
-
-                cout << "valeur de l'acceleration : " << Acceleration(
-                    liChoixAcc,
-                    lfMasseContrepoids2,
-                    lfMasseCabine,
-                    lfTensionContrepoids2,
-                    lfTensionCabine2) << "m/s2";
-                break;
-            }
-
-            case gi_VoirSimulation:
-                SFMLSimulation();
-
-                break;
-            case gi_ExecuterTests:
-                TestFonction();
-
-                break;
-            case gi_Quitter:
-                cout << "Arret du fichier .csv\n";
-                return;
-
-            default:
-                cout << "Choix invalide, veuillez reessayer.\n";
-                break;
+            else {
+                std::cout << "Police chargee avec succes!" << std::endl;
             }
         }
     }
-    else {
-        cout << "Impossible d'ouvrir le fichier." << endl;
+
+    catch (const exception& e) {
+        cerr << "Erreur lors de l'exécution des tests ! Détails : " << e.what() << endl;
+        logger.log(LogLevel::WARNING, "test non valider");
     }
 }
