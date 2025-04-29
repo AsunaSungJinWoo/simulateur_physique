@@ -37,6 +37,8 @@ Attach the .h and .cpp files.
 ![image](https://github.com/user-attachments/assets/fbf994ff-9460-4f17-9adb-6ba6999eb964)
 
 
+Install the SFML library and watch the video in the external dependencies to finalize the project setup. Note that depending on your computer, the 32-bit or 64-bit version may cause compilation errors. If necessary, install the other version, but we recommend using the 32-bit version.
+
 Install the SFML library and watch the video in the external dependencies to finalize the project setup. Once this step is complete, you can run the program.
 
 If there is a compilation error, it is either due to the implementation of the SFML library or the location of the files.
