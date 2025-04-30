@@ -38,9 +38,6 @@ using namespace std;
  * Ce programme est constitué de formules de physique où chaque valeur est calculée dans des fonctions spécifiques.
  */
 
- // gi = global integer
- // li = local integer
-
 int main()
 {
     Logger logger("log.txt");
