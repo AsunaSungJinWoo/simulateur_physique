@@ -52,12 +52,14 @@ void AffichageAvecDonnees(void) {
     int liChoixDonne = 0;
 
     string lsLigne; // On utiliseras une chaine de charactères
-    ifstream lsFichier; // Flux de fichier d'entrée, ifstream est utilisé pour lire des données à partir de fichiers.
+    ifstream lsFichier; // ifstream est utilisé pour lire des données à partir de fichiers.
 
     // Algorithme
     lsFichier.open("../dependances_exterieurs/Fichier_Donnee.csv", ios::in); // Ouverture du fichier en lecture
     if (lsFichier.is_open()) {
-        // Nous lisons les lignes et ignorons la première ligne car inutile (indique quelle valeur est assignée la colonne)
+
+
+        // Sert à lire les lignes, ignorons la première ligne car inutile
         getline(lsFichier, lsLigne);
 
         // Lire la deuxième ligne
@@ -67,35 +69,36 @@ void AffichageAvecDonnees(void) {
 
 
         std::vector<char> lvStr(lsLigne.begin(), lsLigne.end()); 
-        /*Utilité: Copie chaque caractère de la chaîne lsLigne dans le vecteur lvStr,
-        cela permet de convertir la chaîne de caractères en un tableau de caractères dynamique.
+        /*Utilité: Copie chaque caractère de lsLigne dans le vecteur lvStr,
+        --> convertit lsLigne en un tableau de caractères dynamique
+
 
             Explications:
-            Un vecteur est comme un tableau dynamique qui peut changer de taille.
-            Ici, nous copions chaque caractère de lsLigne dans lvStr pour pouvoir le manipuler plus facilement.*/
+            Un vecteur est comme un tableau dynamique qui peut changer de taille
+            Ici, nous copions chaque caractère de lsLigne dans lvStr pour pouvoir le manipuler plus facilement*/
 
-        lvStr.push_back('\0'); // Ajouter un caractère nul à la fin, utile pour marquer la fin d'une chaîne de charactères .
+        lvStr.push_back('\0'); // Ajouter un caractère nul à la fin (0), pour marquer la fin d'une chaîne de charactères
 
 
         char* pch = strtok(lvStr.data(), " ,");
 
-        /* Utilité: sert à décomposer la ligne en tokens (morceaux), délimité par des virgules. 
-           strkok sert à découper la chaîne de charactères en tokens,
+        /* Utilité: sert à décomposer la ligne en tokens (morceaux), délimité par des virgules
+           strkok découpe la chaîne de charactères en tokens,
            lvStr.data() renvoie un pointeur vers le premier élément de lvStr,
-
         */
         
+
+
         
-        if (pch != nullptr) {                   //vérifie si il reste des tokens à traiter
+        if (pch != nullptr) { //vérifie si il reste des tokens à traiter
 
 
-            lfMasseCabine = (float)atof(pch);   //convertit le token pointé par pch (qui est un char) en un float grâce à atof
-                                                //atof sert à convertir une chaîne de caractères en un double.
-                                                //Le résultat seras ensuite assigné à la variable lfMasseCabine.
+            lfMasseCabine = (float)atof(pch);   /*convertit le token pointé par pch(qui est un char) en un float grâce à atof
+                                                Le résultat seras ensuite assigné à la variable lfMasseCabine*/
 
-            pch = strtok(nullptr, " ,");// Lorsque strtok est appelée avec nullptr comme premier argument,
-                                        //elle continue à découper la chaîne à partir de l'endroit où elle s'était arrêtée précédemment.
-                                        // Globalement cela permet de récupérer le token suivant dans la chaîne grâce aux virgules.
+            pch = strtok(nullptr, " ,");/* Lorsque strtok est appelée avec nullptr comme premier argument,
+                                        elle continue à découper la chaîne à partir de l'endroit où elle s'était arrêtée précédemment
+                                        Cela permet de récupérer le token suivant dans la chaîne grâce aux virgules*/
        
         
         }
